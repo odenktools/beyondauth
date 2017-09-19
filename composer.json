@@ -1,0 +1,37 @@
+{
+  "name": "pribumi/beyondauth",
+  "license": "MIT",
+  "type": "library",
+  "keywords": [
+    "auth",
+    "authentication",
+    "beyondauth",
+    "laravel"
+  ],
+  "homepage": "https://github.com/pribumi/beyondauth",
+  "authors": [{
+    "name": "pribumi",
+    "email": "support@pribumitech.com",
+    "homepage": "http://docs.pribumitech.com/beyondauth",
+    "role": "Developer"
+  }],
+  "require": {
+    "php": ">=5.5.9",
+    "illuminate/contracts": "5.2.* || 5.3.* || 5.4.* || 5.5.*",
+    "illuminate/support": "5.2.* || 5.3.* || 5.4.* || 5.5.*",
+    "illuminate/validation": "5.2.* || 5.3.* || 5.4.* || 5.5.*",
+    "nesbot/carbon": "~1.18"
+  },
+  "autoload": {
+    "files": [
+      "src/BeyondAuth/helpers.php"
+    ],
+    "psr-4": {
+      "Pribumi\\BeyondAuth\\": "src/BeyondAuth/"
+    }
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "minimum-stability": "stable"
+}
