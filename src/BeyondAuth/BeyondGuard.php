@@ -4,6 +4,7 @@ namespace Pribumi\BeyondAuth;
 
 use Illuminate\Auth\Guard as AuthGuard;
 use Illuminate\Contracts\Auth\Guard as GuardContract;
+use Illuminate\Auth\GuardHelpers;
 
 /**
  * @package Pribumi\BeyondAuth
@@ -15,6 +16,38 @@ use Illuminate\Contracts\Auth\Guard as GuardContract;
  */
 class BeyondGuard extends AuthGuard implements GuardContract
 {
+    use GuardHelpers;
+
+    /**
+     * The JWT instance.
+     *
+     * @var \Pribumi\BeyondAuth\BeyondAuth
+     */
+    protected $beyondAuth;
+
+    /**
+     * The request instance.
+     *
+     * @var \Illuminate\Http\Request
+     */
+    protected $request;
+
+    /**
+     * Instantiate the class.
+     *
+     * @param  \Tymon\JWTAuth\JWT  $jwt
+     * @param  \Illuminate\Contracts\Auth\UserProvider  $provider
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return void
+     */
+    public function __construct(BeyondAuth $beyondAuth, UserProvider $provider, Request $request)
+    {
+        $this->beyondAuth = $beyondAuth;
+        $this->provider   = $provider;
+        $this->request    = $request;
+    }
+
     /**
      * Attempt to authenticate a user using the given credentials.
      *

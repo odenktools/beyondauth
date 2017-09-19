@@ -4,7 +4,9 @@ What is BeyondAuth? .... tobe continued
 
 # Installing Package
 
-composer require odenktools/beyondauth
+```bash
+composer require pribumi/beyondauth
+```
 
 # Setup
 

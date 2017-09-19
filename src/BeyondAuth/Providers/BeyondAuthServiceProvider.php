@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Pribumi\BeyondAuth\AuthManager;
 use Pribumi\BeyondAuth\BeyondAuth;
+use Pribumi\BeyondAuth\BeyondGuard;
 use Pribumi\BeyondAuth\Models\ApiKeyUsers;
 use Pribumi\BeyondAuth\Models\FieldTypes;
 use Pribumi\BeyondAuth\Models\Periode;
@@ -102,7 +103,7 @@ class BeyondAuthServiceProvider extends ServiceProvider
      * Publishing Configuration file to main laravel app
      *
      * package config files
-     * php artisan vendor:publish --provider="Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider" --tag="seeds"
+     * php artisan vendor:publish --provider="Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider" --tag="config"
      * @return void
      */
     private function publishConfig()
@@ -116,7 +117,7 @@ class BeyondAuthServiceProvider extends ServiceProvider
      * Publishing Configuration file to main laravel app
      *
      * package config files
-     * php artisan vendor:publish --provider="Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider" --tag="seeds"
+     * php artisan vendor:publish --provider="Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider" --tag="lang"
      * @return void
      */
     private function publishLanguages()
@@ -125,14 +126,14 @@ class BeyondAuthServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../../resources/lang/' => base_path('resources/lang/vendor/beyondauth'),
-        ]);
+        ], 'lang');
     }
 
     /**
      * Publishing Database seeder
      *
      * package config files
-     * php artisan vendor:publish --provider="Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider" --tag="config"
+     * php artisan vendor:publish --provider="Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider" --tag="seeds"
      * @return void
      */
     private function publishSeeder()
@@ -241,6 +242,8 @@ class BeyondAuthServiceProvider extends ServiceProvider
         });
 
         $this->registerFacades();
+
+        $this->registerGuard();
     }
 
     /**
@@ -289,6 +292,23 @@ class BeyondAuthServiceProvider extends ServiceProvider
                 $app['beyondauth.usersfields_value'],
                 $app['beyondauth.usersactivations'],
                 $app['beyondauth.apikeyuser']);
+        });
+    }
+
+    /**
+     * Register BeyondAuth Guard
+     *
+     * @return \Pribumi\BeyondAuth\BeyondGuard
+     */
+    protected function registerGuard()
+    {
+        $this->app['auth']->extend('beyondauth', function ($app, $name, array $config) {
+            $guard = new BeyondGuard(
+                $app['beyondauth.facade'],
+                $app['auth']->createUserProvider($config['provider']),
+                $app['request']
+            );
+            return $guard;
         });
     }
 }
