@@ -8,7 +8,7 @@
     "beyondauth",
     "laravel"
   ],
-  "homepage": "https://github.com/pribumi/beyondauth",
+  "homepage": "https://github.com/odenktools/beyondauth",
   "authors": [{
     "name": "pribumi",
     "email": "support@pribumitech.com",
@@ -16,7 +16,7 @@
     "role": "Developer"
   }],
   "require": {
-    "php": ">=5.5.9",
+    "php": "^5.5.9 || ^7.0",
     "illuminate/contracts": "5.2.* || 5.3.* || 5.4.* || 5.5.*",
     "illuminate/support": "5.2.* || 5.3.* || 5.4.* || 5.5.*",
     "illuminate/validation": "5.2.* || 5.3.* || 5.4.* || 5.5.*",
@@ -31,7 +31,8 @@
     }
   },
   "config": {
-    "preferred-install": "dist"
+    "sort-packages": true
   },
-  "minimum-stability": "stable"
+  "prefer-stable": true,
+  "minimum-stability": "dev"
 }
