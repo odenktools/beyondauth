@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
 
 if (!function_exists('beyonduser')) {
@@ -17,6 +16,6 @@ if (!function_exists('beyonduser')) {
         if (Auth::guard($guard)->check()) {
             return Auth::guard($guard)->user();
         }
-        return NULL;
+        return null;
     }
 }
