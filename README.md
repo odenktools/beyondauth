@@ -1,5 +1,7 @@
 # Beyond Auth
 
+[![License](https://poser.pugx.org/pribumi/beyondauth/license)](https://packagist.org/packages/pribumi/beyondauth)
+
 What is BeyondAuth? .... tobe continued
 
 # Installing Package
