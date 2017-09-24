@@ -2,6 +2,7 @@
 
 namespace Pribumi\BeyondAuth\Repositories;
 
+use Closure;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Hash;
 use InvalidArgumentException;

@@ -2,10 +2,11 @@
 
 namespace Pribumi\BeyondAuth\Models;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Pribumi\BeyondAuth\Traits\BeyondTrait;
 use Pribumi\BeyondAuth\Exceptions\UserFieldDoesNotExist;
+use Pribumi\BeyondAuth\Traits\BeyondTrait;
 
 /**
  * [MASTER]
@@ -69,7 +70,7 @@ class UserField extends Model
         'is_encrypted',
         'created_at',
         'updated_at',
-		'deleted_at'
+        'deleted_at',
     ];
 
     /**
@@ -79,21 +80,21 @@ class UserField extends Model
      * @var string
      */
     protected static $fieldTypesModel = 'Pribumi\BeyondAuth\Models\FieldTypes';
-	
+
     /**
      * Eloquent `UserGroup` model.
      *
      * @var string
      */
     protected static $userGroupModel = 'Pribumi\BeyondAuth\Models\UserGroup';
-	
-	/**
+
+    /**
      * Pivot table `users_fields_many`.
      *
      * @var string
      */
     protected static $userGroupPivot = 'users_fields_many';
-	
+
     /**
      * Eloquent `UserFieldGroup` model.
      *
@@ -101,7 +102,7 @@ class UserField extends Model
      * @var string
      */
     protected static $userFieldGroupModel = 'Pribumi\BeyondAuth\Models\UserFieldGroup';
-	
+
     /**
      * Eloquent `UserFieldValue` model.
      *
@@ -109,7 +110,7 @@ class UserField extends Model
      * @var string
      */
     protected static $userFieldValueModel = 'Pribumi\BeyondAuth\Models\UserFieldValue';
-	
+
     /**
      * @param array $attributes
      */
@@ -117,7 +118,7 @@ class UserField extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = config('beyondauth.tables.masters.users_fields', 'users_fields');
+        $this->table      = config('beyondauth.tables.masters.users_fields', 'users_fields');
         $this->primaryKey = config('beyondauth.tables.keys.masters.users_fields', 'id_custom_fields');
     }
 
@@ -154,7 +155,7 @@ class UserField extends Model
         /*(:nama_key : pada_table_yang_dituju, :nama_foreign_key_table_ini )*/
         return $this->hasOne(static::$fieldTypesModel, 'id_field_type', 'field_type_id');
     }
-	
+
     /**
      * Relasi table userfield dan role.
      *
@@ -170,10 +171,10 @@ class UserField extends Model
      */
     public function usergroups()
     {
-        return $this->belongsToMany(static::$userGroupModel, static::$userGroupPivot, 
+        return $this->belongsToMany(static::$userGroupModel, static::$userGroupPivot,
             'userfield_id', 'role_id', 'id_custom_fields')->withTimestamps();
     }
-	
+
     /**
      * Relasi table `FieldTypes`.
      *
@@ -191,13 +192,13 @@ class UserField extends Model
      * @see \Pribumi\BeyondAuth\Models\FieldTypes::usergroups
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-	public function fieldvalues()
+    public function fieldvalues()
     {
         $primary = config('beyondauth.tables.keys.masters.users_fields_value', '');
         /*(:nama_key : pada_table_yang_dituju, :nama_foreign_key_table_ini )*/
         return $this->hasOne(static::$userFieldValueModel, $primary, 'custom_fields_id');
     }
-	
+
     /**
      * Relasi table `UserFieldGroup`.
      *
@@ -268,7 +269,7 @@ class UserField extends Model
     {
         return static::findUserFieldByWhere($field, $value);
     }
-    
+
     public function fetchData($conditions = null, $take = null, $skip = null, $sort = null, $order = null)
     {
         if ($conditions === null) {
@@ -278,9 +279,9 @@ class UserField extends Model
         $data = DB::table('users_fields as t3')
             ->join('field_types as t5', 't5.id_field_type', '=', 't3.field_type_id')
             ->join('users_fields_groups as t6', 't6.id_group_field', '=', 't3.group_field_id')
-            ->select(DB::raw( 't3.*', 't6.group_name', 't5.field_name as field_type' ))
+            ->select(DB::raw('t3.*', 't6.group_name', 't5.field_name as field_type'))
             ->whereRaw($conditions)
-			->whereNull('t3.deleted_at')
+            ->whereNull('t3.deleted_at')
             ->take($take)
             ->skip($skip)
             ->orderBy($sort, $order)
@@ -288,7 +289,7 @@ class UserField extends Model
 
         return $data;
     }
-    
+
     public function fetchCount($conditions = null)
     {
         if ($conditions === null) {
@@ -298,58 +299,56 @@ class UserField extends Model
         $data = DB::table('users_fields as t3')
             ->join('field_types as t5', 't5.id_field_type', '=', 't3.field_type_id')
             ->join('users_fields_groups as t6', 't6.id_group_field', '=', 't3.group_field_id')
-            ->select(DB::raw( 't3.*', 't6.group_name', 't5.field_name as field_type' ))
+            ->select(DB::raw('t3.*', 't6.group_name', 't5.field_name as field_type'))
             ->whereRaw($conditions)
-			->whereNull('t3.deleted_at')
+            ->whereNull('t3.deleted_at')
             ->count();
 
         return $data;
     }
 
-	/**
-	 * [HARUS DI-OPTIMIZE LAGI MENGGUNAKAN ELOQUENT]
-	 *
-	 * Dapatkan Custom Fields dari database
-	 *
-	 * <code>
-	 * $userfield = new \Pribumi\BeyondAuth\Models\UserField()
-	 * $fields = $userfield->getCustomFields('owner', 'odenktools.com');
-	 * echo json_encode($fields);
-	 * </code>
-	 *
-	 * @param string $roleName dapatkan custom berdasarkan role
-	 * @param string $domainName dapatkan custom fields yang terdapat pada nama domain saja
-	 * @param int $group_field_id group custom field dari group field apa? personal, payment, etc...
-	 * @param int $show_in_signup display on signup perlihatkan field yang hanya untuk signup saja?
-	 * @param int $is_active perlihatkan fields yang aktif?
-	 * @param int $admin_use_only perlihat fields yang untuk admin saja?
-	 * @return array
-	 */
-	public function getCustomFields($roleName='', $group_field_id =1, $show_in_signup=1,
-									$is_active=1, $admin_use_only=0)
-	{
-		
-        if($roleName !== ''){
+    /**
+     * [HARUS DI-OPTIMIZE LAGI MENGGUNAKAN ELOQUENT]
+     *
+     * Dapatkan Custom Fields dari database
+     *
+     * <code>
+     * $userfield = new \Pribumi\BeyondAuth\Models\UserField()
+     * $fields = $userfield->getCustomFields('owner', 'odenktools.com');
+     * echo json_encode($fields);
+     * </code>
+     *
+     * @param string $roleName dapatkan custom berdasarkan role
+     * @param string $domainName dapatkan custom fields yang terdapat pada nama domain saja
+     * @param int $group_field_id group custom field dari group field apa? personal, payment, etc...
+     * @param int $show_in_signup display on signup perlihatkan field yang hanya untuk signup saja?
+     * @param int $is_active perlihatkan fields yang aktif?
+     * @param int $admin_use_only perlihat fields yang untuk admin saja?
+     * @return array
+     */
+    public function getCustomFields($roleName = '', $group_field_id = 1, $show_in_signup = 1,
+        $is_active = 1, $admin_use_only = 0) {
+
+        if ($roleName !== '') {
             $fetchRole = "AND LOWER(t6.coded) = LOWER('$roleName')";
-        }else{
+        } else {
             $fetchRole = "";
         }
-		
-		if($admin_use_only==0)
-		{
-			$only_admin = "AND (admin_use_only = 0 OR admin_use_only IS NULL)";
-		}else{
-			$only_admin = "AND (admin_use_only = 1)";
-		}
-		
-        if($show_in_signup != 1 && $show_in_signup = -1){
+
+        if ($admin_use_only == 0) {
+            $only_admin = "AND (admin_use_only = 0 OR admin_use_only IS NULL)";
+        } else {
+            $only_admin = "AND (admin_use_only = 1)";
+        }
+
+        if ($show_in_signup != 1 && $show_in_signup = -1) {
             $fetchSignup = "";
-        }else{
+        } else {
             $fetchSignup = "AND show_in_signup = $show_in_signup";
         }
-		
+
         $return = \DB::select(
-			"SELECT
+            "SELECT
   *
 FROM users_fields
 WHERE 1 = 1 AND id_custom_fields IN (SELECT
@@ -370,15 +369,14 @@ WHERE 1 = 1 AND id_custom_fields IN (SELECT
       LEFT JOIN users_groups t6
         ON t6.id = t5.role_id
     WHERE t6.coded IS NULL AND t6.deleted_at IS NULL) a) AND
-group_field_id = $group_field_id 
+group_field_id = $group_field_id
 $fetchSignup
 AND is_active = 1
 AND (admin_use_only = 0 OR admin_use_only IS NULL)
 AND (deleted_at IS NULL)
 ORDER BY id_custom_fields;");
 
-		return $return;
-	}
+        return $return;
+    }
 
-	
 }

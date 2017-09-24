@@ -1,5 +1,6 @@
 {
   "name": "pribumi/beyondauth",
+  "description": "Complete User Auth For Laravel 5.2.x",
   "license": "MIT",
   "type": "library",
   "keywords": [
