@@ -3,8 +3,10 @@
 namespace Pribumi\BeyondAuth;
 
 use Illuminate\Auth\Guard as AuthGuard;
-use Illuminate\Contracts\Auth\Guard as GuardContract;
 use Illuminate\Auth\GuardHelpers;
+use Illuminate\Contracts\Auth\Guard as GuardContract;
+use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Http\Request;
 
 /**
  * @package Pribumi\BeyondAuth

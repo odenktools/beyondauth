@@ -28,9 +28,6 @@
     "mockery/mockery": "dev-master"
   },
   "autoload": {
-    "files": [
-      "src/BeyondAuth/helpers.php"
-    ],
     "psr-4": {
       "Pribumi\\BeyondAuth\\": "src/BeyondAuth/"
     }

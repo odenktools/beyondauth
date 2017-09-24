@@ -4,6 +4,7 @@ namespace Pribumi\BeyondAuth\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Response;
 
@@ -25,9 +26,10 @@ class BeyondMiddleware
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \Closure $next
+     * @param  \Illuminate\Contracts\Auth\Guard $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle(Request $request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->guest()) {
             if ($request->ajax() || $request->wantsJson()) {
