@@ -365,7 +365,6 @@ class User extends Authenticatable
             }
 
             $expire = $diff;
-            //$expire = date("Y-m-d H:i:s", strtotime($now . +$diff . " day"));
 
         } else {
 
