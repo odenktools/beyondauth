@@ -151,7 +151,7 @@ class UserField extends Model
      */
     public function fieldtypes()
     {
-        $primary = config('beyondauth.tables.keys.masters.field_types', '');
+        /*$primary = config('beyondauth.tables.keys.masters.field_types', '');*/
         /*(:nama_key : pada_table_yang_dituju, :nama_foreign_key_table_ini )*/
         return $this->hasOne(static::$fieldTypesModel, 'id_field_type', 'field_type_id');
     }
@@ -330,15 +330,15 @@ class UserField extends Model
         $is_active = 1, $admin_use_only = 0) {
 
         if ($roleName !== '') {
-            $fetchRole = "AND LOWER(t6.coded) = LOWER('$roleName')";
+            $fetchRole = " AND LOWER(t6.coded) = LOWER('$roleName') ";
         } else {
             $fetchRole = "";
         }
 
         if ($admin_use_only == 0) {
-            $only_admin = "AND (admin_use_only = 0 OR admin_use_only IS NULL)";
+            $only_admin = " AND (admin_use_only = 0 OR admin_use_only IS NULL) ";
         } else {
-            $only_admin = "AND (admin_use_only = 1)";
+            $only_admin = " AND (admin_use_only = 1) ";
         }
 
         if ($show_in_signup != 1 && $show_in_signup = -1) {
@@ -372,7 +372,7 @@ WHERE 1 = 1 AND id_custom_fields IN (SELECT
 group_field_id = $group_field_id
 $fetchSignup
 AND is_active = 1
-AND (admin_use_only = 0 OR admin_use_only IS NULL)
+$only_admin
 AND (deleted_at IS NULL)
 ORDER BY id_custom_fields;");
 

@@ -57,10 +57,10 @@ class BeyondAuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $extend = static::canUseDependentValidation() ? 'extendDependent' : 'extend';
+        //$extend = static::canUseDependentValidation() ? 'extendDependent' : 'extend';
         //$this->app['validator']->{$extend}('beyondauth', 'Pribumi\BeyondAuth\Validators\Validator@validatePhone');
-
         //$this->publishLanguages();
+		
         $this->publishConfig();
         $this->publishMigrations();
         $this->publishSeeder();
@@ -249,12 +249,12 @@ class BeyondAuthServiceProvider extends ServiceProvider
     /**
      * Load the helpers file.
      */
-    private function loadHelpers()
+    /*private function loadHelpers()
     {
         if ($this->app['config']->get('beyondauth.helpers', true)) {
             require_once __DIR__ . '/../helpers.php';
         }
-    }
+    }*/
 
     /**
      * Determine whether we can register a dependent validator.
