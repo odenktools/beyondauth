@@ -137,7 +137,6 @@ class EloquentUserRepository extends AbstractEloquentRepository implements UserR
                 $idFields = UserField::where('field_name', $fieldname)->first();
                 if ($idFields !== null) {
                     $customField = new UserFieldValue();
-                    //$customField                   = new $this->userFieldValue;
                     $customField->user_id          = $lastMember;
                     $customField->custom_fields_id = $idFields->id_custom_fields;
                     $customField->field_value      = $row[$fieldname];

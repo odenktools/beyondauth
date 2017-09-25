@@ -120,14 +120,14 @@ class BeyondAuthServiceProvider extends ServiceProvider
      * php artisan vendor:publish --provider="Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider" --tag="lang"
      * @return void
      */
-    private function publishLanguages()
+    /*private function publishLanguages()
     {
         $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'beyondauth');
 
         $this->publishes([
             __DIR__ . '/../../resources/lang/' => base_path('resources/lang/vendor/beyondauth'),
         ], 'lang');
-    }
+    }*/
 
     /**
      * Publishing Database seeder

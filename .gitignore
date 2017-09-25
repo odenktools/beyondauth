@@ -2,5 +2,4 @@
 composer.phar
 composer.lock
 /backup
-.DS_Store
 .env

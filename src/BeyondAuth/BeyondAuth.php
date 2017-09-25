@@ -372,14 +372,13 @@ class BeyondAuth
      */
     public function getRolePermission()
     {
-        $key       = 'usergroup_permission_';
         $usergroup = $this->getUserRole('web_admins');
-        $id        = $usergroup->id;
-
+        
         if ($usergroup) {
-
             //---- #start store cache ----//
-            /*if ($this->getHasCache($key.$id)) {
+            /*$key       = 'usergroup_permission_';
+			$id        = $usergroup->id;
+			if ($this->getHasCache($key.$id)) {
             $value = $this->getCache($key.$id, 0);
             }else{
             $value = $usergroup->permissions()->get();

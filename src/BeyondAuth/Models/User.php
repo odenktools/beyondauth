@@ -189,7 +189,6 @@ class User extends Authenticatable
 
     public function uservalues()
     {
-        //return $this->hasMany(static::$userFields, 'user_id');
         return $this->belongsToMany(static::$userFields, static::$userFieldsPivot, 'user_id', 'custom_fields_id')->withTimestamps();
     }
 
@@ -322,8 +321,6 @@ class User extends Authenticatable
      */
     public function calculateDays()
     {
-        //$now = date('Y-m-d H:i:s');
-
         $now = Carbon::now();
 
         $row = $this->roles->first();
