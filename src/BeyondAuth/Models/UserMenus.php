@@ -228,11 +228,10 @@ return $data;
      */
     public function getSidebar($user_groups, $id_menu = 1, $active = 1)
     {
-        $tmpUserGroup = '';
-
+        /*$tmpUserGroup = '';
         if ($user_groups !== null) {
             $tmpUserGroup = "AND `rl`.`id` = $user_groups";
-        }
+        }*/
 
         $sql = "SELECT
 		  `child`.`id_menu` AS `id_menu`,

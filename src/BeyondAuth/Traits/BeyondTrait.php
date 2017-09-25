@@ -26,7 +26,7 @@ trait BeyondTrait
      * @param string $crypto the desired HMAC crypto algorithm
      * @return string the generated OTP
      */
-    public function oauth_totp($key, $time, $digits = 8, $crypto = 'sha256')
+    public function oauthTotp($key, $time, $digits = 8, $crypto = 'sha256')
     {
         $digits = intval($digits);
         $result = null;

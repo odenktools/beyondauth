@@ -4,8 +4,8 @@ namespace Pribumi\BeyondAuth\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Pribumi\BeyondAuth\Traits\BeyondTrait;
 use Pribumi\BeyondAuth\Exceptions\UserFieldGroupDoesNotExist;
+use Pribumi\BeyondAuth\Traits\BeyondTrait;
 
 /**
  * [MASTER]
@@ -58,7 +58,7 @@ class UserFieldGroup extends Model
         'is_builtin',
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
 
     /**
@@ -68,7 +68,7 @@ class UserFieldGroup extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = config('beyondauth.tables.masters.users_fields_groups', 'users_fields_groups');
+        $this->table      = config('beyondauth.tables.masters.users_fields_groups', 'users_fields_groups');
         $this->primaryKey = config('beyondauth.tables.keys.masters.users_fields_groups', 'id_group_field');
     }
 
