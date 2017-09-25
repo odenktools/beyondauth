@@ -2,7 +2,6 @@
 
 namespace Pribumi\BeyondAuth;
 
-use Illuminate\Auth\Guard as AuthGuard;
 use Illuminate\Auth\GuardHelpers;
 use Illuminate\Contracts\Auth\Guard as GuardContract;
 use Illuminate\Contracts\Auth\UserProvider;
@@ -16,7 +15,7 @@ use Illuminate\Http\Request;
  * @copyright  (c) 2015 - 2016, Pribumi Technology
  * @link       http://pribumitech.com
  */
-class BeyondGuard extends AuthGuard implements GuardContract
+class BeyondGuard implements GuardContract
 {
     use GuardHelpers;
 
@@ -51,6 +50,43 @@ class BeyondGuard extends AuthGuard implements GuardContract
     }
 
     /**
+     * Determine if the user matches the credentials.
+     *
+     * @param  mixed  $user
+     * @param  array  $credentials
+     *
+     * @return bool
+     */
+    protected function hasValidCredentials($user, $credentials)
+    {
+        return $user !== null && $this->provider->validateCredentials($user, $credentials);
+    }
+    
+    /**
+     * Get the user provider used by the guard.
+     *
+     * @return \Illuminate\Contracts\Auth\UserProvider
+     */
+    public function getProvider()
+    {
+        return $this->provider;
+    }
+
+    /**
+     * Set the user provider used by the guard.
+     *
+     * @param  \Illuminate\Contracts\Auth\UserProvider  $provider
+     *
+     * @return $this
+     */
+    public function setProvider(UserProvider $provider)
+    {
+        $this->provider = $provider;
+
+        return $this;
+    }
+
+    /**
      * Attempt to authenticate a user using the given credentials.
      *
      * @param  array $credentials
@@ -60,7 +96,7 @@ class BeyondGuard extends AuthGuard implements GuardContract
      */
     public function attempt(array $credentials = [], $remember = false, $login = true)
     {
-        $this->fireAttemptEvent($credentials, $remember, $login);
+        //$this->fireAttemptEvent($credentials, $remember, $login);
 
         $this->lastAttempted = $user = $this->provider->retrieveByCredentials($credentials);
 
@@ -85,7 +121,6 @@ class BeyondGuard extends AuthGuard implements GuardContract
                         $user->updated_at  = date('Y-m-d H:i:s');
                         $user->save();
                     } else {
-
                         if ($user->isExpired($user->getAuthIdentifier())) {
                             return false;
                         } else {
@@ -93,25 +128,42 @@ class BeyondGuard extends AuthGuard implements GuardContract
                             $user->updated_at = date('Y-m-d H:i:s');
                             $user->save();
                         }
-
                     }
-
                 } else {
                     $user->last_login = date('Y-m-d H:i:s');
                     $user->updated_at = date('Y-m-d H:i:s');
                     $user->save();
                 }
-
             } else {
                 throw new \RuntimeException('User not has any roles, please setup user roles.');
             }
-
-            if ($login) {
-                $this->login($user, $remember);
-            }
-
+            return $login ? $this->login($user) : true;
         }
         return false;
+    }
+
+    /**
+     * Validate a user's credentials.
+     *
+     * @param  array  $credentials
+     *
+     * @return bool
+     */
+    public function validate(array $credentials = [])
+    {
+        return (bool) $this->attempt($credentials, false);
+    }
+
+    /**
+     * Get the currently authenticated user.
+     *
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     */
+    public function user()
+    {
+        if ($this->user !== null) {
+            return $this->user;
+        }
     }
 
 }

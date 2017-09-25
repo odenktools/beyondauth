@@ -74,7 +74,7 @@ class BeyondAuthServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerCustomUser();
-        $this->loadHelpers();
+        //$this->loadHelpers();
     }
 
     /**
