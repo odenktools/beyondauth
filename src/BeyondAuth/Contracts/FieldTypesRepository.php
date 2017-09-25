@@ -4,12 +4,12 @@ namespace Pribumi\BeyondAuth\Contracts;
 
 /**
  * Langkah Ke-1 :
- * 
+ *
  * Interface FieldTypesRepository
- * 
+ *
  * Langkah Ke-2 :
  * @see Pribumi\BeyondAuth\Repositories\AbstractEloquentRepository
- * 
+ *
  * @package Pribumi\BeyondAuth\Contracts
  * @version    1.0.0
  * @author     Pribumi Technology

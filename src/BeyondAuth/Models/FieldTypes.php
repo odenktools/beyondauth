@@ -8,7 +8,7 @@ use Pribumi\BeyondAuth\Traits\BeyondTrait;
 
 /**
  * [MASTER]
- * 
+ *
  * Class FieldTypes
  *
  * Model yang di-peruntukan mengatur tipe-tipe data
@@ -23,29 +23,28 @@ use Pribumi\BeyondAuth\Traits\BeyondTrait;
  */
 class FieldTypes extends Model
 {
-	use SoftDeletes, BeyondTrait;
+    use SoftDeletes, BeyondTrait;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'field_types';
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'field_types';
 
+    /**
+     * Nama Primary Key yang digunakan oleh table
+     *
+     * @var string
+     */
+    protected $primaryKey = 'id_field_type';
 
-	/**
-	 * Nama Primary Key yang digunakan oleh table
-	 *
-	 * @var string
-	 */
-	protected $primaryKey = 'id_field_type';
-	
-	/**
-	 * The attributes that should be mutated to dates.
-	 *
-	 * @var array
-	 */
-	protected $dates = ['deleted_at'];
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that are mass assignable.
@@ -53,44 +52,44 @@ class FieldTypes extends Model
      * @var array
      */
     protected $fillable = [
-		'field_name',
-		'code_field_types',
-		'field_description',
-		'field_size',
-		'created_at',
-		'updated_at'
-	];
+        'field_name',
+        'code_field_types',
+        'field_description',
+        'field_size',
+        'created_at',
+        'updated_at',
+    ];
 
-	/**
-	 * The Eloquent user model.
-	 *
-	 * @var string
-	 */
-	protected static $userFieldModel = 'Pribumi\BeyondAuth\Models\UserField';
-	
+    /**
+     * The Eloquent user model.
+     *
+     * @var string
+     */
+    protected static $userFieldModel = 'Pribumi\BeyondAuth\Models\UserField';
+
     /**
      * @param array $attributes
      */
     public function __construct(array $attributes = array())
     {
         parent::__construct($attributes);
-		$this->table = config('beyondauth.tables.masters.field_types', 'field_types');
-		$this->primaryKey = config('beyondauth.tables.keys.masters.field_types', 'id_field_type');
+        $this->table      = config('beyondauth.tables.masters.field_types', 'field_types');
+        $this->primaryKey = config('beyondauth.tables.keys.masters.field_types', 'id_field_type');
     }
 
-	/**
-	 * Relasi dengan table `UserGroup`
-	 *
-	 * <code>
-	 * $fieldType = new \Pribumi\BeyondAuth\Models\FieldTypes();
-	 * $fieldTypes = $fieldType->find(1);
-	 * $get_usergroups = $fieldTypes->usergroups->all();
-	 * </code>
-	 *
-	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
-	 */
-	public function usergroups()
-	{
-		return $this->hasMany(static::$userFieldModel, 'field_type_id');
-	}
+    /**
+     * Relasi dengan table `UserGroup`
+     *
+     * <code>
+     * $fieldType = new \Pribumi\BeyondAuth\Models\FieldTypes();
+     * $fieldTypes = $fieldType->find(1);
+     * $get_usergroups = $fieldTypes->usergroups->all();
+     * </code>
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function usergroups()
+    {
+        return $this->hasMany(static::$userFieldModel, 'field_type_id');
+    }
 }

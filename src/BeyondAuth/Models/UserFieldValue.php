@@ -2,11 +2,11 @@
 
 namespace Pribumi\BeyondAuth\Models;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Pribumi\BeyondAuth\Traits\BeyondTrait;
 use Pribumi\BeyondAuth\Exceptions\UserFieldDoesNotExist;
-use DB;
+use Pribumi\BeyondAuth\Traits\BeyondTrait;
 
 /**
  * [MASTER]
@@ -60,7 +60,7 @@ class UserFieldValue extends Model
         'field_value',
         'created_at',
         'updated_at',
-		'deleted_at'
+        'deleted_at',
     ];
 
     /**
@@ -70,23 +70,23 @@ class UserFieldValue extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = config('beyondauth.tables.masters.users_fields_value', 'users_fields_value');
+        $this->table      = config('beyondauth.tables.masters.users_fields_value', 'users_fields_value');
         $this->primaryKey = config('beyondauth.tables.keys.masters.users_fields_value', 'id_custom_fields');
     }
-    
+
     /**
      * Eloquent `Users` model.
      *
      * @var string
      */
     protected static $usersModel = 'Pribumi\BeyondAuth\Models\User';
-    
+
     public function users()
     {
         return $this->belongsToMany(static::$usersModel, 'users_fields_value', 'user_id', 'custom_fields_id')
             ->withTimestamps();
     }
-    
+
     /**
      * Dapatkan primarykey.
      *

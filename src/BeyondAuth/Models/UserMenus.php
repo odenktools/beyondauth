@@ -2,11 +2,11 @@
 
 namespace Pribumi\BeyondAuth\Models;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Pribumi\BeyondAuth\Traits\BeyondTrait;
 use Pribumi\BeyondAuth\Exceptions\UserMenusDoesNotExist;
-use DB;
+use Pribumi\BeyondAuth\Traits\BeyondTrait;
 
 /**
  * [MASTER]
@@ -69,7 +69,7 @@ class UserMenus extends Model
         'is_active',
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
 
     /**
@@ -79,7 +79,7 @@ class UserMenus extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = config('beyondauth.tables.masters.users_menus', 'users_menus');
+        $this->table      = config('beyondauth.tables.masters.users_menus', 'users_menus');
         $this->primaryKey = config('beyondauth.tables.keys.masters.users_menus', 'id_menu');
     }
 
@@ -93,47 +93,47 @@ class UserMenus extends Model
         return $this->primaryKey;
     }
 
-/*	public function getMenus()
-	{
-		$sql = "SELECT
-		  `child`.`id_menu` AS `id_menu`,
-		  `child`.`parent_menu` AS `parent_menu`,
-		  `child`.`menu_title` AS `menu_title`,
-		  `child`.`menu_name` AS `menu_name`,
-		  `child`.`backend_route` AS `backend_route`,
-		  `child`.`image` AS `image`,
-		  `child`.`is_active` AS `is_active`,
-		  `child`.`menu_order` AS `menu_order`,
-		  `prmn`.`is_check` AS `is_check`,
-		  COUNT(`grandchild`.`parent_menu`) AS `level_count`
-		FROM `users_menus` `child`
+/*    public function getMenus()
+{
+$sql = "SELECT
+`child`.`id_menu` AS `id_menu`,
+`child`.`parent_menu` AS `parent_menu`,
+`child`.`menu_title` AS `menu_title`,
+`child`.`menu_name` AS `menu_name`,
+`child`.`backend_route` AS `backend_route`,
+`child`.`image` AS `image`,
+`child`.`is_active` AS `is_active`,
+`child`.`menu_order` AS `menu_order`,
+`prmn`.`is_check` AS `is_check`,
+COUNT(`grandchild`.`parent_menu`) AS `level_count`
+FROM `users_menus` `child`
 
-		  JOIN `users_menus` `parent`
-			ON `child`.`parent_menu` = `parent`.`id_menu`
-			AND `parent`.`id_menu` = 1
+JOIN `users_menus` `parent`
+ON `child`.`parent_menu` = `parent`.`id_menu`
+AND `parent`.`id_menu` = 1
 
-		  LEFT JOIN `users_menus` `grandchild`
-			ON `child`.`id_menu` = `grandchild`.`parent_menu`
+LEFT JOIN `users_menus` `grandchild`
+ON `child`.`id_menu` = `grandchild`.`parent_menu`
 
-		  JOIN `users_menus_many` `prmn`
-			ON `child`.`id_menu` = `prmn`.`menu_id`
+JOIN `users_menus_many` `prmn`
+ON `child`.`id_menu` = `prmn`.`menu_id`
 
-		  JOIN `users_groups` `rl`
-			ON `rl`.`id` = `prmn`.`group_id`
-		
-		GROUP BY `child`.`id_menu`, `child`.`menu_title`, `child`.`menu_order`
-			ORDER BY `child`.`menu_order` ASC
-			;";
+JOIN `users_groups` `rl`
+ON `rl`.`id` = `prmn`.`group_id`
 
-		$data = DB::select($sql);
+GROUP BY `child`.`id_menu`, `child`.`menu_title`, `child`.`menu_order`
+ORDER BY `child`.`menu_order` ASC
+;";
 
-        if (!$data) {
-            throw new UserMenusDoesNotExist("Menu tidak tersedia.");
-        }
+$data = DB::select($sql);
 
-		return $data;
-	}*/
-	
+if (!$data) {
+throw new UserMenusDoesNotExist("Menu tidak tersedia.");
+}
+
+return $data;
+}*/
+
     /**
      * Build Main Menu Aplikasi
      *
@@ -144,36 +144,36 @@ class UserMenus extends Model
      * </code>
      *
      * @param $user_groups integer Nilai Group dari user
-	 * @param $id_menu integer Nilai Id Menu
-	 * @param $active integer Aktif menu tersebut?
-	 *
+     * @param $id_menu integer Nilai Id Menu
+     * @param $active integer Aktif menu tersebut?
+     *
      * @return Object
-	 *
-	 * @throws UserMenusDoesNotExist
+     *
+     * @throws UserMenusDoesNotExist
      */
-	public function getMenusBy($user_groups = null, $id_menu = 1, $active = 1)
-	{
-		$tmpUserGroup 		= '';
-		$is_checked 		= ',';
-		$cek_permission 	= '';
+    public function getMenusBy($user_groups = null, $id_menu = 1, $active = 1)
+    {
+        $tmpUserGroup   = '';
+        $is_checked     = ',';
+        $cek_permission = '';
 
-		if($user_groups !== null){
-			$tmpUserGroup = "AND `rl`.`id` = $user_groups";
-		}
+        if ($user_groups !== null) {
+            $tmpUserGroup = "AND `rl`.`id` = $user_groups";
+        }
 
-		if($user_groups !== null){
-			$is_checked .= "`prmn`.`is_check` AS `is_check`,";
-		}
+        if ($user_groups !== null) {
+            $is_checked .= "`prmn`.`is_check` AS `is_check`,";
+        }
 
-		if($user_groups !== null){
-			$cek_permission = "JOIN `users_menus_many` `prmn`
+        if ($user_groups !== null) {
+            $cek_permission = "JOIN `users_menus_many` `prmn`
 			ON `child`.`id_menu` = `prmn`.`menu_id`
 
 		  JOIN `users_groups` `rl`
 			ON `rl`.`id` = `prmn`.`group_id`";
-		}
-		
-		$sql = "SELECT
+        }
+
+        $sql = "SELECT
 		  `child`.`id_menu` AS `id_menu`,
 		  `child`.`parent_menu` AS `parent_menu`,
 		  `child`.`menu_title` AS `menu_title`,
@@ -200,15 +200,15 @@ class UserMenus extends Model
 			ORDER BY `child`.`menu_order` ASC
 			;";
 
-		$data = DB::select($sql);
+        $data = DB::select($sql);
 
         if (!$data) {
             throw new UserMenusDoesNotExist("Menu tidak tersedia.");
         }
 
-		return $data;
-	}
-	
+        return $data;
+    }
+
     /**
      * Build Main Menu Aplikasi
      *
@@ -219,22 +219,22 @@ class UserMenus extends Model
      * </code>
      *
      * @param $user_groups integer Nilai Group dari user
-	 * @param $id_menu integer Nilai Id Menu
-	 * @param $active integer Aktif menu tersebut?
-	 *
+     * @param $id_menu integer Nilai Id Menu
+     * @param $active integer Aktif menu tersebut?
+     *
      * @return Object
-	 *
-	 * @throws UserMenusDoesNotExist
+     *
+     * @throws UserMenusDoesNotExist
      */
-	public function getSidebar($user_groups, $id_menu = 1, $active = 1)
-	{
-		$tmpUserGroup = '';
+    public function getSidebar($user_groups, $id_menu = 1, $active = 1)
+    {
+        $tmpUserGroup = '';
 
-		if($user_groups !== null){
-			$tmpUserGroup = "AND `rl`.`id` = $user_groups";
-		}
+        if ($user_groups !== null) {
+            $tmpUserGroup = "AND `rl`.`id` = $user_groups";
+        }
 
-		$sql = "SELECT
+        $sql = "SELECT
 		  `child`.`id_menu` AS `id_menu`,
 		  `child`.`parent_menu` AS `parent_menu`,
 		  `child`.`menu_title` AS `menu_title`,
@@ -265,15 +265,15 @@ class UserMenus extends Model
 			ORDER BY `child`.`menu_order` ASC
 			;";
 
-		$data = DB::select($sql);
+        $data = DB::select($sql);
 
         if (!$data) {
             throw new UserMenusDoesNotExist("Menu tidak tersedia.");
         }
 
-		return $data;
-	}
-	
+        return $data;
+    }
+
     /**
      * [Direct Access Model]
      *

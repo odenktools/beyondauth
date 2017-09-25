@@ -519,14 +519,14 @@ class BeyondAuth
      * Calling `UserFieldGroup Repository` From This Class
      *
      * <code>
-     * $data = BeyondAuth::userfields_groups()->get();
+     * $data = BeyondAuth::userfieldsGroups()->get();
      * echo json_encode($data);
      * </code>
      *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserFieldGroupRepository
      */
-    public function userfields_groups()
+    public function userfieldsGroups()
     {
         return $this->app['beyondauth.usersfields_groups'];
     }
@@ -607,14 +607,14 @@ class BeyondAuth
      * Calling `UserFieldValue Repository` From This Class
      *
      * <code>
-     * $data = BeyondAuth::usersfields_value()->get();
+     * $data = BeyondAuth::usersfieldsValue()->get();
      * echo json_encode($data);
      * </code>
      *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserFieldValueRepository
      */
-    public function usersfields_value()
+    public function usersfieldsValue()
     {
         return $this->app['beyondauth.usersfields_value'];
     }
@@ -727,8 +727,8 @@ class BeyondAuth
      */
     public function createUserFieldGroup($data)
     {
-        if (!is_null($this->userfields_groups())) {
-            return $this->userfields_groups()->create($data);
+        if (!is_null($this->userfieldsGroups())) {
+            return $this->userfieldsGroups()->create($data);
         } else {
             return new MethodNotExist();
         }
@@ -777,8 +777,8 @@ class BeyondAuth
      */
     public function findUsersFieldsValueBy($field, $value)
     {
-        if (!is_null($this->usersfields_value())) {
-            return $this->usersfields_value()->findByWhere($field, $value);
+        if (!is_null($this->usersfieldsValue())) {
+            return $this->usersfieldsValue()->findByWhere($field, $value);
         } else {
             return new MethodNotExist();
         }
@@ -828,8 +828,8 @@ class BeyondAuth
      */
     public function findUserFieldGroupBy($field, $value)
     {
-        if (!is_null($this->userfields_groups())) {
-            return $this->userfields_groups()->findByWhere($field, $value);
+        if (!is_null($this->userfieldsGroups())) {
+            return $this->userfieldsGroups()->findByWhere($field, $value);
         } else {
             return new MethodNotExist();
         }

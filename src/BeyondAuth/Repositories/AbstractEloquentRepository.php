@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * Langkah Ke-3 :
  * @see \Pribumi\BeyondAuth\Repositories\EloquentDomainRepository
- * 
+ *
  * @package Pribumi\BeyondAuth\Repositories\Eloquent
  * @version    1.0.0
  * @author     Pribumi Technology
@@ -36,7 +36,7 @@ abstract class AbstractEloquentRepository
      */
     public function __construct(Application $app, Model $model)
     {
-        $this->app = $app;
+        $this->app   = $app;
         $this->model = $model;
     }
 }

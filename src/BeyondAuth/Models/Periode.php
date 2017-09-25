@@ -3,9 +3,9 @@
 namespace Pribumi\BeyondAuth\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Pribumi\BeyondAuth\Traits\BeyondTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Pribumi\BeyondAuth\Exceptions\PeriodeDoesNotExist;
+use Pribumi\BeyondAuth\Traits\BeyondTrait;
 
 /**
  * [MASTER]
@@ -33,7 +33,6 @@ class Periode extends Model
      */
     protected $table = '';
 
-
     /**
      * Nama Primary Key yang digunakan oleh table
      *
@@ -57,7 +56,7 @@ class Periode extends Model
         'code_periode',
         'nama_periode',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     /**
@@ -67,7 +66,7 @@ class Periode extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = config('beyondauth.tables.masters.periode', 'periode');
+        $this->table      = config('beyondauth.tables.masters.periode', 'periode');
         $this->primaryKey = config('beyondauth.tables.keys.masters.periode', 'id_periode');
     }
 

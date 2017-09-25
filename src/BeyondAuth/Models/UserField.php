@@ -219,7 +219,7 @@ class UserField extends Model
      */
     public function userfieldgroups()
     {
-        $primary = config('beyondauth.tables.keys.masters.users_fields_groups', '');
+        //$primary = config('beyondauth.tables.keys.masters.users_fields_groups', '');
         /*(:nama_key : pada_table_yang_dituju, :nama_foreign_key_table_ini )*/
         return $this->hasOne(static::$userFieldGroupModel, 'id_group_field', 'group_field_id');
     }
