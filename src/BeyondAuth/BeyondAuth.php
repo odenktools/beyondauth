@@ -375,16 +375,6 @@ class BeyondAuth
         $usergroup = $this->getUserRole('web_admins');
         
         if ($usergroup) {
-            //---- #start store cache ----//
-            /*$key       = 'usergroup_permission_';
-			$id        = $usergroup->id;
-			if ($this->getHasCache($key.$id)) {
-            $value = $this->getCache($key.$id, 0);
-            }else{
-            $value = $usergroup->permissions()->get();
-            $this->putCache($key.$id, $value, 10);
-            }*/
-            //---- #end store cache ----//
             $value = $usergroup->permissions()->get();
             return $value;
         } else {

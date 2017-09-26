@@ -151,8 +151,6 @@ class UserField extends Model
      */
     public function fieldtypes()
     {
-        /*$primary = config('beyondauth.tables.keys.masters.field_types', '');*/
-        /*(:nama_key : pada_table_yang_dituju, :nama_foreign_key_table_ini )*/
         return $this->hasOne(static::$fieldTypesModel, 'id_field_type', 'field_type_id');
     }
 
@@ -195,7 +193,6 @@ class UserField extends Model
     public function fieldvalues()
     {
         $primary = config('beyondauth.tables.keys.masters.users_fields_value', '');
-        /*(:nama_key : pada_table_yang_dituju, :nama_foreign_key_table_ini )*/
         return $this->hasOne(static::$userFieldValueModel, $primary, 'custom_fields_id');
     }
 
@@ -219,8 +216,6 @@ class UserField extends Model
      */
     public function userfieldgroups()
     {
-        //$primary = config('beyondauth.tables.keys.masters.users_fields_groups', '');
-        /*(:nama_key : pada_table_yang_dituju, :nama_foreign_key_table_ini )*/
         return $this->hasOne(static::$userFieldGroupModel, 'id_group_field', 'group_field_id');
     }
 

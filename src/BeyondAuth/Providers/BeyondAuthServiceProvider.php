@@ -53,14 +53,12 @@ class BeyondAuthServiceProvider extends ServiceProvider
     /**
      * Bootstrap the application services.
      *
+     * //$extend = static::canUseDependentValidation() ? 'extendDependent' : 'extend';
+     * //$this->app['validator']->{$extend}('beyondauth', 'Pribumi\BeyondAuth\Validators\Validator@validatePhone');
      * @return void
      */
     public function boot()
     {
-        //$extend = static::canUseDependentValidation() ? 'extendDependent' : 'extend';
-        //$this->app['validator']->{$extend}('beyondauth', 'Pribumi\BeyondAuth\Validators\Validator@validatePhone');
-        //$this->publishLanguages();
-		
         $this->publishConfig();
         $this->publishMigrations();
         $this->publishSeeder();
@@ -74,7 +72,6 @@ class BeyondAuthServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerCustomUser();
-        //$this->loadHelpers();
     }
 
     /**
@@ -112,22 +109,6 @@ class BeyondAuthServiceProvider extends ServiceProvider
             __DIR__ . '/../../config/beyondauth.php' => config_path('beyondauth.php'),
         ], 'config');
     }
-
-    /**
-     * Publishing Configuration file to main laravel app
-     *
-     * package config files
-     * php artisan vendor:publish --provider="Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider" --tag="lang"
-     * @return void
-     */
-    /*private function publishLanguages()
-    {
-        $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'beyondauth');
-
-        $this->publishes([
-            __DIR__ . '/../../resources/lang/' => base_path('resources/lang/vendor/beyondauth'),
-        ], 'lang');
-    }*/
 
     /**
      * Publishing Database seeder
@@ -245,17 +226,7 @@ class BeyondAuthServiceProvider extends ServiceProvider
 
         $this->registerGuard();
     }
-
-    /**
-     * Load the helpers file.
-     */
-    /*private function loadHelpers()
-    {
-        if ($this->app['config']->get('beyondauth.helpers', true)) {
-            require_once __DIR__ . '/../helpers.php';
-        }
-    }*/
-
+    
     /**
      * Determine whether we can register a dependent validator.
      *
