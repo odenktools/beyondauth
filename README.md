@@ -1,6 +1,8 @@
 # Beyond Auth
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/e5044efb-e10a-4cc4-84f7-e243ca0ebc62/big.png)](https://insight.sensiolabs.com/projects/e5044efb-e10a-4cc4-84f7-e243ca0ebc62)
+[![Build Status](https://travis-ci.org/odenktools/beyondauth.svg)](https://travis-ci.org/odenktools/beyondauth)
+
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/e5044efb-e10a-4cc4-84f7-e243ca0ebc62/small.png)](https://insight.sensiolabs.com/projects/e5044efb-e10a-4cc4-84f7-e243ca0ebc62)
 
 [![License](https://poser.pugx.org/pribumi/beyondauth/license)](https://packagist.org/packages/pribumi/beyondauth)
 
