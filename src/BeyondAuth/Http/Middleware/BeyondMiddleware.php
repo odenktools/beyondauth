@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Response;
 
+/**
+ * Laravel Middleware.
+ *
+ * @version    1.0.0
+ * @author     Pribumi Technology
+ * @license    MIT
+ * @copyright  (c) 2015 - 2016, Pribumi Technology
+ */
 class BeyondMiddleware
 {
     protected $auth;
@@ -27,6 +35,7 @@ class BeyondMiddleware
      * @param  \Illuminate\Http\Request $request
      * @param  \Closure $next
      * @param  \Illuminate\Contracts\Auth\Guard $guard
+	 *
      * @return mixed
      */
     public function handle(Request $request, Closure $next, $guard = null)

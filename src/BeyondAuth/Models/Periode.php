@@ -8,19 +8,15 @@ use Pribumi\BeyondAuth\Exceptions\PeriodeDoesNotExist;
 use Pribumi\BeyondAuth\Traits\BeyondTrait;
 
 /**
- * [MASTER]
- *
- * Class Periode
+ * Class Periode.
  *
  * Model yang di-peruntukan mengatur periode
  * kapan user expire.
  *
- * @package Pribumi\BeyondAuth\Models
  * @version    1.0.0
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
- * @link       http://pribumitech.com
  */
 class Periode extends Model
 {

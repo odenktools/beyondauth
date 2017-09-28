@@ -21,7 +21,7 @@ use Pribumi\BeyondAuth\Contracts\UserPermissionInterface;
 use Pribumi\BeyondAuth\Exceptions\MethodNotExist;
 
 /**
- * Class BeyondAuth Facade
+ * Class BeyondAuth Facade.
  *
  * Logic tidak berada disini, lebih baik logic
  * tetap di `Class` masing-masing agar maintenis lebih mudah dilakukan.
@@ -31,108 +31,99 @@ use Pribumi\BeyondAuth\Exceptions\MethodNotExist;
  *
  * @see : http://docs.odenktools/laravelcleancode
  *
- * @package Pribumi\BeyondAuth
  * @version    1.0.0
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
- * @link       http://pribumitech.com
  */
 class BeyondAuth
 {
     /**
-     * Laravel application
+     * Laravel application.
      *
      * @var \Illuminate\Foundation\Application
      */
     public $app;
 
     /**
-     * UserInterface
+     * UserInterface.
      *
      * @var \Pribumi\BeyondAuth\Contracts\UserInterface
      */
     public $userRepository;
 
     /**
-     * Domain Repository
-     *
-     * @var \Pribumi\BeyondAuth\Contracts\DomainRepository
-     */
-    public $domainRepository;
-
-    /**
-     * UserRole Repository
+     * UserRole Repository.
      *
      * @var \Pribumi\BeyondAuth\Contracts\UserGroupInterface
      */
     public $userGroupRepository;
 
     /**
-     * Periode Repository
+     * Periode Repository.
      *
      * @var \Pribumi\BeyondAuth\Contracts\PeriodeRepository
      */
     public $periodeRepository;
 
     /**
-     * UserFieldGroup Repository
+     * UserFieldGroup Repository.
      *
      * @var \Pribumi\BeyondAuth\Contracts\UserFieldGroupInterface
      */
     public $userFieldGroupRepository;
 
     /**
-     * UserField Repository
+     * UserField Repository.
      *
      * @var \Pribumi\BeyondAuth\Contracts\UserFieldInterface
      */
     public $userFieldRepository;
 
     /**
-     * UserMenus Repository
+     * UserMenus Repository.
      *
      * @var \Pribumi\BeyondAuth\Contracts\UserMenuRepository
      */
     public $userMenuRepository;
 
     /**
-     * UserMenus Repository
+     * UserMenus Repository.
      *
      * @var \Pribumi\BeyondAuth\Contracts\UserPermissionInterface
      */
     public $userPermissionRepository;
 
     /**
-     * FieldTypes Repository
+     * FieldTypes Repository.
      *
      * @var \Pribumi\BeyondAuth\Contracts\FieldTypesInterface
      */
     public $fieldTypesRepository;
 
     /**
-     * UserFieldValueInterface Repository
+     * UserFieldValueInterface Repository.
      *
      * @var \Pribumi\BeyondAuth\Contracts\UserFieldValueInterface
      */
     public $userFieldValueRepository;
 
     /**
-     * ApiKeyUsersInterface Repository
+     * ApiKeyUsersInterface Repository.
      *
      * @var \Pribumi\BeyondAuth\Contracts\ApiKeyUsersInterface
      */
     public $apiKeyUsersRepository;
 
     /**
-     * UserActivationInterface Repository
+     * UserActivationInterface Repository.
      *
      * @var \Pribumi\BeyondAuth\Contracts\UserActivationInterface
      */
     public $userActivationRepository;
 
     /**
-     * CompanyRepository Repository
+     * CompanyRepository Repository.
      *
      * @var \Pribumi\BeyondAuth\Contracts\CompanyInterface
      */
@@ -144,18 +135,18 @@ class BeyondAuth
      * Dependency Injection(DI), Harus Selalu pergunakan interface (dari \Pribumi\BeyondAuth\Contracts)
      *
      * @param $app Laravel application
-     * @param UserRepository $userRepository UserGroup repository
-     * @param UserGroupInterface $userGroupInterface UserGroup repository
-     * @param PeriodeInterface $periodeInterface UserGroup repository
-     * @param UserFieldGroupInterface $userFieldGroupInterface UserGroup repository
-     * @param UserFieldInterface $userFieldInterface UserGroup repository
-     * @param UserMenuInterface $userMenuInterface UserGroup repository
-     * @param UserPermissionInterface $userPermissionRepository UserGroup repository
-     * @param FieldTypesInterface $fieldTypesRepository UserGroup repository
-     * @param UserFieldValueInterface $userFieldValueRepository Periode repository
-     * @param UserActivationInterface $userActivationRepository UserFieldGroup repository
-     * @param ApiKeyUsersInterface $apiKeyUsersRepository UserField repository
-     * @param CompanyInterface $companyRepository UserMenus repository
+     * @param UserRepository          $userRepository           UserRepository repository
+     * @param UserGroupInterface      $userGroupInterface       UserGroupInterface repository
+     * @param PeriodeInterface        $periodeInterface         PeriodeInterface repository
+     * @param UserFieldGroupInterface $userFieldGroupInterface  UserFieldGroupInterface repository
+     * @param UserFieldInterface      $userFieldInterface       UserFieldInterface repository
+     * @param UserMenuInterface       $userMenuInterface        UserMenuInterface repository
+     * @param UserPermissionInterface $userPermissionRepository UserPermissionInterface repository
+     * @param FieldTypesInterface $fieldTypesRepository FieldTypesInterface repository
+     * @param UserFieldValueInterface $userFieldValueRepository UserFieldValueInterface repository
+     * @param UserActivationInterface $userActivationRepository UserActivationInterface repository
+     * @param ApiKeyUsersInterface $apiKeyUsersRepository ApiKeyUsersInterface repository
+     * @param CompanyInterface $companyRepository CompanyInterface repository
      */
     public function __construct(
         $app,
@@ -188,7 +179,7 @@ class BeyondAuth
     }
 
     /**
-     * Buat Random String (minimal 42 karakter)
+     * Create Random String (42 karakter).
      *
      * <code>
      * $str = BeyondAuth::getRandomStr();
@@ -196,7 +187,9 @@ class BeyondAuth
      * </code>
      *
      * @param $length integer
+     *
      * @throws \RuntimeException
+     *
      * @return string
      */
     public function getRandomStr($length = 42)
@@ -220,14 +213,16 @@ class BeyondAuth
 
     /**
      * This function implements the algorithm outlined
-     * in RFC 6238 for Time-Based One-Time Passwords
+     * in RFC 6238 for Time-Based One-Time Passwords.
      *
      * @link http://tools.ietf.org/html/rfc6238
+     *
      * @param string $key    the string to use for the HMAC key
      * @param mixed  $time   a value that reflects a time (unix
      *                       time in the example)
      * @param int    $digits the desired length of the OTP
      * @param string $crypto the desired HMAC crypto algorithm
+     *
      * @return string the generated OTP
      */
     public function getRfc($key, $time, $digits = 8, $crypto = 'sha256')
@@ -262,8 +257,7 @@ class BeyondAuth
     }
 
     /**
-     * Replace seluruh http:// dan www
-     * pada URL.
+     * Replace all http:// dan www pada URL.
      *
      * <code>
      * $str = BeyondAuth::replaceHttp('https://ngakost.net');
@@ -271,6 +265,7 @@ class BeyondAuth
      * </code>
      *
      * @param string $value nama guard yang dipergunakan.
+     *
      * @return string
      */
     public function replaceHttp($value)
@@ -281,7 +276,7 @@ class BeyondAuth
     }
 
     /**
-     * Dapatkan data user (Harus login terlebih dahulu)
+     * Get user data (Must login).
      *
      * <code>
      * $users = BeyondAuth::auth('web_admins')->username
@@ -302,7 +297,7 @@ class BeyondAuth
     }
 
     /**
-     * Dapatkan data role user (Harus login terlebih dahulu)
+     * Get user role (Must login).
      *
      * <code>
      * $userRole = BeyondAuth::getUserRole('web_admins')->coded;
@@ -330,7 +325,7 @@ class BeyondAuth
     }
 
     /**
-     * Dapatkan data permission role (Harus login terlebih dahulu)
+     * Get role permission (Must login).
      *
      * <code>
      * $getRolePermission = BeyondAuth::getRolePermission();
@@ -345,11 +340,11 @@ class BeyondAuth
     }
 
     /**
-     * Dapatkan data permission role (Harus login terlebih dahulu)
+     * Get role permission cache (Must login).
      *
      * <code>
-     * $getRolePermission = BeyondAuth::getRolePermission();
-     * echo $getRolePermission;
+     * $getPermissionCache = BeyondAuth::getHasCache();
+     * echo $getPermissionCache;
      * </code>
      *
      * @return boolean | Array
@@ -360,7 +355,7 @@ class BeyondAuth
     }
 
     /**
-     * Dapatkan data permission role (Harus login terlebih dahulu)
+     * Put role cache (Must login).
      *
      * <code>
      * $getRolePermission = BeyondAuth::getRolePermission();
@@ -376,7 +371,7 @@ class BeyondAuth
     }
 
     /**
-     * Dapatkan data permission role (Harus login terlebih dahulu)
+     * Get role (Must login).
      *
      * <code>
      * $getRolePermission = BeyondAuth::getRolePermission();
@@ -398,7 +393,7 @@ class BeyondAuth
     }
 
     /**
-     * Cek apakah user/role dapat mengeksekusi?
+     * Check User can execute method.
      *
      * <code>
      *    if(!BeyondAuth::can('usergroup.view')){
@@ -424,7 +419,10 @@ class BeyondAuth
     }
 
     /**
+     * Get User was auth
+     *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
+     *
      * @return \Pribumi\BeyondAuth\AuthManager
      */
     public function getUserAuth()
@@ -433,8 +431,8 @@ class BeyondAuth
     }
 
     /**
-     * [SAMPLE]
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
+     *
      * @return \Pribumi\BeyondAuth\AuthManager
      */
     public function getAuthManager()
@@ -443,7 +441,7 @@ class BeyondAuth
     }
 
     /**
-     * Calling `ApiKeys Repository` From This Class
+     * Calling `ApiKeys Repository` From This Class.
      *
      * <code>
      * $data = BeyondAuth::usersactivations()->get();
@@ -451,6 +449,7 @@ class BeyondAuth
      * </code>
      *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentApiKeyUsersRepository
      */
     public function usersactivations()
@@ -459,7 +458,7 @@ class BeyondAuth
     }
 
     /**
-     * Calling `Company Repository` From This Class
+     * Calling `Company Repository` From This Class.
      *
      * <code>
      * $data = BeyondAuth::company()->get();
@@ -467,6 +466,7 @@ class BeyondAuth
      * </code>
      *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentCompanyRepository
      */
     public function company()
@@ -475,7 +475,7 @@ class BeyondAuth
     }
 
     /**
-     * Calling `ApiKeys Repository` From This Class
+     * Calling `ApiKeys Repository` From This Class.
      *
      * <code>
      * $data = BeyondAuth::apikeyusers()->get();
@@ -483,6 +483,7 @@ class BeyondAuth
      * </code>
      *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentApiKeyUsersRepository
      */
     public function apikeyusers()
@@ -491,7 +492,7 @@ class BeyondAuth
     }
 
     /**
-     * Calling `User Repository` From This Class
+     * Calling `User Repository` From This Class.
      *
      * BeyondAuth::users()->findByEmail('xxxxx@gmail.com');
      *
@@ -507,6 +508,7 @@ class BeyondAuth
      *
      *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserRepository
      */
     public function users()
@@ -515,9 +517,10 @@ class BeyondAuth
     }
 
     /**
-     * Calling `UserPermission Repository` From This Class
+     * Calling `UserPermission Repository` From This Class.
      *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserPermissionRepository
      */
     public function userpermissions()
@@ -526,7 +529,7 @@ class BeyondAuth
     }
 
     /**
-     * Calling `UserGroup Repository` From This Class
+     * Calling `UserGroup Repository` From This Class.
      *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserGroupRepository
@@ -537,7 +540,7 @@ class BeyondAuth
     }
 
     /**
-     * Calling `Periode Repository` From This Class
+     * Calling `Periode Repository` From This Class.
      *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
      * @return \Pribumi\BeyondAuth\Repositories\EloquentPeriodeRepository
@@ -548,7 +551,7 @@ class BeyondAuth
     }
 
     /**
-     * Calling `UserFieldGroup Repository` From This Class
+     * Calling `UserFieldGroup Repository` From This Class.
      *
      * <code>
      * $data = BeyondAuth::userfieldsGroups()->get();
@@ -564,38 +567,37 @@ class BeyondAuth
     }
 
     /**
-     * Calling `UserField Repository` From This Class
+     * Calling `UserField Repository` From This Class.
      *
      * <code>
-    $data = BeyondAuth::usersfields()->with('fieldtypes')->with('userfieldgroups')->get();
-    echo json_encode($data);
+     * $data = BeyondAuth::usersfields()->with('fieldtypes')->with('userfieldgroups')->get();
+     * echo json_encode($data);
      * </code>
      *
      * OR
      *
      * <code>
-     *
-    $usersfields = BeyondAuth::usersfields()
-    ->with('fieldtypes')
-    ->with('userfieldgroups')
-    ->with('domains')
-    ->where('is_active', 1)
-    ->where('show_in_signup', 1)
-    ->orderBy('field_order', 'desc')
-    ->get();
-    foreach($usersfields as $row){
-    if(count($row->domains) > 0){
-    echo $row->field_name . '-HANYA UNTUK-' . '<br/>';
-    }else{
-    echo $row->field_name.'<br/>';
-    }
-    echo $row->field_name.'<br/>';
-    echo $row->fieldtypes['field_name'].'<br/>';
-    echo $row->userfieldgroups['group_name'].'<br/>';
-    }
-     *
+     * $usersfields = BeyondAuth::usersfields()
+     * ->with('fieldtypes')
+     * ->with('userfieldgroups')
+     * ->with('domains')
+     * ->where('is_active', 1)
+     * ->where('show_in_signup', 1)
+     * ->orderBy('field_order', 'desc')
+     * ->get();
+     * foreach($usersfields as $row){
+     * if(count($row->domains) > 0){
+     * echo $row->field_name . '-HANYA UNTUK-' . '<br/>';
+     * }else{
+     * echo $row->field_name.'<br/>';
+     * }
+     * echo $row->field_name.'<br/>';
+     * echo $row->fieldtypes['field_name'].'<br/>';
+     * echo $row->userfieldgroups['group_name'].'<br/>';
+     * }
      * </code>
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserFieldGroupRepository
      */
     public function usersfields()
@@ -604,7 +606,7 @@ class BeyondAuth
     }
 
     /**
-     * Calling `UserMenus Repository` From This Class
+     * Calling `UserMenus Repository` From This Class.
      *
      * <code>
      * $data = BeyondAuth::menus()->get();
@@ -612,6 +614,7 @@ class BeyondAuth
      * </code>
      *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserMenuRepository
      */
     public function menus()
@@ -620,7 +623,7 @@ class BeyondAuth
     }
 
     /**
-     * Calling `Field Types Repository` From This Class
+     * Calling `Field Types Repository` From This Class.
      *
      * <code>
      * $data = BeyondAuth::fieldtypes()->get();
@@ -628,6 +631,7 @@ class BeyondAuth
      * </code>
      *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentFieldTypesRepository
      */
     public function fieldtypes()
@@ -636,7 +640,7 @@ class BeyondAuth
     }
 
     /**
-     * Calling `UserFieldValue Repository` From This Class
+     * Calling `UserFieldValue Repository` From This Class.
      *
      * <code>
      * $data = BeyondAuth::usersfieldsValue()->get();
@@ -644,6 +648,7 @@ class BeyondAuth
      * </code>
      *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserFieldValueRepository
      */
     public function usersfieldsValue()
@@ -652,9 +657,10 @@ class BeyondAuth
     }
 
     /**
-     * `create()` For Domain Model
+     * `create()` For Domain Model.
      *
      * @param array $data
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentDomainRepository
      */
     public function createDomain($data)
@@ -670,7 +676,9 @@ class BeyondAuth
      * `create()` For UserGroup Model
      *
      * @param array $data
+     *
      * @throws MethodNotExist
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserGroupRepository
      */
     public function createUserGroup($data)
@@ -686,7 +694,9 @@ class BeyondAuth
      * `create()` For UserPermission Model
      *
      * @param array $data
+     *
      * @throws MethodNotExist
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserPermissionRepository
      */
     public function createUserPermission($data)
@@ -702,7 +712,9 @@ class BeyondAuth
      * `registerUser()` For User Model
      *
      * @param array $data
+     *
      * @throws MethodNotExist
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserRepository
      */
     public function registerUser($data, $profileField = array(), $callback)
@@ -722,7 +734,9 @@ class BeyondAuth
      * `create()` For Periode Model
      *
      * @param array $data
+     *
      * @throws MethodNotExist
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentPeriodeRepository
      */
     public function createPeriode($data)
@@ -738,7 +752,9 @@ class BeyondAuth
      * `create()` For UserFieldGroup Model
      *
      * @param array $data
+     *
      * @throws MethodNotExist
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserFieldGroupRepository
      */
     public function createUserFieldGroup($data)
@@ -754,7 +770,9 @@ class BeyondAuth
      * `create()` For UserField Model
      *
      * @param array $data
+     *
      * @throws MethodNotExist
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserFieldRepository
      */
     public function createUserField($data)
@@ -771,7 +789,9 @@ class BeyondAuth
      *
      * @param string $field
      * @param string $value
+     *
      * @throws MethodNotExist
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserPermissionRepository
      */
     public function findUserPermissionsBy($field, $value)
@@ -788,7 +808,9 @@ class BeyondAuth
      *
      * @param string $field
      * @param string $value
+     *
      * @throws MethodNotExist
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserFieldValueRepository
      */
     public function findUsersFieldsValueBy($field, $value)
@@ -805,7 +827,9 @@ class BeyondAuth
      *
      * @param string $field
      * @param string $value
+     *
      * @throws MethodNotExist
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserRoleRepository
      */
     public function findUserGroupBy($field, $value)
@@ -822,7 +846,9 @@ class BeyondAuth
      *
      * @param string $field
      * @param string $value
+     *
      * @throws MethodNotExist
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentPeriodeRepository
      */
     public function findPeriodeBy($field, $value)
@@ -839,7 +865,9 @@ class BeyondAuth
      *
      * @param string $field
      * @param string $value
+     *
      * @throws MethodNotExist
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserFieldGroupRepository
      */
     public function findUserFieldGroupBy($field, $value)
@@ -856,7 +884,9 @@ class BeyondAuth
      *
      * @param string $field
      * @param string $value
+     *
      * @throws MethodNotExist
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserFieldRepository
      */
     public function findUserFieldBy($field, $value)
@@ -877,6 +907,7 @@ class BeyondAuth
      * </code>
      *
      * @throws \RuntimeException
+     *
      * @return string
      */
     public function getMenus()
@@ -901,6 +932,7 @@ class BeyondAuth
      * @param $active integer Nilai Apakah Menu Tsb Aktif?
      *
      * @throws \RuntimeException
+     *
      * @return string
      */
     public function getSidebar($user_groups, $id_menu = 1, $active = 1)
@@ -925,6 +957,7 @@ class BeyondAuth
      * @param $active integer Nilai Apakah Menu Tsb Aktif?
      *
      * @throws \RuntimeException
+     &
      * @return string
      */
     public function getMenusBy($user_groups = null, $id_menu = 1, $active = 1)
@@ -950,6 +983,7 @@ class BeyondAuth
      * @param int $show_in_signup display on signup perlihatkan field yang hanya untuk signup saja?
      * @param int $is_active perlihatkan fields yang aktif?
      * @param int $admin_use_only perlihat fields yang untuk admin saja?
+     *
      * @return array
      */
     public function getCustomUserFields($roleName = '', $group_field_id = 0,

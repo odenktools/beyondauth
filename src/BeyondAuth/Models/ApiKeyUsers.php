@@ -8,8 +8,12 @@ use Pribumi\BeyondAuth\Exceptions\ApiKeyUsersDoesNotExist;
 use Pribumi\BeyondAuth\Traits\BeyondTrait;
 
 /**
- * @todo
- * @license MIT
+ * ApiKeyUsers
+ *
+ * @version    1.0.0
+ * @author     Pribumi Technology
+ * @license    MIT
+ * @copyright  (c) 2015 - 2016, Pribumi Technology
  */
 class ApiKeyUsers extends BaseModels
 {

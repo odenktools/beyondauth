@@ -1,9 +1,8 @@
 # Beyond Auth
 
-[![Build Status](https://travis-ci.org/odenktools/beyondauth.svg)](https://travis-ci.org/odenktools/beyondauth)
-
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/e5044efb-e10a-4cc4-84f7-e243ca0ebc62/small.png)](https://insight.sensiolabs.com/projects/e5044efb-e10a-4cc4-84f7-e243ca0ebc62)
-
+[![Build Status](https://travis-ci.org/odenktools/beyondauth.svg)](https://travis-ci.org/odenktools/beyondauth)
+[![Dependency Status](https://www.versioneye.com/user/projects/59cd48ff15f0d770f0e1906d/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/59cd48ff15f0d770f0e1906d)
 [![License](https://poser.pugx.org/pribumi/beyondauth/license)](https://packagist.org/packages/pribumi/beyondauth)
 
 What is BeyondAuth? .... tobe continued
@@ -20,7 +19,7 @@ After updating, add the service provider to the `providers` array in `config/app
 
 ```php
 'providers' => [
-	//bla.. bla..
+	// blahh.. blahhh..
 	Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::class,
 ]
 ```
@@ -29,6 +28,7 @@ Also add the aliases to the `aliases` array in `config/app.php`
 
 ```php
 'aliases' => [
+	// blahh.. blahhh..
 	'BeyondAuth'  => Pribumi\BeyondAuth\Facades\BeyondAuth::class,
 ]
 ```
@@ -61,10 +61,12 @@ Change default guard
     ]
 ```
 
-#### Publish BeyondAuth
+#### Publish BeyondAuth Configuration
 
 ```bash
-	php artisan vendor:publish --provider="Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider"
+php artisan vendor:publish --provider="Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider"
+
+composer dumpautoload
 ```
 
 # Migrate
@@ -79,29 +81,32 @@ composer dumpautoload
 php artisan db:seed --class=BeyondAuthSeeder
 ```
 
-# Publish Config
-
-Publish BeyondAuth `config` file using this command
-
-```bash
-php artisan vendor:publish --provider="Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider" --tag="config"
-```
-
 # Register on Kernel
 
 ```php
 protected $routeMiddleware = [
-	//... bla... blaa...
+	// blahh.. blahhh..
 	'beyondauth' => \Pribumi\BeyondAuth\Http\Middleware\BeyondMiddleware::class
 ]
 ```
 
-# Model Relationships
+# Models
 
-```php
-```
+- ApiKeyUsers
+- FieldTypes
+- Periode
+- Company
+- User
+- UserActivation
+- UserField
+- UserFieldGroup
+- UserFieldValue
+- UserGroup
+- UserMenus
+- UserPermission
 
-#### PERIODE
+
+#### Periode Model
 
 ```php
 $periode = new \Pribumi\BeyondAuth\Models\Periode();
@@ -109,17 +114,23 @@ $findIdPeriode = $periode->find(3);
 echo json_encode($findIdPeriode->usergroups);
 ```
 
-#### USER
+#### User Model
+
+Get ```Custom Fields``` From Existing User
 
 ```php
 $userfields = \BeyondAuth::users()->find(1)->userfields()->get();
 echo json_encode($userfields);
 ```
 
+Get ```Roles``` From Existing User
+
 ```php
 $uservalues = \BeyondAuth::users()->find(1)->roles()->get();
 echo json_encode($uservalues);
 ```
+
+Get ```Custom Fields Value``` From Existing User
 
 ```php
 $uservalues = \BeyondAuth::users()->find(1)->uservalues()->get();

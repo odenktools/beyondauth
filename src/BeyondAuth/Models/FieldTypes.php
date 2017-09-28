@@ -7,19 +7,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Pribumi\BeyondAuth\Traits\BeyondTrait;
 
 /**
- * [MASTER]
- *
- * Class FieldTypes
+ * Class FieldTypes.
  *
  * Model yang di-peruntukan mengatur tipe-tipe data
  * pada `custom fields`.
  *
- * @package Pribumi\BeyondAuth\Models
  * @version    1.0.0
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
- * @link       http://pribumitech.com
  */
 class FieldTypes extends Model
 {
@@ -33,7 +29,7 @@ class FieldTypes extends Model
     protected $table = 'field_types';
 
     /**
-     * Nama Primary Key yang digunakan oleh table
+     * Nama Primary Key yang digunakan oleh table.
      *
      * @var string
      */
@@ -78,7 +74,7 @@ class FieldTypes extends Model
     }
 
     /**
-     * Relasi dengan table `UserGroup`
+     * Relasi dengan table `UserGroup`.
      *
      * <code>
      * $fieldType = new \Pribumi\BeyondAuth\Models\FieldTypes();

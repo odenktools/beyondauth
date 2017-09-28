@@ -7,25 +7,22 @@ class BeyondAuthSeeder extends Seeder
 {
     public function run()
     {
-        $prefix                        = Config::get('beyondauth.tables.prefix', '');
-        $tbl_periode                   = Config::get('beyondauth.tables.masters.periode', '');
-        $tbl_field_types               = Config::get('beyondauth.tables.masters.field_types', '');
-        $tbl_domains                   = Config::get('beyondauth.tables.masters.domains', '');
-        $tbl_users_menus               = Config::get('beyondauth.tables.masters.users_menus', '');
-        $tbl_userpermission            = Config::get('beyondauth.tables.masters.users_permissions', '');
-        $tbl_user                      = Config::get('beyondauth.tables.masters.users', '');
-        $tbl_company                   = Config::get('beyondauth.tables.masters.company', '');
-        $tbl_users_fields_groups       = Config::get('beyondauth.tables.masters.users_fields_groups', '');
-        $tbl_users_fields              = Config::get('beyondauth.tables.masters.users_fields', '');
-        $tbl_users_fields_domains_many = Config::get('beyondauth.tables.pivot.users_fields_domains_many', '');
-        $tbl_users_groups              = Config::get('beyondauth.tables.masters.users_groups', '');
-        $tbl_users_groups_many         = Config::get('beyondauth.tables.pivot.users_groups_many', '');
-        $tbl_users_domains_many        = Config::get('beyondauth.tables.pivot.users_domains_many', '');
-        $tbl_users_fields_many         = Config::get('beyondauth.tables.pivot.users_fields_many', '');
-        $tbl_users_permissions_many    = Config::get('beyondauth.tables.pivot.users_permissions_many', '');
-        $tbl_users_menus_many          = Config::get('beyondauth.tables.pivot.users_menus_many', '');
-        $tbl_users_fields_value        = Config::get('beyondauth.tables.masters.users_fields_value', '');
-        $tbl_api_key_users             = Config::get('beyondauth.tables.masters.api_key_users', '');
+        $prefix                     = Config::get('beyondauth.tables.prefix', '');
+        $tbl_periode                = Config::get('beyondauth.tables.masters.periode', '');
+        $tbl_field_types            = Config::get('beyondauth.tables.masters.field_types', '');
+        $tbl_users_menus            = Config::get('beyondauth.tables.masters.users_menus', '');
+        $tbl_userpermission         = Config::get('beyondauth.tables.masters.users_permissions', '');
+        $tbl_user                   = Config::get('beyondauth.tables.masters.users', '');
+        $tbl_company                = Config::get('beyondauth.tables.masters.company', '');
+        $tbl_users_fields_groups    = Config::get('beyondauth.tables.masters.users_fields_groups', '');
+        $tbl_users_fields           = Config::get('beyondauth.tables.masters.users_fields', '');
+        $tbl_users_groups           = Config::get('beyondauth.tables.masters.users_groups', '');
+        $tbl_users_groups_many      = Config::get('beyondauth.tables.pivot.users_groups_many', '');
+        $tbl_users_fields_many      = Config::get('beyondauth.tables.pivot.users_fields_many', '');
+        $tbl_users_permissions_many = Config::get('beyondauth.tables.pivot.users_permissions_many', '');
+        $tbl_users_menus_many       = Config::get('beyondauth.tables.pivot.users_menus_many', '');
+        $tbl_users_fields_value     = Config::get('beyondauth.tables.masters.users_fields_value', '');
+        $tbl_api_key_users          = Config::get('beyondauth.tables.masters.api_key_users', '');
 
         $periode_1 = DB::table($prefix . $tbl_periode)->insertGetId([
             'code_periode' => 'D',
@@ -173,51 +170,6 @@ class BeyondAuthSeeder extends Seeder
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
             'deleted_at'        => null,
-        ]);
-
-        $domains_1 = DB::table($prefix . $tbl_domains)->insertGetId([
-            'domain_name'      => 'http://odenktools.com',
-            'code_domain_name' => 'odenktools.com',
-            'is_active'        => '1',
-            'created_at'       => date('Y-m-d H:i:s'),
-            'updated_at'       => date('Y-m-d H:i:s'),
-            'deleted_at'       => null,
-        ]);
-
-        DB::table($prefix . $tbl_domains)->insertGetId([
-            'domain_name'      => 'http://ngakost.net',
-            'code_domain_name' => 'ngakost.net',
-            'is_active'        => '1',
-            'created_at'       => date('Y-m-d H:i:s'),
-            'updated_at'       => date('Y-m-d H:i:s'),
-            'deleted_at'       => null,
-        ]);
-
-        DB::table($prefix . $tbl_domains)->insertGetId([
-            'domain_name'      => 'http://solusisehat.com',
-            'code_domain_name' => 'solusisehat.com',
-            'is_active'        => '0',
-            'created_at'       => date('Y-m-d H:i:s'),
-            'updated_at'       => date('Y-m-d H:i:s'),
-            'deleted_at'       => null,
-        ]);
-
-        DB::table($prefix . $tbl_domains)->insertGetId([
-            'domain_name'      => 'http://teknikmesinindo.com',
-            'code_domain_name' => 'teknikmesinindo.com',
-            'is_active'        => '0',
-            'created_at'       => date('Y-m-d H:i:s'),
-            'updated_at'       => date('Y-m-d H:i:s'),
-            'deleted_at'       => null,
-        ]);
-
-        $domains_5 = DB::table($prefix . $tbl_domains)->insertGetId([
-            'domain_name'      => 'http://local.pribumicms.net',
-            'code_domain_name' => 'local.pribumicms.net',
-            'is_active'        => '1',
-            'created_at'       => date('Y-m-d H:i:s'),
-            'updated_at'       => date('Y-m-d H:i:s'),
-            'deleted_at'       => null,
         ]);
 
         /* ====================== #START USER MENU ============================= */
@@ -826,13 +778,6 @@ class BeyondAuthSeeder extends Seeder
             'updated_at'       => date('Y-m-d H:i:s'),
         ]);
 
-        DB::table($prefix . $tbl_users_fields_domains_many)->insertGetId([
-            'domain_id'    => $domains_1,
-            'userfield_id' => $users_fields_1,
-            'created_at'   => date('Y-m-d H:i:s'),
-            'updated_at'   => date('Y-m-d H:i:s'),
-        ]);
-
         $users_groups_1 = DB::table($prefix . $tbl_users_groups)->insertGetId([
             'named'             => 'Super Admin',
             'coded'             => 'superadmin',
@@ -947,20 +892,6 @@ class BeyondAuthSeeder extends Seeder
         DB::table($prefix . $tbl_users_groups_many)->insertGetId([
             'user_id'    => $user_5,
             'group_id'   => $users_groups_5,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
-
-        DB::table($prefix . $tbl_users_domains_many)->insertGetId([
-            'user_id'    => $user_1,
-            'domain_id'  => $domains_5,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
-
-        DB::table($prefix . $tbl_users_domains_many)->insertGetId([
-            'user_id'    => $user_2,
-            'domain_id'  => $domains_5,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);

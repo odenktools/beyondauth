@@ -9,23 +9,19 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Pribumi\BeyondAuth\Exceptions\UserNotExist;
 
 /**
- * [MASTER]
+ * Class User.
  *
- * Class User
- *
- * @package Pribumi\BeyondAuth\Models
  * @version    1.0.0
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
- * @link       http://pribumitech.com
  */
 class User extends Authenticatable
 {
     use SoftDeletes;
 
     /**
-     * Nama Primary Key yang digunakan oleh table
+     * Nama Primary Key yang digunakan oleh table.
      *
      * @var string
      */
@@ -144,12 +140,12 @@ class User extends Authenticatable
     protected static $apiKeyUsersManyPivot = 'api_key_users_many';
 
     /**
-     * Temporary Permission Cache
+     * Temporary Permission Cache.
      */
     protected $to_check_cache = null;
 
     /**
-     * Temporary Permission Cache
+     * Default Role Name.
      */
     protected $default_role_name = null;
 
@@ -226,7 +222,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get User Activations
+     * Get User Activations.
      *
      * <code>
      * $activations = \Pribumi\BeyondAuth\Models\User::find(1)->activations;
@@ -263,7 +259,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Checking User has one or more role??
+     * Checking User has one or more role??.
      *
      */
     public function hasAnyRole()
@@ -276,7 +272,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Check role is purchaseable?
+     * Check role is purchaseable?.
      *
      * @return bool
      */
@@ -318,7 +314,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Check role is purchaseable?
+     * Check role is purchaseable?.
      *
      * <code>
      * $purchased = Pribumi\Stoplite\Models\User::purchaseable()->get();
@@ -337,7 +333,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Calculate Role Expired
+     * Calculate Role Expired.
      *
      * @return string
      */
@@ -394,7 +390,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Check User expired?
+     * Check User expired?.
      *
      * @param $user_id
      * @return bool
@@ -414,10 +410,11 @@ class User extends Authenticatable
     }
 
     /**
-     * [Direct Access Model]
+     * [Direct Access Model].
      *
      * Cari data berdasarkan field yang ditentukan
      * Metode sama dengan Default Laravel, see
+	 *
      * @see https://laravel.com/docs/5.3/eloquent#retrieving-models
      *
      * @param string $field `nama field` dari table domain
@@ -439,17 +436,20 @@ class User extends Authenticatable
     }
 
     /**
-     * [Direct Access Model]
+     * [Direct Access Model].
      *
-    $model = \BeyondAuth::users()
-    ->findsBy('email','odenktools86@gmail.com')
-    ->orderBy('id_users', 'desc')
-    ->take(10)
-    ->first();
-    echo json_encode( $model->apikeys);
-     *
+	 * <code>
+	 * $model = \BeyondAuth::users()
+     * ->findsBy('email','odenktools86@gmail.com')
+     * ->orderBy('id_users', 'desc')
+     * ->take(10)
+     * ->first();
+     * echo json_encode( $model->apikeys);
+     * </code>
+	 *
      * Cari data berdasarkan field yang ditentukan
      * Metode sama dengan Default Laravel, see
+	 *
      * @see https://laravel.com/docs/5.3/eloquent#retrieving-models
      *
      * @param string $field `nama field` dari table domain

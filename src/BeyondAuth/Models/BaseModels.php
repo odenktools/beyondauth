@@ -7,12 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class BaseModels
  *
- * @package Pribumi\BeyondAuth\Models
  * @version    1.0.0
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
- * @link       http://pribumitech.com
  */
 abstract class BaseModels extends Model
 {

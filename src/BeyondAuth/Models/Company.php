@@ -13,19 +13,17 @@ use Pribumi\BeyondAuth\Exceptions\CompanyNotExist;
  *
  * Class Company
  *
- * @package Pribumi\BeyondAuth\Models
  * @version    1.0.0
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
- * @link       http://pribumitech.com
  */
 class Company extends Authenticatable
 {
     use SoftDeletes;
 
     /**
-     * Nama Primary Key yang digunakan oleh table
+     * Nama Primary Key yang digunakan oleh table.
      *
      * @var string
      */
@@ -176,10 +174,11 @@ class Company extends Authenticatable
     }
 
     /**
-     * [Direct Access Model]
+     * [Direct Access Model].
      *
      * Cari data berdasarkan field yang ditentukan
-     * Metode sama dengan Default Laravel, see
+     * Metode sama dengan Default Laravel, see.
+	 *
      * @see https://laravel.com/docs/5.3/eloquent#retrieving-models
      *
      * @param string $field `nama field` dari table domain
@@ -201,17 +200,20 @@ class Company extends Authenticatable
     }
 
     /**
-     * [Direct Access Model]
+     * [Direct Access Model].
      *
-    $model = \BeyondAuth::users()
-    ->findsBy('email','odenktools86@gmail.com')
-    ->orderBy('id_users', 'desc')
-    ->take(10)
-    ->first();
-    echo json_encode( $model->apikeys);
-     *
+	 * <code>
+	 * $model = \BeyondAuth::users()
+	 * ->findsBy('email','odenktools86@gmail.com')
+	 * ->orderBy('id_users', 'desc')
+	 * ->take(10)
+	 * ->first();
+	 * echo json_encode( $model->apikeys);
+     * </code>
+	 *
      * Cari data berdasarkan field yang ditentukan
-     * Metode sama dengan Default Laravel, see
+     * Metode sama dengan Default Laravel, see.
+	 *
      * @see https://laravel.com/docs/5.3/eloquent#retrieving-models
      *
      * @param string $field `nama field` dari table domain
@@ -277,7 +279,7 @@ class Company extends Authenticatable
         $this->activations()->save($this->getStoredActivation($activationCode));
     }
     /**
-     * Cari data member berdasarkan activationcode
+     * Cari data member berdasarkan activationcode.
      *
      * @param $activationCode
      * @return ActivationMember
@@ -288,7 +290,7 @@ class Company extends Authenticatable
         return $data;
     }
     /**
-     * Remove custom field data
+     * Remove custom field data.
      *
      * @param $activationCode
      * @return int
