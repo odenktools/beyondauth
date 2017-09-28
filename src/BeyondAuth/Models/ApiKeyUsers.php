@@ -2,15 +2,15 @@
 
 namespace Pribumi\BeyondAuth\Models;
 
-use DB;
 use Illuminate\Database\Eloquent\Model;
-use Pribumi\BeyondAuth\Exceptions\ApiKeyUsersDoesNotExist;
 use Pribumi\BeyondAuth\Traits\BeyondTrait;
+use Pribumi\BeyondAuth\Exceptions\ApiKeyUsersDoesNotExist;
 
 /**
- * ApiKeyUsers
+ * ApiKeyUsers.
  *
  * @version    1.0.0
+ *
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
@@ -27,7 +27,7 @@ class ApiKeyUsers extends BaseModels
     protected $table = '';
 
     /**
-     * Nama Primary Key yang digunakan oleh table
+     * Nama Primary Key yang digunakan oleh table.
      *
      * @var string
      */
@@ -60,11 +60,11 @@ class ApiKeyUsers extends BaseModels
     /**
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table      = config('beyondauth.tables.masters.api_key_users', 'api_key_users');
+        $this->table = config('beyondauth.tables.masters.api_key_users', 'api_key_users');
         $this->primaryKey = config('beyondauth.tables.keys.masters.api_key_users', 'id_key');
     }
 
@@ -81,6 +81,7 @@ class ApiKeyUsers extends BaseModels
      * $findBy = $api->with('companies')->get();
      * echo json_encode($findBy);
      * </code>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function companies()
@@ -89,22 +90,22 @@ class ApiKeyUsers extends BaseModels
     }
 
     /**
-     * [Direct Access Model]
+     * [Direct Access Model].
      *
      * Cari data berdasarkan field yang ditentukan
      *
      * @param string $field `nama field` dari table domain
      * @param string $value `nilai value` yang akan dicari
      *
-     * @return UserGroup
-     *
      * @throws ApiKeyUsersDoesNotExist
+     *
+     * @return UserGroup
      */
     public static function findByFields($field, $value)
     {
         $data = static::where($field, $value)->first();
 
-        if (!$data) {
+        if (! $data) {
             throw new ApiKeyUsersDoesNotExist("Data dengan value ''$value'' tidak ditemukan.");
         }
 

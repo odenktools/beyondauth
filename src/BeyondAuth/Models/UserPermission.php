@@ -2,29 +2,28 @@
 
 namespace Pribumi\BeyondAuth\Models;
 
-use DB;
 use Illuminate\Database\Eloquent\Model;
+use Pribumi\BeyondAuth\Traits\BeyondTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Pribumi\BeyondAuth\Exceptions\UserPermissionDoesNotExist;
-use Pribumi\BeyondAuth\Traits\BeyondTrait;
 
 /**
- * [MASTER]
+ * [MASTER].
  *
  * Class UserPermission
  *
  * class untuk mengatur permission user grup
  *
- * @package Pribumi\BeyondAuth\Models
  * @version    1.0.0
+ *
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
+ *
  * @link       http://pribumitech.com
  */
 class UserPermission extends Model
 {
-
     use SoftDeletes, BeyondTrait;
 
     /**
@@ -35,7 +34,7 @@ class UserPermission extends Model
     protected $table = '';
 
     /**
-     * Nama Primary Key yang digunakan oleh table
+     * Nama Primary Key yang digunakan oleh table.
      *
      * @var string
      */
@@ -57,30 +56,30 @@ class UserPermission extends Model
     /**
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table      = config('beyondauth.tables.masters.users_permissions', 'users_permissions');
+        $this->table = config('beyondauth.tables.masters.users_permissions', 'users_permissions');
         $this->primaryKey = config('beyondauth.tables.keys.masters.users_permissions', 'id_perm');
     }
 
     /**
-     * [Direct Access Model]
+     * [Direct Access Model].
      *
      * Cari data berdasarkan field yang ditentukan
      *
      * @param string $field `nama field` dari table `users_menus`
      * @param string $value `nilai value` yang akan dicari
      *
-     * @return UserPermission
-     *
      * @throws UserPermissionDoesNotExist
+     *
+     * @return UserPermission
      */
     public static function findUserPermissionByWhere($field, $value)
     {
         $data = static::where($field, $value)->first();
-        if (!$data) {
+        if (! $data) {
             throw new UserPermissionDoesNotExist("Data dengan value `$value` tidak ditemukan.");
         }
 
@@ -88,7 +87,7 @@ class UserPermission extends Model
     }
 
     /**
-     * [Non-Direct Access Model]
+     * [Non-Direct Access Model].
      *
      * Cari data berdasarkan field yang ditentukan
      *
@@ -101,9 +100,9 @@ class UserPermission extends Model
      * @param string $field `nama field` dari table domain
      * @param string $value `nilai value` yang akan dicari
      *
-     * @return UserPermission
-     *
      * @throws UserPermissionDoesNotExist
+     *
+     * @return UserPermission
      */
     public function findByWhere($field, $value)
     {

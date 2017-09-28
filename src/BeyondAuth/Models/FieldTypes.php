@@ -3,8 +3,8 @@
 namespace Pribumi\BeyondAuth\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Pribumi\BeyondAuth\Traits\BeyondTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class FieldTypes.
@@ -13,6 +13,7 @@ use Pribumi\BeyondAuth\Traits\BeyondTrait;
  * pada `custom fields`.
  *
  * @version    1.0.0
+ *
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
@@ -66,10 +67,10 @@ class FieldTypes extends Model
     /**
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table      = config('beyondauth.tables.masters.field_types', 'field_types');
+        $this->table = config('beyondauth.tables.masters.field_types', 'field_types');
         $this->primaryKey = config('beyondauth.tables.keys.masters.field_types', 'id_field_type');
     }
 

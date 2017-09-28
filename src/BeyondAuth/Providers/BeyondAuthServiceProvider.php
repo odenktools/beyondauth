@@ -2,46 +2,46 @@
 
 namespace Pribumi\BeyondAuth\Providers;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\ServiceProvider;
-use Pribumi\BeyondAuth\AuthManager;
+use ReflectionClass;
 use Pribumi\BeyondAuth\BeyondAuth;
+use Pribumi\BeyondAuth\AuthManager;
 use Pribumi\BeyondAuth\BeyondGuard;
-use Pribumi\BeyondAuth\Models\ApiKeyUsers;
-use Pribumi\BeyondAuth\Models\Company;
-use Pribumi\BeyondAuth\Models\FieldTypes;
-use Pribumi\BeyondAuth\Models\Periode;
 use Pribumi\BeyondAuth\Models\User;
-use Pribumi\BeyondAuth\Models\UserActivation;
+use Illuminate\Support\Facades\Auth;
+use Pribumi\BeyondAuth\Models\Company;
+use Pribumi\BeyondAuth\Models\Periode;
+use Illuminate\Support\ServiceProvider;
 use Pribumi\BeyondAuth\Models\UserField;
-use Pribumi\BeyondAuth\Models\UserFieldGroup;
-use Pribumi\BeyondAuth\Models\UserFieldValue;
 use Pribumi\BeyondAuth\Models\UserGroup;
 use Pribumi\BeyondAuth\Models\UserMenus;
+use Pribumi\BeyondAuth\Models\FieldTypes;
+use Pribumi\BeyondAuth\Models\ApiKeyUsers;
+use Pribumi\BeyondAuth\Models\UserActivation;
+use Pribumi\BeyondAuth\Models\UserFieldGroup;
+use Pribumi\BeyondAuth\Models\UserFieldValue;
 use Pribumi\BeyondAuth\Models\UserPermission;
-
-use Pribumi\BeyondAuth\Repositories\EloquentApiKeyUsersRepository;
+use Pribumi\BeyondAuth\Repositories\EloquentUserRepository;
 use Pribumi\BeyondAuth\Repositories\EloquentCompanyRepository;
-use Pribumi\BeyondAuth\Repositories\EloquentFieldTypesRepository;
 use Pribumi\BeyondAuth\Repositories\EloquentPeriodeRepository;
+use Pribumi\BeyondAuth\Repositories\EloquentUserMenuRepository;
+use Pribumi\BeyondAuth\Repositories\EloquentUserFieldRepository;
+use Pribumi\BeyondAuth\Repositories\EloquentUserGroupRepository;
+use Pribumi\BeyondAuth\Repositories\EloquentFieldTypesRepository;
+use Pribumi\BeyondAuth\Repositories\EloquentApiKeyUsersRepository;
 use Pribumi\BeyondAuth\Repositories\EloquentUserActivationRepository;
 use Pribumi\BeyondAuth\Repositories\EloquentUserFieldGroupRepository;
-use Pribumi\BeyondAuth\Repositories\EloquentUserFieldRepository;
 use Pribumi\BeyondAuth\Repositories\EloquentUserFieldValueRepository;
-use Pribumi\BeyondAuth\Repositories\EloquentUserGroupRepository;
-use Pribumi\BeyondAuth\Repositories\EloquentUserMenuRepository;
 use Pribumi\BeyondAuth\Repositories\EloquentUserPermissionRepository;
-use Pribumi\BeyondAuth\Repositories\EloquentUserRepository;
-use ReflectionClass;
 
 /**
- * Class BeyondAuthServiceProvider
+ * Class BeyondAuthServiceProvider.
  *
- * @package Pribumi\BeyondAuth\Providers
  * @version    1.0.0
+ *
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
+ *
  * @link       http://pribumitech.com
  */
 class BeyondAuthServiceProvider extends ServiceProvider
@@ -58,6 +58,7 @@ class BeyondAuthServiceProvider extends ServiceProvider
      *
      * //$extend = static::canUseDependentValidation() ? 'extendDependent' : 'extend';
      * //$this->app['validator']->{$extend}('beyondauth', 'Pribumi\BeyondAuth\Validators\Validator@validatePhone');
+     *
      * @return void
      */
     public function boot()
@@ -102,35 +103,37 @@ class BeyondAuthServiceProvider extends ServiceProvider
     }
 
     /**
-     * Publishing Configuration file to main laravel app
+     * Publishing Configuration file to main laravel app.
      *
      * package config files
      * php artisan vendor:publish --provider="Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider" --tag="config"
+     *
      * @return void
      */
     private function publishConfig()
     {
         $this->publishes([
-            __DIR__ . '/../../config/beyondauth.php' => config_path('beyondauth.php'),
+            __DIR__.'/../../config/beyondauth.php' => config_path('beyondauth.php'),
         ], 'config');
     }
 
     /**
-     * Publishing Database seeder
+     * Publishing Database seeder.
      *
      * package config files
      * php artisan vendor:publish --provider="Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider" --tag="seeds"
+     *
      * @return void
      */
     private function publishSeeder()
     {
         $this->publishes([
-            __DIR__ . '/../../database/seeds/' => base_path('database/seeds'),
+            __DIR__.'/../../database/seeds/' => base_path('database/seeds'),
         ], 'seeds');
     }
 
     /**
-     * Publishing migration file to main laravel app
+     * Publishing migration file to main laravel app.
      *
      * <code>
      * php artisan vendor:publish --provider="Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider" --tag="migrations"
@@ -142,7 +145,7 @@ class BeyondAuthServiceProvider extends ServiceProvider
     private function publishMigrations()
     {
         $this->publishes([
-            __DIR__ . '/../../database/migrations' => base_path('database/migrations'),
+            __DIR__.'/../../database/migrations' => base_path('database/migrations'),
         ], 'migrations');
     }
 
@@ -153,54 +156,53 @@ class BeyondAuthServiceProvider extends ServiceProvider
      */
     protected function registerCustomUser()
     {
-
         $this->app->singleton('beyondauth.manager', function ($app) {
             return new AuthManager($app);
         });
 
-        /**
+        /*
          * Beritahu ke laravel bahwa beyondauth.auth di extend ke auth (milik laravel)
          */
         $this->app->singleton('beyondauth.auth', function ($app) {
             return $app['auth'];
         });
 
-        /**
+        /*
          * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerFacades
          */
         $this->app->singleton('beyondauth.usergroup', function ($app) {
             return new EloquentUserGroupRepository($app, new UserGroup());
         });
 
-        /**
+        /*
          * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerFacades
          */
         $this->app->singleton('beyondauth.periode', function ($app) {
             return new EloquentPeriodeRepository($app, new Periode());
         });
 
-        /**
+        /*
          * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerFacades
          */
         $this->app->singleton('beyondauth.usersfields', function ($app) {
             return new EloquentUserFieldRepository($app, new UserField());
         });
 
-        /**
+        /*
          * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerFacades
          */
         $this->app->singleton('beyondauth.usersfields_groups', function ($app) {
             return new EloquentUserFieldGroupRepository($app, new UserFieldGroup());
         });
 
-        /**
+        /*
          * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerFacades
          */
         $this->app->singleton('beyondauth.users_menus', function ($app) {
             return new EloquentUserMenuRepository($app, new UserMenus());
         });
 
-        /**
+        /*
          * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerFacades
          */
         $this->app->singleton('beyondauth.user_permissions', function ($app) {
@@ -237,13 +239,13 @@ class BeyondAuthServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the blade directives
+     * Register the blade directives.
      *
      * @return void
      */
     private function registerBlade()
     {
-        if (!class_exists('\Blade')) {
+        if (! class_exists('\Blade')) {
             return;
         }
 
@@ -294,7 +296,7 @@ class BeyondAuthServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register BeyondAuth Guard
+     * Register BeyondAuth Guard.
      *
      * @return \Pribumi\BeyondAuth\BeyondGuard
      */
@@ -306,6 +308,7 @@ class BeyondAuthServiceProvider extends ServiceProvider
                 $app['auth']->createUserProvider($config['provider']),
                 $app['request']
             );
+
             return $guard;
         });
     }

@@ -3,31 +3,32 @@
 namespace Pribumi\BeyondAuth\Repositories;
 
 use Closure;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Support\Facades\Hash;
 use InvalidArgumentException;
-use Pribumi\BeyondAuth\Contracts\UserInterface as UserRepository;
 use Pribumi\BeyondAuth\Models\User;
-use Pribumi\BeyondAuth\Models\UserActivation;
+use Illuminate\Support\Facades\Hash;
 use Pribumi\BeyondAuth\Models\UserField;
+use Pribumi\BeyondAuth\Models\UserActivation;
 use Pribumi\BeyondAuth\Models\UserFieldValue;
+use Illuminate\Contracts\Foundation\Application;
+use Pribumi\BeyondAuth\Contracts\UserInterface as UserRepository;
 
 /**
- * Class EloquentUserFieldRepository
+ * Class EloquentUserFieldRepository.
  *
  * Ini Class Encapsulasi agar model dapat dipanggil dari luar package
  * Note : Tambahkan fungsi disini...
  *
  *
  * Langkah Ke-4 :
+ *
  * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser
  *
- *
- * @package Pribumi\BeyondAuth\Repositories
  * @version    1.0.0
+ *
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
+ *
  * @link       http://pribumitech.com
  */
 class EloquentUserRepository extends AbstractEloquentRepository implements UserRepository
@@ -49,11 +50,11 @@ class EloquentUserRepository extends AbstractEloquentRepository implements UserR
      */
     public function __construct(Application $app, User $model, UserField $userField,
         UserActivation $userActivation,
-        UserFieldValue $userFieldValue) {
-
+        UserFieldValue $userFieldValue)
+    {
         parent::__construct($app, $model, $userField, $userActivation);
-        $this->model          = $model;
-        $this->userField      = $userField;
+        $this->model = $model;
+        $this->userField = $userField;
         $this->userActivation = $userActivation;
         $this->userFieldValue = $userFieldValue;
     }
@@ -68,15 +69,16 @@ class EloquentUserRepository extends AbstractEloquentRepository implements UserR
      *
      * @param $method
      * @param $parameters
+     *
      * @return mixed
      */
     public function __call($method, $parameters)
     {
-        if (is_callable(array($this->model, $method))) {
+        if (is_callable([$this->model, $method])) {
             return call_user_func_array([$this->model, $method], $parameters);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public function getId()
@@ -100,12 +102,11 @@ class EloquentUserRepository extends AbstractEloquentRepository implements UserR
     }
 
     /**
-     * Register new user as member
+     * Register new user as member.
      */
-    public function registerUser($data, $profileField = array(), $callback)
+    public function registerUser($data, $profileField, $callback)
     {
-
-        if ($callback !== null && !$callback instanceof Closure && !is_bool($callback)) {
+        if ($callback !== null && ! $callback instanceof Closure && ! is_bool($callback)) {
             throw new InvalidArgumentException('You must provide a closure or a boolean.');
         }
 
@@ -113,18 +114,18 @@ class EloquentUserRepository extends AbstractEloquentRepository implements UserR
             throw new InvalidArgumentException('Profile Field must not empty.');
         }
 
-        $member             = $this->model;
-        $member->username   = $data['name'];
-        $member->email      = $data['email'];
-        $_passwd            = Hash::make($data['password'], ['cost' => 10]);
-        $member->password   = $_passwd;
+        $member = $this->model;
+        $member->username = $data['name'];
+        $member->email = $data['email'];
+        $_passwd = Hash::make($data['password'], ['cost' => 10]);
+        $member->password = $_passwd;
         $member->is_builtin = 0;
 
         if ($callback === false) {
-            $member->verified  = 0;
+            $member->verified = 0;
             $member->is_active = 0;
         } else {
-            $member->verified  = 1;
+            $member->verified = 1;
             $member->is_active = 1;
         }
 
@@ -135,16 +136,16 @@ class EloquentUserRepository extends AbstractEloquentRepository implements UserR
         // ==== Dapatkan id dari member yang ter-registrasi
         $lastMember = $member->{$id};
 
-        if (!empty($profileField)) {
+        if (! empty($profileField)) {
             // ==== Dapatkan data custom field dan simpan ke database
             foreach ($profileField as $id => $row) {
                 foreach (array_keys($row) as $fieldname) {
                     $idFields = UserField::where('field_name', $fieldname)->first();
                     if ($idFields !== null) {
-                        $customField                   = new UserFieldValue;
-                        $customField->user_id          = $lastMember;
+                        $customField = new UserFieldValue;
+                        $customField->user_id = $lastMember;
                         $customField->custom_fields_id = $idFields->id_custom_fields;
-                        $customField->field_value      = $row[$fieldname];
+                        $customField->field_value = $row[$fieldname];
                         $customField->save();
                     }
                 }
@@ -159,14 +160,13 @@ class EloquentUserRepository extends AbstractEloquentRepository implements UserR
         $member->attachRole($getRolename);
 
         if ($callback === false) {
-            $act                     = $this->userActivation;
+            $act = $this->userActivation;
             $this->confirmation_code = $act->generateToken();
-            $act->activation_code    = $this->confirmation_code;
+            $act->activation_code = $this->confirmation_code;
             $act->save();
             $member->attachActivation($act->activation_code);
         }
 
         return $member;
-
     }
 }

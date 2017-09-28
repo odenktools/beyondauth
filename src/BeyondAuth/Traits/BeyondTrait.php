@@ -3,27 +3,30 @@
 namespace Pribumi\BeyondAuth\Traits;
 
 /**
- * Class BeyondTrait
+ * Class BeyondTrait.
  *
- * @package Pribumi\BeyondAuth\Traits
  * @version    1.0.0
+ *
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
+ *
  * @link       http://pribumitech.com
  */
 trait BeyondTrait
 {
     /**
      * This function implements the algorithm outlined
-     * in RFC 6238 for Time-Based One-Time Passwords
+     * in RFC 6238 for Time-Based One-Time Passwords.
      *
      * @link http://tools.ietf.org/html/rfc6238
+     *
      * @param string $key    the string to use for the HMAC key
      * @param mixed  $time   a value that reflects a time (unix
      *                       time in the example)
      * @param int    $digits the desired length of the OTP
      * @param string $crypto the desired HMAC crypto algorithm
+     *
      * @return string the generated OTP
      */
     public function oauthTotp($key, $time, $digits = 8, $crypto = 'sha256')
@@ -52,7 +55,7 @@ trait BeyondTrait
         $result = $binary % pow(10, $digits);
 
         // Pad (if necessary)
-        $result = str_pad($result, $digits, "0", STR_PAD_LEFT);
+        $result = str_pad($result, $digits, '0', STR_PAD_LEFT);
 
         return $result;
     }

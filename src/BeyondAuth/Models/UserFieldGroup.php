@@ -3,12 +3,12 @@
 namespace Pribumi\BeyondAuth\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Pribumi\BeyondAuth\Traits\BeyondTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Pribumi\BeyondAuth\Exceptions\UserFieldGroupDoesNotExist;
-use Pribumi\BeyondAuth\Traits\BeyondTrait;
 
 /**
- * [MASTER]
+ * [MASTER].
  *
  * Class UserFieldGroup
  *
@@ -18,16 +18,16 @@ use Pribumi\BeyondAuth\Traits\BeyondTrait;
  * #. Group Payment
  * #. Group Informasi Geo Tagging
  *
- * @package Pribumi\BeyondAuth\Models
  * @version    1.0.0
+ *
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
+ *
  * @link       http://pribumitech.com
  */
 class UserFieldGroup extends Model
 {
-
     use SoftDeletes, BeyondTrait;
 
     /**
@@ -38,7 +38,7 @@ class UserFieldGroup extends Model
     protected $table = '';
 
     /**
-     * Nama Primary Key yang digunakan oleh table
+     * Nama Primary Key yang digunakan oleh table.
      *
      * @var string
      */
@@ -64,11 +64,11 @@ class UserFieldGroup extends Model
     /**
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table      = config('beyondauth.tables.masters.users_fields_groups', 'users_fields_groups');
+        $this->table = config('beyondauth.tables.masters.users_fields_groups', 'users_fields_groups');
         $this->primaryKey = config('beyondauth.tables.keys.masters.users_fields_groups', 'id_group_field');
     }
 
@@ -83,22 +83,22 @@ class UserFieldGroup extends Model
     }
 
     /**
-     * [Direct Access Model]
+     * [Direct Access Model].
      *
      * Cari data berdasarkan field yang ditentukan
      *
      * @param string $field `nama field` dari table `users_fields_groups`
      * @param string $value `nilai value` yang akan dicari
      *
-     * @return UserFieldGroup
-     *
      * @throws UserFieldGroupDoesNotExist
+     *
+     * @return UserFieldGroup
      */
     public static function findUserGroupByWhere($field, $value)
     {
         $data = static::where($field, $value)->first();
 
-        if (!$data) {
+        if (! $data) {
             throw new UserFieldGroupDoesNotExist("Data dengan value `$value` tidak ditemukan.");
         }
 
@@ -106,7 +106,7 @@ class UserFieldGroup extends Model
     }
 
     /**
-     * [Non-Direct Access Model]
+     * [Non-Direct Access Model].
      *
      * Cari data berdasarkan field yang ditentukan
      *
@@ -119,13 +119,12 @@ class UserFieldGroup extends Model
      * @param string $field `nama field` dari table domain
      * @param string $value `nilai value` yang akan dicari
      *
-     * @return UserFieldGroup
-     *
      * @throws UserFieldGroupDoesNotExist
+     *
+     * @return UserFieldGroup
      */
     public function findByWhere($field, $value)
     {
         return static::findUserGroupByWhere($field, $value);
     }
-
 }

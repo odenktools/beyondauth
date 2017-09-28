@@ -8,9 +8,11 @@ namespace Pribumi\BeyondAuth\Contracts;
  * Interface ProviderInterface.
  *
  * Langkah Ke-2 :
+ *
  * @see Pribumi\BeyondAuth\Repositories\AbstractEloquentRepository
  *
  * @version    1.0.0
+ *
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
@@ -44,5 +46,4 @@ interface ProviderInterface
      * @return \Pribumi\BeyondAuth\Contracts\Customer
      */
     public function customer();
-
 }

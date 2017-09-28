@@ -2,26 +2,27 @@
 
 namespace Pribumi\BeyondAuth\Repositories;
 
+use Pribumi\BeyondAuth\Models\UserActivation;
 use Illuminate\Contracts\Foundation\Application;
 use Pribumi\BeyondAuth\Contracts\UserActivationInterface as UserActivationRepository;
-use Pribumi\BeyondAuth\Models\UserActivation;
 
 /**
- * Class EloquentUserPermissionRepository
+ * Class EloquentUserPermissionRepository.
  *
  * Ini Class Encapsulasi agar model dapat dipanggil dari luar package
  * Note : Tambahkan fungsi disini...
  *
  *
  * Langkah Ke-4 :
+ *
  * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser
  *
- *
- * @package Pribumi\BeyondAuth\Repositories
  * @version    1.0.0
+ *
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
+ *
  * @link       http://pribumitech.com
  */
 class EloquentUserActivationRepository extends AbstractEloquentRepository implements UserActivationRepository
@@ -45,14 +46,15 @@ class EloquentUserActivationRepository extends AbstractEloquentRepository implem
      *
      * @param $method
      * @param $parameters
+     *
      * @return mixed
      */
     public function __call($method, $parameters)
     {
-        if (is_callable(array($this->model, $method))) {
+        if (is_callable([$this->model, $method])) {
             return call_user_func_array([$this->model, $method], $parameters);
-        } else {
-            return false;
         }
+
+        return false;
     }
 }

@@ -2,16 +2,17 @@
 
 namespace Pribumi\BeyondAuth\Models;
 
-use Carbon\Carbon;
 use DB;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Pribumi\BeyondAuth\Exceptions\UserNotExist;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * Class User.
  *
  * @version    1.0.0
+ *
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
@@ -152,12 +153,12 @@ class User extends Authenticatable
     /**
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table             = config('beyondauth.tables.masters.users', 'users');
-        $this->primaryKey        = config('beyondauth.tables.keys.masters.users', 'id_users');
+        $this->table = config('beyondauth.tables.masters.users', 'users');
+        $this->primaryKey = config('beyondauth.tables.keys.masters.users', 'id_users');
         $this->default_role_name = config('beyondauth.default_role_name', 'member');
     }
 
@@ -189,33 +190,32 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(static::$userGroup, static::$userGroupPivot, 'user_id', 'group_id')->withTimestamps();
     }
-    
+
     /**
      * <code>
      * $uservalues = \Pribumi\BeyondAuth\Models\User::find(1)->userfields()->get();
      * echo json_encode($uservalues);
-     * </code>
+     * </code>.
      *
      * @see \Pribumi\BeyondAuth\Models\UserGroup::users
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */ 
+     */
     public function userfields()
     {
         return $this->belongsToMany(static::$userFields, static::$userFieldsPivot, 'user_id', 'custom_fields_id')->withTimestamps();
     }
 
-
     /**
      * <code>
      * $uservalues = \Pribumi\BeyondAuth\Models\User::find(1)->uservalues()->get();
      * echo json_encode($uservalues);
-     * </code>
+     * </code>.
      *
      * @see \Pribumi\BeyondAuth\Models\UserGroup::users
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */ 
+     */
     public function uservalues()
     {
         return $this->hasOne(static::$userValueModels, 'user_id', 'id_users');
@@ -260,7 +260,6 @@ class User extends Authenticatable
 
     /**
      * Checking User has one or more role??.
-     *
      */
     public function hasAnyRole()
     {
@@ -268,6 +267,7 @@ class User extends Authenticatable
         if ($data === null) {
             return false;
         }
+
         return true;
     }
 
@@ -284,33 +284,33 @@ class User extends Authenticatable
         }
         if ($data->is_active == 1) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isVerified()
     {
         if ($this->verified == 1) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isActivated()
     {
         if ($this->is_active == 1) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -320,6 +320,7 @@ class User extends Authenticatable
      * $purchased = Pribumi\Stoplite\Models\User::purchaseable()->get();
      * echo $purchased
      * </code>
+     *
      * @return bool
      */
     public function isPurchaseable()
@@ -327,9 +328,9 @@ class User extends Authenticatable
         $data = $this->roles->first();
         if ($data->is_purchaseable == 1) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -349,41 +350,39 @@ class User extends Authenticatable
             switch ($periode->code_periode) {
 
                 //By Seconds
-                case "SS":
+                case 'SS':
                     $diff = $now->addSeconds($row->time_left);
                     break;
 
                 //By Minutes
-                case "MN":
+                case 'MN':
                     $diff = $now->addMinutes($row->time_left);
                     break;
 
                 //By Days
-                case "D":
+                case 'D':
                     $diff = $now->addDays($row->time_left);
                     break;
 
                 //By Weeks
-                case "W":
+                case 'W':
                     $diff = $now->addWeeks($row->time_left);
                     break;
 
                 //By Month
-                case "M":
+                case 'M':
                     $diff = $now->addMonths($row->time_left);
                     break;
 
                 //By Years
-                case "Y":
+                case 'Y':
                     $diff = $now->addYears($row->time_left);
                     break;
             }
 
             $expire = $diff;
-
         } else {
-
-            $expire = "0000-00-00 00:00:00";
+            $expire = '0000-00-00 00:00:00';
         }
 
         return $expire;
@@ -393,6 +392,7 @@ class User extends Authenticatable
      * Check User expired?.
      *
      * @param $user_id
+     *
      * @return bool
      */
     public function isExpired($user_id)
@@ -404,9 +404,9 @@ class User extends Authenticatable
 
         if ($data) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -414,21 +414,21 @@ class User extends Authenticatable
      *
      * Cari data berdasarkan field yang ditentukan
      * Metode sama dengan Default Laravel, see
-	 *
+     *
      * @see https://laravel.com/docs/5.3/eloquent#retrieving-models
      *
      * @param string $field `nama field` dari table domain
      * @param string $value `nilai value` yang akan dicari
      *
-     * @return User
-     *
      * @throws UserNotExist
+     *
+     * @return User
      */
     public static function findByFields($field, $value)
     {
         $data = static::where($field, $value)->first();
 
-        if (!$data) {
+        if (! $data) {
             throw new UserNotExist("Data dengan value ''$value'' tidak ditemukan.");
         }
 
@@ -438,30 +438,31 @@ class User extends Authenticatable
     /**
      * [Direct Access Model].
      *
-	 * <code>
-	 * $model = \BeyondAuth::users()
+     * <code>
+     * $model = \BeyondAuth::users()
      * ->findsBy('email','odenktools86@gmail.com')
      * ->orderBy('id_users', 'desc')
      * ->take(10)
      * ->first();
      * echo json_encode( $model->apikeys);
      * </code>
-	 *
+     *
      * Cari data berdasarkan field yang ditentukan
      * Metode sama dengan Default Laravel, see
-	 *
+     *
      * @see https://laravel.com/docs/5.3/eloquent#retrieving-models
      *
      * @param string $field `nama field` dari table domain
      * @param string $value `nilai value` yang akan dicari
      *
-     * @return User
-     *
      * @throws UserNotExist
+     *
+     * @return User
      */
     public function findsBy($field, $value)
     {
         $data = static::where($field, $value);
+
         return $data;
     }
 
@@ -470,15 +471,15 @@ class User extends Authenticatable
      *
      * @param string $email
      *
-     * @return User
-     *
      * @throws UserNotExist
+     *
+     * @return User
      */
     public static function findByEmail($email)
     {
         $email = static::where('email', $email)->first();
 
-        if (!$email) {
+        if (! $email) {
             throw new UserNotExist();
         }
 
@@ -487,6 +488,7 @@ class User extends Authenticatable
 
     /**
      * Find a activation users by its activation_code.
+     *
      * @param $activationCode
      *
      * @return UserActivation
@@ -504,41 +506,48 @@ class User extends Authenticatable
      * <code>
      * $user = User::findByEmail('member@pribumitech.com');
      * $user->attachActivation('123123123123');
-     * </code>
+     * </code>.
      *
      * @param string $activationCode
-     * @return mixed
      *
+     * @return mixed
      */
     public function attachActivation($activationCode)
     {
         $this->activations()->save($this->getStoredActivation($activationCode));
     }
+
     /**
-     * Cari data member berdasarkan activationcode
+     * Cari data member berdasarkan activationcode.
      *
      * @param $activationCode
+     *
      * @return ActivationMember
      */
     public function whereActivationCode($activationCode)
     {
         $data = $this->getStoredActivation($activationCode);
+
         return $data;
     }
+
     /**
-     * Remove custom field data
+     * Remove custom field data.
      *
      * @param $activationCode
+     *
      * @return int
      */
     public function detachActivation($activationCode)
     {
         $data = $this->activations()->detach($activationCode);
+
         return $data;
     }
 
     /**
      * Find a role member by its code_role.
+     *
      * @param $codeRole
      *
      * @return UserGroup
@@ -546,7 +555,7 @@ class User extends Authenticatable
     protected function getStoredRole($codeRole)
     {
         if (is_string($codeRole)) {
-            return app(UserGroup::class)->findByWhere("coded", $codeRole);
+            return app(UserGroup::class)->findByWhere('coded', $codeRole);
         }
 
         return $codeRole;
@@ -554,6 +563,7 @@ class User extends Authenticatable
 
     /**
      * Find a role member by its code_role.
+     *
      * @param $keycode
      *
      * @return ApiKeyUsers
@@ -561,8 +571,9 @@ class User extends Authenticatable
     protected function getStoredApiKey($keycode)
     {
         if (is_string($keycode)) {
-            return app(ApiKeyUsers::class)->findByWhere("key_code", $keycode);
+            return app(ApiKeyUsers::class)->findByWhere('key_code', $keycode);
         }
+
         return $keycode;
     }
 
@@ -570,11 +581,11 @@ class User extends Authenticatable
      * <code>
      * $member = User::findByName('member');
      * $member->attachRole('livetime');
-     * </code>
+     * </code>.
      *
      * @param string $roleName
-     * @return mixed
      *
+     * @return mixed
      */
     public function attachRole($roleName)
     {
@@ -585,11 +596,11 @@ class User extends Authenticatable
      * <code>
      * $member = User::findByName('member');
      * $member->attachApiKey('000001029564239');
-     * </code>
+     * </code>.
      *
      * @param string $keycode
-     * @return mixed
      *
+     * @return mixed
      */
     public function attachApiKey($keycode)
     {

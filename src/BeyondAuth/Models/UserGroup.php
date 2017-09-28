@@ -3,27 +3,27 @@
 namespace Pribumi\BeyondAuth\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Pribumi\BeyondAuth\Traits\BeyondTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Pribumi\BeyondAuth\Exceptions\UserRoleDoesNotExist;
-use Pribumi\BeyondAuth\Traits\BeyondTrait;
 
 /**
- * [MASTER]
+ * [MASTER].
  *
  * Class UserGroup
  *
  * Model yang di-peruntukan mengatur `Role` atau `Group` pada system user
  *
- * @package Pribumi\BeyondAuth\Models
  * @version    1.0.0
+ *
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
+ *
  * @link       http://pribumitech.com
  */
 class UserGroup extends Model
 {
-
     use SoftDeletes, BeyondTrait;
 
     /**
@@ -34,7 +34,7 @@ class UserGroup extends Model
     protected $table = '';
 
     /**
-     * Nama Primary Key yang digunakan oleh table
+     * Nama Primary Key yang digunakan oleh table.
      *
      * @var string
      */
@@ -108,11 +108,11 @@ class UserGroup extends Model
     /**
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table      = config('beyondauth.tables.masters.users_groups', 'users_groups');
+        $this->table = config('beyondauth.tables.masters.users_groups', 'users_groups');
         $this->primaryKey = config('beyondauth.tables.keys.masters.users_groups', 'id');
     }
 
@@ -163,7 +163,7 @@ class UserGroup extends Model
     }
 
     /**
-     * Relasi dengan table `periode`
+     * Relasi dengan table `periode`.
      *
      * <code>
      * $model = new \Pribumi\BeyondAuth\Models\UserGroup();
@@ -199,22 +199,22 @@ class UserGroup extends Model
     }
 
     /**
-     * [Direct Access Model]
+     * [Direct Access Model].
      *
      * Cari data berdasarkan field yang ditentukan
      *
      * @param string $field `nama field` dari table domain
      * @param string $value `nilai value` yang akan dicari
      *
-     * @return UserGroup
-     *
      * @throws UserRoleDoesNotExist
+     *
+     * @return UserGroup
      */
     public static function findUserRoleByWhere($field, $value)
     {
         $data = static::where($field, $value)->first();
 
-        if (!$data) {
+        if (! $data) {
             throw new UserRoleDoesNotExist("Data dengan value ''$value'' tidak ditemukan.");
         }
 
@@ -222,7 +222,7 @@ class UserGroup extends Model
     }
 
     /**
-     * [Non-Direct Access Model]
+     * [Non-Direct Access Model].
      *
      * Cari data berdasarkan field yang ditentukan
      *
@@ -235,13 +235,12 @@ class UserGroup extends Model
      * @param string $field `nama field` dari table `users_groups`
      * @param string $value `nilai value` yang akan dicari
      *
-     * @return UserGroup
-     *
      * @throws UserRoleDoesNotExist
+     *
+     * @return UserGroup
      */
     public function findByWhere($field, $value)
     {
         return static::findUserRoleByWhere($field, $value);
     }
-
 }

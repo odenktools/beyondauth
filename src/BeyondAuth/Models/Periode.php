@@ -3,9 +3,9 @@
 namespace Pribumi\BeyondAuth\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Pribumi\BeyondAuth\Traits\BeyondTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Pribumi\BeyondAuth\Exceptions\PeriodeDoesNotExist;
-use Pribumi\BeyondAuth\Traits\BeyondTrait;
 
 /**
  * Class Periode.
@@ -14,6 +14,7 @@ use Pribumi\BeyondAuth\Traits\BeyondTrait;
  * kapan user expire.
  *
  * @version    1.0.0
+ *
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
@@ -30,7 +31,7 @@ class Periode extends Model
     protected $table = '';
 
     /**
-     * Nama Primary Key yang digunakan oleh table
+     * Nama Primary Key yang digunakan oleh table.
      *
      * @var string
      */
@@ -58,16 +59,16 @@ class Periode extends Model
     /**
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table      = config('beyondauth.tables.masters.periode', 'periode');
+        $this->table = config('beyondauth.tables.masters.periode', 'periode');
         $this->primaryKey = config('beyondauth.tables.keys.masters.periode', 'id_periode');
     }
 
     /**
-     * Relasi dengan table `UserGroup`
+     * Relasi dengan table `UserGroup`.
      *
      * <code>
      * $periode = new \Pribumi\BeyondAuth\Models\Periode();
@@ -86,22 +87,22 @@ class Periode extends Model
     }
 
     /**
-     * [Direct Access Model]
+     * [Direct Access Model].
      *
      * Cari data berdasarkan field yang ditentukan
      *
      * @param string $field `nama field` dari table domain
      * @param string $value `nilai value` yang akan dicari
      *
-     * @return Periode
-     *
      * @throws PeriodeDoesNotExist
+     *
+     * @return Periode
      */
     public static function findPeriodeByWhere($field, $value)
     {
         $data = static::where($field, $value)->first();
 
-        if (!$data) {
+        if (! $data) {
             throw new PeriodeDoesNotExist("Data dengan value `$value` tidak ditemukan.");
         }
 
@@ -109,7 +110,7 @@ class Periode extends Model
     }
 
     /**
-     * [Non-Direct Access Model]
+     * [Non-Direct Access Model].
      *
      * Cari data berdasarkan field yang ditentukan
      *
@@ -122,13 +123,12 @@ class Periode extends Model
      * @param string $field `nama field` dari table domain
      * @param string $value `nilai value` yang akan dicari
      *
-     * @return Periode
-     *
      * @throws PeriodeDoesNotExist
+     *
+     * @return Periode
      */
     public function findByWhere($field, $value)
     {
         return static::findPeriodeByWhere($field, $value);
     }
-
 }

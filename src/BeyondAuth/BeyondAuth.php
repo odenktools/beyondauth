@@ -3,22 +3,22 @@
 namespace Pribumi\BeyondAuth;
 
 use Closure;
+use InvalidArgumentException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use InvalidArgumentException;
-use Pribumi\BeyondAuth\Contracts\ApiKeyUsersInterface;
+use Pribumi\BeyondAuth\Exceptions\MethodNotExist;
 use Pribumi\BeyondAuth\Contracts\CompanyInterface;
-use Pribumi\BeyondAuth\Contracts\FieldTypesInterface;
 use Pribumi\BeyondAuth\Contracts\PeriodeInterface;
+use Pribumi\BeyondAuth\Contracts\UserMenuInterface;
+use Pribumi\BeyondAuth\Contracts\UserFieldInterface;
+use Pribumi\BeyondAuth\Contracts\UserGroupInterface;
+use Pribumi\BeyondAuth\Contracts\FieldTypesInterface;
+use Pribumi\BeyondAuth\Contracts\ApiKeyUsersInterface;
 use Pribumi\BeyondAuth\Contracts\UserActivationInterface;
 use Pribumi\BeyondAuth\Contracts\UserFieldGroupInterface;
-use Pribumi\BeyondAuth\Contracts\UserFieldInterface;
 use Pribumi\BeyondAuth\Contracts\UserFieldValueInterface;
-use Pribumi\BeyondAuth\Contracts\UserGroupInterface;
-use Pribumi\BeyondAuth\Contracts\UserInterface as UserRepository;
-use Pribumi\BeyondAuth\Contracts\UserMenuInterface;
 use Pribumi\BeyondAuth\Contracts\UserPermissionInterface;
-use Pribumi\BeyondAuth\Exceptions\MethodNotExist;
+use Pribumi\BeyondAuth\Contracts\UserInterface as UserRepository;
 
 /**
  * Class BeyondAuth Facade.
@@ -32,6 +32,7 @@ use Pribumi\BeyondAuth\Exceptions\MethodNotExist;
  * @see : http://docs.odenktools/laravelcleancode
  *
  * @version    1.0.0
+ *
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
@@ -163,19 +164,19 @@ class BeyondAuth
         ApiKeyUsersInterface $apiKeyUsersRepository,
         CompanyInterface $companyRepository
     ) {
-        $this->app                      = $app;
-        $this->userRepository           = $userRepository;
-        $this->userGroupRepository      = $userGroupRepository;
-        $this->periodeRepository        = $periodeRepository;
+        $this->app = $app;
+        $this->userRepository = $userRepository;
+        $this->userGroupRepository = $userGroupRepository;
+        $this->periodeRepository = $periodeRepository;
         $this->userFieldGroupRepository = $userFieldGroupRepository;
-        $this->userFieldRepository      = $userFieldRepository;
-        $this->userMenuRepository       = $userMenuRepository;
+        $this->userFieldRepository = $userFieldRepository;
+        $this->userMenuRepository = $userMenuRepository;
         $this->userPermissionRepository = $userPermissionRepository;
-        $this->fieldTypesRepository     = $fieldTypesRepository;
+        $this->fieldTypesRepository = $fieldTypesRepository;
         $this->userFieldValueRepository = $userFieldValueRepository;
-        $this->apiKeyUsersRepository    = $apiKeyUsersRepository;
+        $this->apiKeyUsersRepository = $apiKeyUsersRepository;
         $this->userActivationRepository = $userActivationRepository;
-        $this->companyRepository        = $companyRepository;
+        $this->companyRepository = $companyRepository;
     }
 
     /**
@@ -251,7 +252,7 @@ class BeyondAuth
         $result = $binary % pow(10, $digits);
 
         // Pad (if necessary)
-        $result = str_pad($result, $digits, "0", STR_PAD_LEFT);
+        $result = str_pad($result, $digits, '0', STR_PAD_LEFT);
 
         return $result;
     }
@@ -271,7 +272,8 @@ class BeyondAuth
     public function replaceHttp($value)
     {
         preg_match("/^(https?:\/\/)?([^\/]+)/i", $value, $matches);
-        $newstr = str_replace("www.", '', $matches[2]);
+        $newstr = str_replace('www.', '', $matches[2]);
+
         return $newstr;
     }
 
@@ -291,9 +293,9 @@ class BeyondAuth
         $isLogged = Auth::guard($guard)->check();
         if ($isLogged) {
             return Auth::guard($guard)->user();
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -306,7 +308,7 @@ class BeyondAuth
      *
      * @param string $guard nama guard yang dipergunakan.
      *
-     * @return boolean | Array
+     * @return bool | Array
      */
     public function getUserRole($guard = null)
     {
@@ -314,14 +316,14 @@ class BeyondAuth
 
         if ($isLogged) {
             $role = $this->auth($guard)->roles->first();
-            if (!is_null($role)) {
+            if (null !== $role) {
                 return $role;
-            } else {
-                return false;
             }
-        } else {
+
             return false;
         }
+
+        return false;
     }
 
     /**
@@ -332,7 +334,7 @@ class BeyondAuth
      * echo $getRolePermission;
      * </code>
      *
-     * @return boolean | Array
+     * @return bool | Array
      */
     public function getCache($key)
     {
@@ -347,7 +349,7 @@ class BeyondAuth
      * echo $getPermissionCache;
      * </code>
      *
-     * @return boolean | Array
+     * @return bool | Array
      */
     public function getHasCache($key)
     {
@@ -362,9 +364,8 @@ class BeyondAuth
      * echo $getRolePermission;
      * </code>
      *
-     * @return boolean | Array
+     * @return bool | Array
      */
-
     public function putCache($key, $value)
     {
         return Cache::store('file')->put($key, $value, 10);
@@ -378,7 +379,7 @@ class BeyondAuth
      * echo $getRolePermission;
      * </code>
      *
-     * @return boolean | Array
+     * @return bool | Array
      */
     public function getRolePermission()
     {
@@ -386,10 +387,11 @@ class BeyondAuth
 
         if ($usergroup) {
             $value = $usergroup->permissions()->get();
+
             return $value;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -403,7 +405,7 @@ class BeyondAuth
      *
      * @param string $permission name_permission yang akan di cek
      *
-     * @return boolean
+     * @return bool
      */
     public function can($permission)
     {
@@ -415,11 +417,12 @@ class BeyondAuth
                 }
             }
         }
+
         return false;
     }
 
     /**
-     * Get User was auth
+     * Get User was auth.
      *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
      *
@@ -532,6 +535,7 @@ class BeyondAuth
      * Calling `UserGroup Repository` From This Class.
      *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserGroupRepository
      */
     public function usergroup()
@@ -543,6 +547,7 @@ class BeyondAuth
      * Calling `Periode Repository` From This Class.
      *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentPeriodeRepository
      */
     public function periodes()
@@ -559,6 +564,7 @@ class BeyondAuth
      * </code>
      *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
+     *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserFieldGroupRepository
      */
     public function userfieldsGroups()
@@ -596,6 +602,7 @@ class BeyondAuth
      * echo $row->userfieldgroups['group_name'].'<br/>';
      * }
      * </code>
+     *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
      *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserFieldGroupRepository
@@ -665,15 +672,15 @@ class BeyondAuth
      */
     public function createDomain($data)
     {
-        if (!is_null($this->getDomain())) {
+        if (null !== $this->getDomain()) {
             return $this->getDomain()->create($data);
-        } else {
-            return new MethodNotExist();
         }
+
+        return new MethodNotExist();
     }
 
     /**
-     * `create()` For UserGroup Model
+     * `create()` For UserGroup Model.
      *
      * @param array $data
      *
@@ -683,15 +690,15 @@ class BeyondAuth
      */
     public function createUserGroup($data)
     {
-        if (!is_null($this->usergroup())) {
+        if (null !== $this->usergroup()) {
             return $this->usergroup()->create($data);
-        } else {
-            return new MethodNotExist();
         }
+
+        return new MethodNotExist();
     }
 
     /**
-     * `create()` For UserPermission Model
+     * `create()` For UserPermission Model.
      *
      * @param array $data
      *
@@ -701,15 +708,15 @@ class BeyondAuth
      */
     public function createUserPermission($data)
     {
-        if (!is_null($this->userpermissions())) {
+        if (null !== $this->userpermissions()) {
             return $this->userpermissions()->create($data);
-        } else {
-            return new MethodNotExist();
         }
+
+        return new MethodNotExist();
     }
 
     /**
-     * `registerUser()` For User Model
+     * `registerUser()` For User Model.
      *
      * @param array $data
      *
@@ -717,21 +724,21 @@ class BeyondAuth
      *
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserRepository
      */
-    public function registerUser($data, $profileField = array(), $callback)
+    public function registerUser($data, $profileField, $callback)
     {
-        if ($callback !== null && !$callback instanceof Closure && !is_bool($callback)) {
+        if ($callback !== null && ! $callback instanceof Closure && ! is_bool($callback)) {
             throw new InvalidArgumentException('You must provide a closure or a boolean.');
         }
 
-        if (!is_null($this->users())) {
+        if (null !== $this->users()) {
             return $this->users()->registerUser($data, $profileField, $callback);
-        } else {
-            return new MethodNotExist();
         }
+
+        return new MethodNotExist();
     }
 
     /**
-     * `create()` For Periode Model
+     * `create()` For Periode Model.
      *
      * @param array $data
      *
@@ -741,15 +748,15 @@ class BeyondAuth
      */
     public function createPeriode($data)
     {
-        if (!is_null($this->periodes())) {
+        if (null !== $this->periodes()) {
             return $this->periodes()->create($data);
-        } else {
-            return new MethodNotExist();
         }
+
+        return new MethodNotExist();
     }
 
     /**
-     * `create()` For UserFieldGroup Model
+     * `create()` For UserFieldGroup Model.
      *
      * @param array $data
      *
@@ -759,15 +766,15 @@ class BeyondAuth
      */
     public function createUserFieldGroup($data)
     {
-        if (!is_null($this->userfieldsGroups())) {
+        if (null !== $this->userfieldsGroups()) {
             return $this->userfieldsGroups()->create($data);
-        } else {
-            return new MethodNotExist();
         }
+
+        return new MethodNotExist();
     }
 
     /**
-     * `create()` For UserField Model
+     * `create()` For UserField Model.
      *
      * @param array $data
      *
@@ -777,15 +784,15 @@ class BeyondAuth
      */
     public function createUserField($data)
     {
-        if (!is_null($this->usersfields())) {
+        if (null !== $this->usersfields()) {
             return $this->usersfields()->create($data);
-        } else {
-            return new MethodNotExist();
         }
+
+        return new MethodNotExist();
     }
 
     /**
-     * `findByWhere()` For UserPermission Model
+     * `findByWhere()` For UserPermission Model.
      *
      * @param string $field
      * @param string $value
@@ -796,15 +803,15 @@ class BeyondAuth
      */
     public function findUserPermissionsBy($field, $value)
     {
-        if (!is_null($this->userpermissions())) {
+        if (null !== $this->userpermissions()) {
             return $this->userpermissions()->findByWhere($field, $value);
-        } else {
-            return new MethodNotExist();
         }
+
+        return new MethodNotExist();
     }
 
     /**
-     * `findByWhere()` For UsersFieldsValue Model
+     * `findByWhere()` For UsersFieldsValue Model.
      *
      * @param string $field
      * @param string $value
@@ -815,15 +822,15 @@ class BeyondAuth
      */
     public function findUsersFieldsValueBy($field, $value)
     {
-        if (!is_null($this->usersfieldsValue())) {
+        if (null !== $this->usersfieldsValue()) {
             return $this->usersfieldsValue()->findByWhere($field, $value);
-        } else {
-            return new MethodNotExist();
         }
+
+        return new MethodNotExist();
     }
 
     /**
-     * `findByWhere()` For Domain Model
+     * `findByWhere()` For Domain Model.
      *
      * @param string $field
      * @param string $value
@@ -834,15 +841,15 @@ class BeyondAuth
      */
     public function findUserGroupBy($field, $value)
     {
-        if (!is_null($this->usergroup())) {
+        if (null !== $this->usergroup()) {
             return $this->usergroup()->findByWhere($field, $value);
-        } else {
-            return new MethodNotExist();
         }
+
+        return new MethodNotExist();
     }
 
     /**
-     * `findByWhere()` Untuk Periode Model
+     * `findByWhere()` Untuk Periode Model.
      *
      * @param string $field
      * @param string $value
@@ -853,15 +860,15 @@ class BeyondAuth
      */
     public function findPeriodeBy($field, $value)
     {
-        if (!is_null($this->periodes())) {
+        if (null !== $this->periodes()) {
             return $this->periodes()->findByWhere($field, $value);
-        } else {
-            return new MethodNotExist();
         }
+
+        return new MethodNotExist();
     }
 
     /**
-     * `findByWhere()` Untuk UserFieldGroup Model
+     * `findByWhere()` Untuk UserFieldGroup Model.
      *
      * @param string $field
      * @param string $value
@@ -872,15 +879,15 @@ class BeyondAuth
      */
     public function findUserFieldGroupBy($field, $value)
     {
-        if (!is_null($this->userfieldsGroups())) {
+        if (null !== $this->userfieldsGroups()) {
             return $this->userfieldsGroups()->findByWhere($field, $value);
-        } else {
-            return new MethodNotExist();
         }
+
+        return new MethodNotExist();
     }
 
     /**
-     * `findByWhere()` Untuk UserField Model
+     * `findByWhere()` Untuk UserField Model.
      *
      * @param string $field
      * @param string $value
@@ -891,15 +898,15 @@ class BeyondAuth
      */
     public function findUserFieldBy($field, $value)
     {
-        if (!is_null($this->usersfields())) {
+        if (null !== $this->usersfields()) {
             return $this->usersfields()->findByWhere($field, $value);
-        } else {
-            return new MethodNotExist();
         }
+
+        return new MethodNotExist();
     }
 
     /**
-     * Build Main Menu Aplikasi
+     * Build Main Menu Aplikasi.
      *
      * <code>
      * $data = BeyondAuth::getMenus();
@@ -912,15 +919,15 @@ class BeyondAuth
      */
     public function getMenus()
     {
-        if (!is_null($this->menus())) {
+        if (null !== $this->menus()) {
             return $this->menus()->getMenus();
-        } else {
-            return new MethodNotExist();
         }
+
+        return new MethodNotExist();
     }
 
     /**
-     * Build Main Menu Untuk Blade Template
+     * Build Main Menu Untuk Blade Template.
      *
      * <code>
      * $data = BeyondAuth::getSidebar(1,1,1);
@@ -937,15 +944,15 @@ class BeyondAuth
      */
     public function getSidebar($user_groups, $id_menu = 1, $active = 1)
     {
-        if (!is_null($this->menus())) {
+        if (null !== $this->menus()) {
             return $this->menus()->getSidebar($user_groups, $id_menu, $active);
-        } else {
-            return new MethodNotExist();
         }
+
+        return new MethodNotExist();
     }
 
     /**
-     * Build Main Menu Aplikasi
+     * Build Main Menu Aplikasi.
      *
      * <code>
      * $data = BeyondAuth::getMenusBy(1,1);
@@ -957,20 +964,21 @@ class BeyondAuth
      * @param $active integer Nilai Apakah Menu Tsb Aktif?
      *
      * @throws \RuntimeException
-    &
+     * &
+     *
      * @return string
      */
     public function getMenusBy($user_groups = null, $id_menu = 1, $active = 1)
     {
-        if (!is_null($this->menus())) {
+        if (null !== $this->menus()) {
             return $this->menus()->getMenusBy($user_groups, $id_menu, $active);
-        } else {
-            return new MethodNotExist();
         }
+
+        return new MethodNotExist();
     }
 
     /**
-     * Dapatkan Custom Fields dari database
+     * Dapatkan Custom Fields dari database.
      *
      * <code>
      * $fields = \BeyondAuth::getCustomUserFields('member', 0, 1, 1, 0);
@@ -988,14 +996,14 @@ class BeyondAuth
      */
     public function getCustomUserFields($roleName = '', $group_field_id = 0,
         $show_in_signup = 1, $is_active = 1,
-        $admin_use_only = 0) {
-        if (!is_null($this->usersfields())) {
+        $admin_use_only = 0)
+    {
+        if (null !== $this->usersfields()) {
             return $this->usersfields()->getCustomFields($roleName,
                 $group_field_id, $show_in_signup,
                 $is_active, $admin_use_only);
-        } else {
-            return new MethodNotExist();
         }
-    }
 
+        return new MethodNotExist();
+    }
 }

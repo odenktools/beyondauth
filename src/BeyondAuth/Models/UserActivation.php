@@ -2,13 +2,13 @@
 
 namespace Pribumi\BeyondAuth\Models;
 
-use DB;
 use Illuminate\Database\Eloquent\Model;
-use Pribumi\BeyondAuth\Exceptions\UserActivationDoesNotExist;
 use Pribumi\BeyondAuth\Traits\BeyondTrait;
+use Pribumi\BeyondAuth\Exceptions\UserActivationDoesNotExist;
 
 /**
  * @todo
+ *
  * @license MIT
  */
 class UserActivation extends Model
@@ -23,7 +23,7 @@ class UserActivation extends Model
     protected $table = '';
 
     /**
-     * Nama Primary Key yang digunakan oleh table
+     * Nama Primary Key yang digunakan oleh table.
      *
      * @var string
      */
@@ -62,11 +62,11 @@ class UserActivation extends Model
     /**
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table      = config('beyondauth.tables.masters.users_activations', 'users_activations');
+        $this->table = config('beyondauth.tables.masters.users_activations', 'users_activations');
         $this->primaryKey = config('beyondauth.tables.keys.masters.users_activations', 'id_activation');
     }
 
@@ -92,7 +92,8 @@ class UserActivation extends Model
     }
 
     /**
-     * Generate activation code
+     * Generate activation code.
+     *
      * @return string
      */
     public function generateToken()
@@ -105,18 +106,18 @@ class UserActivation extends Model
      *
      * @param string $activationCode
      *
-     * @return ActivationMember
-     *
      * @throws UserActivationDoesNotExist
+     *
+     * @return ActivationMember
      */
     public static function findByActivation($activationCode)
     {
         $role = static::where('activation_code', $activationCode)->first();
 
-        if (!$role) {
+        if (! $role) {
             throw new UserActivationDoesNotExist();
         }
+
         return $role;
     }
-
 }

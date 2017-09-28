@@ -4,27 +4,27 @@ namespace Pribumi\BeyondAuth\Models;
 
 use DB;
 use Illuminate\Database\Eloquent\Model;
+use Pribumi\BeyondAuth\Traits\BeyondTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Pribumi\BeyondAuth\Exceptions\UserFieldDoesNotExist;
-use Pribumi\BeyondAuth\Traits\BeyondTrait;
 
 /**
- * [MASTER]
+ * [MASTER].
  *
  * Class UserField
  *
  * Model yang di-peruntukan membuat field secara dinamis pada system user
  *
- * @package Pribumi\BeyondAuth\Models
  * @version    1.0.0
+ *
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
+ *
  * @link       http://pribumitech.com
  */
 class UserField extends Model
 {
-
     use SoftDeletes, BeyondTrait;
 
     /**
@@ -35,7 +35,7 @@ class UserField extends Model
     protected $table = '';
 
     /**
-     * Nama Primary Key yang digunakan oleh table
+     * Nama Primary Key yang digunakan oleh table.
      *
      * @var string
      */
@@ -77,6 +77,7 @@ class UserField extends Model
      * Eloquent `FieldTypes` model.
      *
      * @see \Pribumi\BeyondAuth\Models\FieldTypes
+     *
      * @var string
      */
     protected static $fieldTypesModel = 'Pribumi\BeyondAuth\Models\FieldTypes';
@@ -99,6 +100,7 @@ class UserField extends Model
      * Eloquent `UserFieldGroup` model.
      *
      * @see \Pribumi\BeyondAuth\Models\UserFieldGroup
+     *
      * @var string
      */
     protected static $userFieldGroupModel = 'Pribumi\BeyondAuth\Models\UserFieldGroup';
@@ -107,6 +109,7 @@ class UserField extends Model
      * Eloquent `UserFieldValue` model.
      *
      * @see \Pribumi\BeyondAuth\Models\UserFieldValue
+     *
      * @var string
      */
     protected static $userFieldValueModel = 'Pribumi\BeyondAuth\Models\UserFieldValue';
@@ -114,11 +117,11 @@ class UserField extends Model
     /**
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table      = config('beyondauth.tables.masters.users_fields', 'users_fields');
+        $this->table = config('beyondauth.tables.masters.users_fields', 'users_fields');
         $this->primaryKey = config('beyondauth.tables.keys.masters.users_fields', 'id_custom_fields');
     }
 
@@ -187,11 +190,13 @@ class UserField extends Model
      * </code>
      *
      * @see \Pribumi\BeyondAuth\Models\FieldTypes::usergroups
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function fieldvalues()
     {
         $primary = config('beyondauth.tables.keys.masters.users_fields_value', '');
+
         return $this->hasOne(static::$userFieldValueModel, $primary, 'custom_fields_id');
     }
 
@@ -219,22 +224,22 @@ class UserField extends Model
     }
 
     /**
-     * [Direct Access Model]
+     * [Direct Access Model].
      *
      * Cari data berdasarkan field yang ditentukan
      *
      * @param string $field `nama field` dari `table userfield`
      * @param string $value `nilai value` yang akan dicari
      *
-     * @return UserField
-     *
      * @throws UserFieldDoesNotExist
+     *
+     * @return UserField
      */
     public static function findUserFieldByWhere($field, $value)
     {
         $role = static::where($field, $value)->first();
 
-        if (!$role) {
+        if (! $role) {
             throw new UserFieldDoesNotExist("Data dengan value `$value` tidak ditemukan.");
         }
 
@@ -242,7 +247,7 @@ class UserField extends Model
     }
 
     /**
-     * [Non-Direct Access Model]
+     * [Non-Direct Access Model].
      *
      * Cari data berdasarkan field yang ditentukan
      *
@@ -255,9 +260,9 @@ class UserField extends Model
      * @param string $field `nama field` dari `table userfield`
      * @param string $value `nilai value` yang akan dicari
      *
-     * @return UserField
-     *
      * @throws UserFieldDoesNotExist
+     *
+     * @return UserField
      */
     public function findByWhere($field, $value)
     {
@@ -267,7 +272,7 @@ class UserField extends Model
     public function fetchData($conditions = null, $take = null, $skip = null, $sort = null, $order = null)
     {
         if ($conditions === null) {
-            $conditions = " 1 = 1 ";
+            $conditions = ' 1 = 1 ';
         }
 
         $data = DB::table('users_fields as t3')
@@ -287,7 +292,7 @@ class UserField extends Model
     public function fetchCount($conditions = null)
     {
         if ($conditions === null) {
-            $conditions = " 1 = 1 ";
+            $conditions = ' 1 = 1 ';
         }
 
         $data = DB::table('users_fields as t3')
@@ -302,7 +307,7 @@ class UserField extends Model
     }
 
     /**
-     * [HARUS DI-OPTIMIZE LAGI MENGGUNAKAN ELOQUENT]
+     * [HARUS DI-OPTIMIZE LAGI MENGGUNAKAN ELOQUENT].
      *
      * Dapatkan Custom Fields dari database
      *
@@ -318,32 +323,33 @@ class UserField extends Model
      * @param int $show_in_signup display on signup perlihatkan field yang hanya untuk signup saja?
      * @param int $is_active perlihatkan fields yang aktif?
      * @param int $admin_use_only perlihat fields yang untuk admin saja?
+     *
      * @return array
      */
-    public function getCustomFields($roleName = '', $group_field_id = 0, 
+    public function getCustomFields($roleName = '', $group_field_id = 0,
         $show_in_signup = 1, $is_active = 1,
-        $admin_use_only = 0) {
-
+        $admin_use_only = 0)
+    {
         if ($roleName !== '') {
             $fetchRole = " AND LOWER(t6.`coded`) = LOWER('$roleName') ";
         } else {
-            $fetchRole = "";
+            $fetchRole = '';
         }
 
         if ($group_field_id == 0) {
-            $only_group = " ";
+            $only_group = ' ';
         } else {
             $only_group = " AND `group_field_id` = $group_field_id ";
         }
 
         if ($admin_use_only == 0) {
-            $only_admin = " AND (`admin_use_only` = 0 OR `admin_use_only` IS NULL) ";
+            $only_admin = ' AND (`admin_use_only` = 0 OR `admin_use_only` IS NULL) ';
         } else {
-            $only_admin = " AND (`admin_use_only` = 1) ";
+            $only_admin = ' AND (`admin_use_only` = 1) ';
         }
 
         if ($show_in_signup != 1 && $show_in_signup = -1) {
-            $fetchSignup = " ";
+            $fetchSignup = ' ';
         } else {
             $fetchSignup = " AND `show_in_signup` = $show_in_signup ";
         }
@@ -380,5 +386,4 @@ class UserField extends Model
 
         return $return;
     }
-
 }

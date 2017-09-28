@@ -5,9 +5,10 @@ namespace Pribumi\BeyondAuth\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class BaseModels
+ * Class BaseModels.
  *
  * @version    1.0.0
+ *
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 abstract class BaseModels extends Model
 {
     /**
-     * [Non-Direct Access Model]
+     * [Non-Direct Access Model].
      *
      * Dapatkan seluruh data pada table
      *
@@ -23,10 +24,10 @@ abstract class BaseModels extends Model
      */
     protected function getKendoFilter($filters, $count = 0)
     {
-        $where     = "";
-        $intcount  = 0;
-        $noend     = false;
-        $nobegin   = false;
+        $where = '';
+        $intcount = 0;
+        $noend = false;
+        $nobegin = false;
         $typeField = '';
         $typeValue = '';
 
@@ -35,13 +36,13 @@ abstract class BaseModels extends Model
             $itemcount = count($filters['filters']);
 
             if ($itemcount == 0) {
-                $noend   = true;
+                $noend = true;
                 $nobegin = true;
             } elseif ($itemcount == 1) {
-                $noend   = true;
+                $noend = true;
                 $nobegin = true;
             } elseif ($itemcount > 1) {
-                $noend   = false;
+                $noend = false;
                 $nobegin = false;
             }
 
@@ -49,71 +50,71 @@ abstract class BaseModels extends Model
                 if (isset($filter['field'])) {
                     switch ($filter['operator']) {
                         case 'startswith':
-                            $compare = " LIKE ";
-                            $field   = '`' . $filter['field'] . '`';
-                            $value   = "'" . $filter['value'] . "%' ";
+                            $compare = ' LIKE ';
+                            $field = '`'.$filter['field'].'`';
+                            $value = "'".$filter['value']."%' ";
                             break;
                         case 'contains':
-                            $compare = " LIKE ";
-                            $field   = '`' . $filter['field'] . '`';
-                            $value   = " '%" . $filter['value'] . "%' ";
+                            $compare = ' LIKE ';
+                            $field = '`'.$filter['field'].'`';
+                            $value = " '%".$filter['value']."%' ";
                             break;
                         case 'doesnotcontain':
-                            $compare = " NOT LIKE ";
-                            $field   = '`' . $filter['field'] . '`';
-                            $value   = " '%" . $filter['value'] . "%' ";
+                            $compare = ' NOT LIKE ';
+                            $field = '`'.$filter['field'].'`';
+                            $value = " '%".$filter['value']."%' ";
                             break;
                         case 'endswith':
-                            $compare = " LIKE ";
-                            $field   = '`' . $filter['field'] . '`';
-                            $value   = "'%" . $filter['value'] . "' ";
+                            $compare = ' LIKE ';
+                            $field = '`'.$filter['field'].'`';
+                            $value = "'%".$filter['value']."' ";
                             break;
                         case 'eq':
-                            $compare = " = ";
-                            $field   = '`' . $filter['field'] . '`';
-                            $value   = "'" . $filter['value'] . "'";
+                            $compare = ' = ';
+                            $field = '`'.$filter['field'].'`';
+                            $value = "'".$filter['value']."'";
                             break;
                         case 'gt':
-                            $compare = " > ";
-                            $field   = '`' . $filter['field'] . '`';
-                            $value   = $filter['value'];
+                            $compare = ' > ';
+                            $field = '`'.$filter['field'].'`';
+                            $value = $filter['value'];
                             break;
                         case 'lt':
-                            $compare = " < ";
-                            $field   = '`' . $filter['field'] . '`';
-                            $value   = $filter['value'];
+                            $compare = ' < ';
+                            $field = '`'.$filter['field'].'`';
+                            $value = $filter['value'];
                             break;
                         case 'gte':
-                            $compare = " >= ";
-                            $field   = '`' . $filter['field'] . '`';
-                            $value   = "'" . $filter['value'] . "'";
+                            $compare = ' >= ';
+                            $field = '`'.$filter['field'].'`';
+                            $value = "'".$filter['value']."'";
                             break;
                         case 'lte':
-                            $compare = " <= ";
-                            $field   = '`' . $filter['field'] . '`';
-                            $value   = "'" . $filter['value'] . "'";
+                            $compare = ' <= ';
+                            $field = '`'.$filter['field'].'`';
+                            $value = "'".$filter['value']."'";
                             break;
                         case 'neq':
-                            $compare = " <> ";
-                            $field   = '`' . $filter['field'] . '`';
-                            $value   = "'" . $filter['value'] . "'";
+                            $compare = ' <> ';
+                            $field = '`'.$filter['field'].'`';
+                            $value = "'".$filter['value']."'";
                             break;
                     }
 
                     if (isset($filter['type'])) {
                         switch ($filter['type']) {
                             case 'date':
-                                $typeField = 'DATE(`' . $filter['field'] . '`)';
-                                $typeValue = "DATE('" . $filter['value'] . "')";
-                                $field     = '';
-                                $value     = '';
+                                $typeField = 'DATE(`'.$filter['field'].'`)';
+                                $typeValue = "DATE('".$filter['value']."')";
+                                $field = '';
+                                $value = '';
                                 break;
 
                             case 'integer':
                                 $typeField = '';
                                 $typeValue = $filter['value'];
-                                $field     = '';
-                                $value     = '';
+                                $field = '';
+                                $value = '';
                                 break;
 
                             default:
@@ -121,41 +122,38 @@ abstract class BaseModels extends Model
                                 $typeValue = '';
                                 break;
                         }
-
                     } else {
-
                         $typeField = '';
                         $typeValue = '';
                     }
 
                     if ($count == 0 && $intcount == 0) {
-                        $before = "";
-                        $end    = " " . $filters['logic'] . " ";
+                        $before = '';
+                        $end = ' '.$filters['logic'].' ';
                     } elseif ($count > 0 && $intcount == 0) {
-                        $before = "";
-                        $end    = " " . $filters['logic'] . " ";
+                        $before = '';
+                        $end = ' '.$filters['logic'].' ';
                     } else {
-                        $before = " " . $filters['logic'] . " ";
-                        $end    = "";
+                        $before = ' '.$filters['logic'].' ';
+                        $end = '';
                     }
 
-                    $where .= ($nobegin ? "" : $before) . $typeField . $field . $compare . $typeValue . $value . ($noend ? "" : $end);
+                    $where .= ($nobegin ? '' : $before).$typeField.$field.$compare.$typeValue.$value.($noend ? '' : $end);
                     $count++;
                     $intcount++;
-
                 } else {
-                    $where .= " ( " . $this->parseFilters($filter, $count) . " )";
+                    $where .= ' ( '.$this->parseFilters($filter, $count).' )';
                 }
 
-                $where = str_replace(" or  or ", " or ", $where);
-                $where = str_replace(" and  and ", " and ", $where);
+                $where = str_replace(' or  or ', ' or ', $where);
+                $where = str_replace(' and  and ', ' and ', $where);
             }
         } else {
-            $where = " 1 = 1 ";
+            $where = ' 1 = 1 ';
         }
+
         return $where;
     }
 
     abstract public function findByWhere($field, $value);
-
 }

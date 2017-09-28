@@ -2,29 +2,28 @@
 
 namespace Pribumi\BeyondAuth\Models;
 
-use DB;
 use Illuminate\Database\Eloquent\Model;
+use Pribumi\BeyondAuth\Traits\BeyondTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Pribumi\BeyondAuth\Exceptions\UserFieldDoesNotExist;
-use Pribumi\BeyondAuth\Traits\BeyondTrait;
 
 /**
- * [MASTER]
+ * [MASTER].
  *
  * Class UserFieldValue
  *
  * Model yang di-peruntukan menampung data dari userfield
  *
- * @package Pribumi\BeyondAuth\Models
  * @version    1.0.0
+ *
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
+ *
  * @link       http://pribumitech.com
  */
 class UserFieldValue extends Model
 {
-
     use SoftDeletes, BeyondTrait;
 
     /**
@@ -35,7 +34,7 @@ class UserFieldValue extends Model
     protected $table = '';
 
     /**
-     * Nama Primary Key yang digunakan oleh table
+     * Nama Primary Key yang digunakan oleh table.
      *
      * @var string
      */
@@ -66,11 +65,11 @@ class UserFieldValue extends Model
     /**
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table      = config('beyondauth.tables.masters.users_fields_value', 'users_fields_value');
+        $this->table = config('beyondauth.tables.masters.users_fields_value', 'users_fields_value');
         $this->primaryKey = config('beyondauth.tables.keys.masters.users_fields_value', 'id_custom_fields');
     }
 
@@ -98,28 +97,29 @@ class UserFieldValue extends Model
     }
 
     /**
-     * [Direct Access Model]
+     * [Direct Access Model].
      *
      * Cari data berdasarkan field yang ditentukan
      *
      * @param string $field `nama field` dari `table userfield`
      * @param string $value `nilai value` yang akan dicari
      *
-     * @return UserField
-     *
      * @throws UserFieldDoesNotExist
+     *
+     * @return UserField
      */
     public static function findUserFieldValueByWhere($field, $value)
     {
         $data = static::where($field, $value)->first();
-        if (!$data) {
+        if (! $data) {
             return false;
         }
+
         return $data;
     }
 
     /**
-     * [Non-Direct Access Model]
+     * [Non-Direct Access Model].
      *
      * Cari data berdasarkan field yang ditentukan
      *
@@ -132,13 +132,12 @@ class UserFieldValue extends Model
      * @param string $field `nama field` dari `table userfield`
      * @param string $value `nilai value` yang akan dicari
      *
-     * @return UserField
-     *
      * @throws UserFieldDoesNotExist
+     *
+     * @return UserField
      */
     public function findByWhere($field, $value)
     {
         return static::findUserFieldValueByWhere($field, $value);
     }
-
 }

@@ -2,18 +2,17 @@
 
 namespace Pribumi\BeyondAuth\Models;
 
-use Carbon\Carbon;
-use DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Pribumi\BeyondAuth\Exceptions\CompanyNotExist;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
- * [MASTER]
+ * [MASTER].
  *
  * Class Company
  *
  * @version    1.0.0
+ *
  * @author     Pribumi Technology
  * @license    MIT
  * @copyright  (c) 2015 - 2016, Pribumi Technology
@@ -55,7 +54,7 @@ class Company extends Authenticatable
         'is_builtin',
         'is_active',
         'verified',
-        'last_login'
+        'last_login',
     ];
 
     /**
@@ -100,12 +99,12 @@ class Company extends Authenticatable
     /**
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table             = config('beyondauth.tables.masters.company', 'company');
-        $this->primaryKey        = config('beyondauth.tables.keys.masters.company', 'id_company');
+        $this->table = config('beyondauth.tables.masters.company', 'company');
+        $this->primaryKey = config('beyondauth.tables.keys.masters.company', 'id_company');
     }
 
     public function getPrimary()
@@ -142,6 +141,7 @@ class Company extends Authenticatable
      * $findBy = $company->with('apikeys')->get();
      * echo json_encode($findBy);
      * </code>
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function apikeys()
@@ -150,27 +150,27 @@ class Company extends Authenticatable
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isVerified()
     {
         if ($this->verified == 1) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isActivated()
     {
         if ($this->is_active == 1) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -178,21 +178,21 @@ class Company extends Authenticatable
      *
      * Cari data berdasarkan field yang ditentukan
      * Metode sama dengan Default Laravel, see.
-	 *
+     *
      * @see https://laravel.com/docs/5.3/eloquent#retrieving-models
      *
      * @param string $field `nama field` dari table domain
      * @param string $value `nilai value` yang akan dicari
      *
-     * @return User
-     *
      * @throws CompanyNotExist
+     *
+     * @return User
      */
     public static function findByFields($field, $value)
     {
         $data = static::where($field, $value)->first();
 
-        if (!$data) {
+        if (! $data) {
             throw new CompanyNotExist("Data dengan value ''$value'' tidak ditemukan.");
         }
 
@@ -202,30 +202,31 @@ class Company extends Authenticatable
     /**
      * [Direct Access Model].
      *
-	 * <code>
-	 * $model = \BeyondAuth::users()
-	 * ->findsBy('email','odenktools86@gmail.com')
-	 * ->orderBy('id_users', 'desc')
-	 * ->take(10)
-	 * ->first();
-	 * echo json_encode( $model->apikeys);
+     * <code>
+     * $model = \BeyondAuth::users()
+     * ->findsBy('email','odenktools86@gmail.com')
+     * ->orderBy('id_users', 'desc')
+     * ->take(10)
+     * ->first();
+     * echo json_encode( $model->apikeys);
      * </code>
-	 *
+     *
      * Cari data berdasarkan field yang ditentukan
      * Metode sama dengan Default Laravel, see.
-	 *
+     *
      * @see https://laravel.com/docs/5.3/eloquent#retrieving-models
      *
      * @param string $field `nama field` dari table domain
      * @param string $value `nilai value` yang akan dicari
      *
-     * @return User
-     *
      * @throws CompanyNotExist
+     *
+     * @return User
      */
     public function findsBy($field, $value)
     {
         $data = static::where($field, $value);
+
         return $data;
     }
 
@@ -234,15 +235,15 @@ class Company extends Authenticatable
      *
      * @param string $email
      *
-     * @return User
-     *
      * @throws CompanyNotExist
+     *
+     * @return User
      */
     public static function findByEmail($email)
     {
         $email = static::where('email', $email)->first();
 
-        if (!$email) {
+        if (! $email) {
             throw new CompanyNotExist();
         }
 
@@ -251,6 +252,7 @@ class Company extends Authenticatable
 
     /**
      * Find a activation users by its activation_code.
+     *
      * @param $activationCode
      *
      * @return UserActivation
@@ -268,36 +270,42 @@ class Company extends Authenticatable
      * <code>
      * $user = User::findByEmail('member@pribumitech.com');
      * $user->attachActivation('123123123123');
-     * </code>
+     * </code>.
      *
      * @param string $activationCode
-     * @return mixed
      *
+     * @return mixed
      */
     public function attachActivation($activationCode)
     {
         $this->activations()->save($this->getStoredActivation($activationCode));
     }
+
     /**
      * Cari data member berdasarkan activationcode.
      *
      * @param $activationCode
+     *
      * @return ActivationMember
      */
     public function whereActivationCode($activationCode)
     {
         $data = $this->getStoredActivation($activationCode);
+
         return $data;
     }
+
     /**
      * Remove custom field data.
      *
      * @param $activationCode
+     *
      * @return int
      */
     public function detachActivation($activationCode)
     {
         $data = $this->activations()->detach($activationCode);
+
         return $data;
     }
 }
