@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use InvalidArgumentException;
-use Pribumi\BeyondAuth\Contracts\ApiKeyUsersRepository;
+use Pribumi\BeyondAuth\Contracts\ApiKeyUsersInterface;
 use Pribumi\BeyondAuth\Contracts\CompanyRepository;
 use Pribumi\BeyondAuth\Contracts\DomainRepository;
 use Pribumi\BeyondAuth\Contracts\FieldTypesRepository;
@@ -119,9 +119,9 @@ class BeyondAuth
     public $userFieldValueRepository;
 
     /**
-     * ApiKeyUsersRepository Repository
+     * ApiKeyUsersInterface Repository
      *
-     * @var \Pribumi\BeyondAuth\Contracts\ApiKeyUsersRepository
+     * @var \Pribumi\BeyondAuth\Contracts\ApiKeyUsersInterface
      */
     public $apiKeyUsersRepository;
 
@@ -164,7 +164,7 @@ class BeyondAuth
         FieldTypesRepository $fieldTypesRepository,
         UserFieldValueRepository $userFieldValueRepository,
         UserActivationRepository $userActivationRepository,
-        ApiKeyUsersRepository $apiKeyUsersRepository,
+        ApiKeyUsersInterface $apiKeyUsersRepository,
         CompanyRepository $companyRepository
     ) {
         $this->app                      = $app;

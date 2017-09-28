@@ -3,7 +3,7 @@
 namespace Pribumi\BeyondAuth\Repositories;
 
 use Illuminate\Contracts\Foundation\Application;
-use Pribumi\BeyondAuth\Contracts\ApiKeyUsersRepository;
+use Pribumi\BeyondAuth\Contracts\ApiKeyUsersInterface as ApiKeyUsersRepository;
 use Pribumi\BeyondAuth\Models\ApiKeyUsers;
 
 /**

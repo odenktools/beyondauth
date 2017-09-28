@@ -74,18 +74,18 @@ class UserActivation extends Model
      * @todo
      *
      * <code>
-     * $users_activation = \App\Models\ActivationMember::find(1)->users_activation;
+     * $users_activation = \App\Models\ActivationMember::find(1)->usersActivation;
      * echo json_encode($users_activation);
      *
      * or
      *
-     * $users_activation = \App\Models\Domains::findByName("http://odenktools.com")->users_activation;
+     * $users_activation = \App\Models\Domains::findByName("http://odenktools.com")->usersActivation;
      * echo json_encode($users_activation);
      * </code>
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function users_activation()
+    public function usersActivation()
     {
         return $this->belongsToMany(static::$usersModel, static::$usersActivationManyPivot, 'user_id', 'activation_id')
             ->withTimestamps();
