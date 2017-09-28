@@ -133,11 +133,12 @@ class BeyondGuard implements GuardContract
                 $user->updated_at = date('Y-m-d H:i:s');
                 $user->save();
             }
-        } else {
-            throw new \RuntimeException('User not has any roles, please setup user roles.');
-        }
 
-        return $login ? $this->login($user) : true;
+            return $login ? $this->login($user) : true;
+
+        } else {
+            return false;
+        }
 
         return false;
     }
