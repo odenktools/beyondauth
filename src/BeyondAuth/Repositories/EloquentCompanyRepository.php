@@ -112,8 +112,6 @@ class EloquentCompanyRepository extends AbstractEloquentRepository implements Co
         $id = $this->getId();
 
         // ==== Dapatkan id dari member yang ter-registrasi
-        $lastMember = $member->{$id};
-
         if ($callback === false) {
             $act                     = $this->userActivation;
             $this->confirmation_code = $act->generateToken();
