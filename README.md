@@ -4,6 +4,7 @@
 [![Build Status](https://travis-ci.org/odenktools/beyondauth.svg)](https://travis-ci.org/odenktools/beyondauth)
 [![Dependency Status](https://www.versioneye.com/user/projects/59cd48ff15f0d770f0e1906d/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/59cd48ff15f0d770f0e1906d)
 [![StyleCI](https://styleci.io/repos/104094339/shield?branch=master)](https://styleci.io/repos/104094339)
+[![PHP-Eye](https://php-eye.com/badge/pribumi/beyondauth/tested.svg?style=flat-square)](https://php-eye.com/package/pribumi/beyondauth)
 [![License](https://poser.pugx.org/pribumi/beyondauth/license)](https://packagist.org/packages/pribumi/beyondauth)
 
 What is BeyondAuth? .... tobe continued
