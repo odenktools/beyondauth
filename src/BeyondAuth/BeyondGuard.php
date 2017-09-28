@@ -133,7 +133,7 @@ class BeyondGuard implements GuardContract
                 $user->updated_at = date('Y-m-d H:i:s');
                 $user->save();
             }
-            
+
             return $login ? $this->login($user) : true;
         }
 
