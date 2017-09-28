@@ -142,11 +142,11 @@ class BeyondAuth
      * @param UserFieldInterface      $userFieldInterface       UserFieldInterface repository
      * @param UserMenuInterface       $userMenuInterface        UserMenuInterface repository
      * @param UserPermissionInterface $userPermissionRepository UserPermissionInterface repository
-     * @param FieldTypesInterface $fieldTypesRepository FieldTypesInterface repository
-     * @param UserFieldValueInterface $userFieldValueRepository UserFieldValueInterface repository
-     * @param UserActivationInterface $userActivationRepository UserActivationInterface repository
-     * @param ApiKeyUsersInterface $apiKeyUsersRepository ApiKeyUsersInterface repository
-     * @param CompanyInterface $companyRepository CompanyInterface repository
+     * @param FieldTypesInterface     $fieldTypesRepository     FieldTypesInterface repository
+     * @param UserFieldValueInterface $userFieldValueRepository UserFieldValueInterface
+     * @param UserActivationInterface $userActivationRepository UserActivationInterface
+     * @param ApiKeyUsersInterface    $apiKeyUsersRepository    ApiKeyUsersInterface repository
+     * @param CompanyInterface        $companyRepository        CompanyInterface repository
      */
     public function __construct(
         $app,
@@ -957,7 +957,7 @@ class BeyondAuth
      * @param $active integer Nilai Apakah Menu Tsb Aktif?
      *
      * @throws \RuntimeException
-     &
+    &
      * @return string
      */
     public function getMenusBy($user_groups = null, $id_menu = 1, $active = 1)
