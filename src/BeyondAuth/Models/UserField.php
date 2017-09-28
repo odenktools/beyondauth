@@ -146,8 +146,7 @@ class UserField extends Model
      * echo json_encode($findBy);
      * </code>
      *
-     * @see \Pribumi\BeyondAuth\Models\FieldTypes::usergroups
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function fieldtypes()
     {
@@ -309,7 +308,7 @@ class UserField extends Model
      *
      * <code>
      * $userfield = new \Pribumi\BeyondAuth\Models\UserField()
-     * $fields = $userfield->getCustomFields('owner', 'odenktools.com');
+     * $fields = $userfield->getCustomFields('member', 0, 1, 1, 0);
      * echo json_encode($fields);
      * </code>
      *
@@ -321,13 +320,20 @@ class UserField extends Model
      * @param int $admin_use_only perlihat fields yang untuk admin saja?
      * @return array
      */
-    public function getCustomFields($roleName = '', $group_field_id = 1, $show_in_signup = 1,
-        $is_active = 1, $admin_use_only = 0) {
+    public function getCustomFields($roleName = '', $group_field_id = 0, 
+        $show_in_signup = 1, $is_active = 1,
+        $admin_use_only = 0) {
 
         if ($roleName !== '') {
             $fetchRole = " AND LOWER(t6.coded) = LOWER('$roleName') ";
         } else {
             $fetchRole = "";
+        }
+
+        if ($group_field_id == 0) {
+            $only_group = " ";
+        } else {
+            $only_group = " AND group_field_id = $group_field_id ";
         }
 
         if ($admin_use_only == 0) {
@@ -337,39 +343,40 @@ class UserField extends Model
         }
 
         if ($show_in_signup != 1 && $show_in_signup = -1) {
-            $fetchSignup = "";
+            $fetchSignup = " ";
         } else {
-            $fetchSignup = "AND show_in_signup = $show_in_signup";
+            $fetchSignup = " AND show_in_signup = $show_in_signup ";
         }
 
         $return = \DB::select(
             "SELECT
-  *
-FROM users_fields
-WHERE 1 = 1 AND id_custom_fields IN (SELECT
-    id_custom_fields
-  FROM (SELECT
-      t3.id_custom_fields
-    FROM users_fields t3
-      INNER JOIN users_fields_many t5
-        ON t5.userfield_id = t3.id_custom_fields
-      INNER JOIN users_groups t6
-        ON t6.id = t5.role_id $fetchRole
-    UNION
-    SELECT
-      t3.id_custom_fields
-    FROM users_fields t3
-      LEFT JOIN users_fields_many t5
-        ON t5.userfield_id = t3.id_custom_fields
-      LEFT JOIN users_groups t6
-        ON t6.id = t5.role_id
-    WHERE t6.coded IS NULL AND t6.deleted_at IS NULL) a) AND
-group_field_id = $group_field_id
-$fetchSignup
-AND is_active = 1
-$only_admin
-AND (deleted_at IS NULL)
-ORDER BY id_custom_fields;");
+              *
+            FROM users_fields
+            WHERE 1 = 1 AND id_custom_fields IN (SELECT
+                id_custom_fields
+              FROM (SELECT
+                  t3.id_custom_fields
+                FROM users_fields t3
+                  INNER JOIN users_fields_many t5
+                    ON t5.userfield_id = t3.id_custom_fields
+                  INNER JOIN users_groups t6
+                    ON t6.id = t5.role_id $fetchRole
+                UNION
+                SELECT
+                  t3.id_custom_fields
+                FROM users_fields t3
+                  LEFT JOIN users_fields_many t5
+                    ON t5.userfield_id = t3.id_custom_fields
+                  LEFT JOIN users_groups t6
+                    ON t6.id = t5.role_id
+                WHERE t6.coded IS NULL AND t6.deleted_at IS NULL) a) 
+                $only_group
+                $fetchSignup
+            AND users_fields.is_active = $is_active
+            $only_admin
+            AND (users_fields.deleted_at IS NULL)
+            ORDER BY users_fields.field_order;"
+        );
 
         return $return;
     }

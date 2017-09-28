@@ -18,61 +18,113 @@ composer require pribumi/beyondauth
 
 After updating, add the service provider to the `providers` array in `config/app.php`
 
+```php
+'providers' => [
+	//bla.. bla..
 	Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::class,
+]
+```
 
 Also add the aliases to the `aliases` array in `config/app.php`
 
+```php
+'aliases' => [
 	'BeyondAuth'  => Pribumi\BeyondAuth\Facades\BeyondAuth::class,
+]
+```
 
 Run command from your console ``composer dump-autoload``
 
 Replace code on `guards` array in `config/auth.php` like this
 
-        'web_admins' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
-
+```php
+'web_admins' => [
+	'driver' => 'session',
+    'provider' => 'users'
+],
+```
 And also on `providers` array too
 
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => Pribumi\BeyondAuth\Models\User::class,
-        ],
+```php
+'users' => [
+    'driver' => 'eloquent',
+    'model' => Pribumi\BeyondAuth\Models\User::class,
+],
+```
 
 Change default guard
 
-    'defaults' => [
-        'guard' => 'web_admins',
+```php
+	'defaults' => [
+    	'guard' => 'web_admins',
         'passwords' => 'users',
-    ],
-	
-Publish BeyondAuth
+    ]
+```
 
+#### Publish BeyondAuth
+
+```bash
 	php artisan vendor:publish --provider="Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider"
+```
 
 # Migrate
 
 Before you test the code, make sure your application can connect to the database then run this `command`
 
-	php artisan migrate
-	
-	composer dumpautoload
-	
-	php artisan db:seed --class=BeyondAuthSeeder
+```bash
+php artisan migrate
+
+composer dumpautoload
+
+php artisan db:seed --class=BeyondAuthSeeder
+```
 
 # Publish Config
 
 Publish BeyondAuth `config` file using this command
 
-	php artisan vendor:publish --provider="Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider" --tag="config"
+```bash
+php artisan vendor:publish --provider="Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider" --tag="config"
+```
 
 # Register on Kernel
 
-	protected $routeMiddleware = [
-		... bla... blaa...
-		'beyondauth' => \Pribumi\BeyondAuth\Http\Middleware\BeyondMiddleware::class
-	]
+```php
+protected $routeMiddleware = [
+	//... bla... blaa...
+	'beyondauth' => \Pribumi\BeyondAuth\Http\Middleware\BeyondMiddleware::class
+]
+```
+
+# Model Relationships
+
+```php
+```
+
+#### PERIODE
+
+```php
+$periode = new \Pribumi\BeyondAuth\Models\Periode();
+$findIdPeriode = $periode->find(3);
+echo json_encode($findIdPeriode->usergroups);
+```
+
+#### USER
+
+```php
+$userfields = \BeyondAuth::users()->find(1)->userfields()->get();
+echo json_encode($userfields);
+```
+
+```php
+$uservalues = \BeyondAuth::users()->find(1)->roles()->get();
+echo json_encode($uservalues);
+```
+
+```php
+$uservalues = \BeyondAuth::users()->find(1)->uservalues()->get();
+echo json_encode($uservalues);
+```
 
 # Testing
 

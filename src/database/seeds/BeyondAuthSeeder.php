@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class BeyondAuthSeeder extends Seeder
 {
@@ -13,6 +14,7 @@ class BeyondAuthSeeder extends Seeder
         $tbl_users_menus               = Config::get('beyondauth.tables.masters.users_menus', '');
         $tbl_userpermission            = Config::get('beyondauth.tables.masters.users_permissions', '');
         $tbl_user                      = Config::get('beyondauth.tables.masters.users', '');
+        $tbl_company                   = Config::get('beyondauth.tables.masters.company', '');
         $tbl_users_fields_groups       = Config::get('beyondauth.tables.masters.users_fields_groups', '');
         $tbl_users_fields              = Config::get('beyondauth.tables.masters.users_fields', '');
         $tbl_users_fields_domains_many = Config::get('beyondauth.tables.pivot.users_fields_domains_many', '');
@@ -23,10 +25,11 @@ class BeyondAuthSeeder extends Seeder
         $tbl_users_permissions_many    = Config::get('beyondauth.tables.pivot.users_permissions_many', '');
         $tbl_users_menus_many          = Config::get('beyondauth.tables.pivot.users_menus_many', '');
         $tbl_users_fields_value        = Config::get('beyondauth.tables.masters.users_fields_value', '');
+        $tbl_api_key_users             = Config::get('beyondauth.tables.masters.api_key_users', '');
 
         $periode_1 = DB::table($prefix . $tbl_periode)->insertGetId([
             'code_periode' => 'D',
-            'nama_periode' => 'Hari',
+            'nama_periode' => 'Days',
             'created_at'   => date('Y-m-d H:i:s'),
             'updated_at'   => date('Y-m-d H:i:s'),
             'deleted_at'   => null,
@@ -34,7 +37,7 @@ class BeyondAuthSeeder extends Seeder
 
         $periode_2 = DB::table($prefix . $tbl_periode)->insertGetId([
             'code_periode' => 'W',
-            'nama_periode' => 'Minggu',
+            'nama_periode' => 'Weeks',
             'created_at'   => date('Y-m-d H:i:s'),
             'updated_at'   => date('Y-m-d H:i:s'),
             'deleted_at'   => null,
@@ -42,7 +45,7 @@ class BeyondAuthSeeder extends Seeder
 
         $periode_3 = DB::table($prefix . $tbl_periode)->insertGetId([
             'code_periode' => 'M',
-            'nama_periode' => 'Bulan',
+            'nama_periode' => 'Months',
             'created_at'   => date('Y-m-d H:i:s'),
             'updated_at'   => date('Y-m-d H:i:s'),
             'deleted_at'   => null,
@@ -50,7 +53,23 @@ class BeyondAuthSeeder extends Seeder
 
         $periode_4 = DB::table($prefix . $tbl_periode)->insertGetId([
             'code_periode' => 'Y',
-            'nama_periode' => 'Tahun',
+            'nama_periode' => 'Years',
+            'created_at'   => date('Y-m-d H:i:s'),
+            'updated_at'   => date('Y-m-d H:i:s'),
+            'deleted_at'   => null,
+        ]);
+
+        $periode_5 = DB::table($prefix . $tbl_periode)->insertGetId([
+            'code_periode' => 'SS',
+            'nama_periode' => 'Seconds',
+            'created_at'   => date('Y-m-d H:i:s'),
+            'updated_at'   => date('Y-m-d H:i:s'),
+            'deleted_at'   => null,
+        ]);
+
+        $periode_6 = DB::table($prefix . $tbl_periode)->insertGetId([
+            'code_periode' => 'MN',
+            'nama_periode' => 'Minutes',
             'created_at'   => date('Y-m-d H:i:s'),
             'updated_at'   => date('Y-m-d H:i:s'),
             'deleted_at'   => null,
@@ -514,10 +533,12 @@ class BeyondAuthSeeder extends Seeder
         ]);
         //===
 
+        $_passwd = Hash::make('H3lloWorld!', ['cost' => 10]);
+
         $user_1 = DB::table($prefix . $tbl_user)->insertGetId([
             'username'       => 'admin',
             'email'          => 'admin@pribumitech.com',
-            'password'       => '$2y$10$.WZdQG4c0cp1lobVReRMy.G2NqbalP2eKuWYe4G.mUhEM73zIf6ci',
+            'password'       => $_passwd,
             'salt'           => '',
             'is_builtin'     => '1',
             'is_active'      => '1',
@@ -534,7 +555,7 @@ class BeyondAuthSeeder extends Seeder
         $user_2 = DB::table($prefix . $tbl_user)->insertGetId([
             'username'       => 'member',
             'email'          => 'member@pribumitech.com',
-            'password'       => '$2y$10$.WZdQG4c0cp1lobVReRMy.G2NqbalP2eKuWYe4G.mUhEM73zIf6ci',
+            'password'       => $_passwd,
             'salt'           => '',
             'is_builtin'     => '1',
             'is_active'      => '1',
@@ -551,7 +572,7 @@ class BeyondAuthSeeder extends Seeder
         $user_3 = DB::table($prefix . $tbl_user)->insertGetId([
             'username'       => 'moeloet',
             'email'          => 'moeloet@pribumitech.com',
-            'password'       => '$2y$10$.WZdQG4c0cp1lobVReRMy.G2NqbalP2eKuWYe4G.mUhEM73zIf6ci',
+            'password'       => $_passwd,
             'salt'           => '',
             'is_builtin'     => '1',
             'is_active'      => '1',
@@ -568,7 +589,7 @@ class BeyondAuthSeeder extends Seeder
         $user_4 = DB::table($prefix . $tbl_user)->insertGetId([
             'username'       => 'support',
             'email'          => 'support@pribumitech.com',
-            'password'       => '$2y$10$.WZdQG4c0cp1lobVReRMy.G2NqbalP2eKuWYe4G.mUhEM73zIf6ci',
+            'password'       => $_passwd,
             'salt'           => '',
             'is_builtin'     => '1',
             'is_active'      => '1',
@@ -585,7 +606,7 @@ class BeyondAuthSeeder extends Seeder
         $user_5 = DB::table($prefix . $tbl_user)->insertGetId([
             'username'       => 'baduser',
             'email'          => 'baduser@pribumitech.com',
-            'password'       => '$2y$10$.WZdQG4c0cp1lobVReRMy.G2NqbalP2eKuWYe4G.mUhEM73zIf6ci',
+            'password'       => $_passwd,
             'salt'           => '',
             'is_builtin'     => '0',
             'is_active'      => '1',
@@ -597,6 +618,28 @@ class BeyondAuthSeeder extends Seeder
             'created_at'     => date('Y-m-d H:i:s'),
             'updated_at'     => date('Y-m-d H:i:s'),
             'deleted_at'     => null,
+        ]);
+
+        $company_1 = DB::table($prefix . $tbl_company)->insertGetId([
+            'name'           => 'pribumitech',
+            'email'          => 'pribumitech@gmail.com',
+            'password'       => $_passwd,
+            'salt'           => '',
+            'is_active'      => '1',
+            'verified'       => '1',
+            'last_login'     => null,
+            'remember_token' => null,
+            'created_at'     => date('Y-m-d H:i:s'),
+            'updated_at'     => date('Y-m-d H:i:s'),
+            'deleted_at'     => null,
+        ]);
+
+        $api_key_users_1 = DB::table($prefix . $tbl_api_key_users)->insertGetId([
+            'company_id' => $company_1,
+            'apikey'     => '3544a3410c2b88ac4d0e',
+            'secretkey'  => 'a02d6be4cacb55388f8e3758db3a06fabd3a460287b08b3e816ab4195d1568a2',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
         $users_fields_groups_1 = DB::table($prefix . $tbl_users_fields_groups)->insertGetId([
@@ -639,8 +682,8 @@ class BeyondAuthSeeder extends Seeder
             'field_type_id'     => '1',
             'group_field_id'    => '1',
             'field_name'        => 'passport_number',
-            'field_label'       => 'Nomor Passport',
-            'field_comment'     => 'Nomor Passport',
+            'field_label'       => 'Passport Number',
+            'field_comment'     => 'Passport Number',
             'possible_values'   => null,
             'text_select_value' => null,
             'is_mandatory'      => '0',
@@ -659,8 +702,8 @@ class BeyondAuthSeeder extends Seeder
             'field_type_id'     => '2',
             'group_field_id'    => '1',
             'field_name'        => 'bio_data',
-            'field_label'       => 'Bio Data',
-            'field_comment'     => 'Jelaskan tentang diri Anda',
+            'field_label'       => 'Bio',
+            'field_comment'     => 'Tell us little bit about yourself',
             'possible_values'   => null,
             'text_select_value' => null,
             'is_mandatory'      => '0',
@@ -679,8 +722,8 @@ class BeyondAuthSeeder extends Seeder
             'field_type_id'     => '1',
             'group_field_id'    => '1',
             'field_name'        => 'first_name',
-            'field_label'       => 'Nama Depan',
-            'field_comment'     => 'Nama depan Anda',
+            'field_label'       => 'First Name',
+            'field_comment'     => 'Your First Name',
             'possible_values'   => null,
             'text_select_value' => null,
             'is_mandatory'      => '1',
@@ -699,8 +742,8 @@ class BeyondAuthSeeder extends Seeder
             'field_type_id'     => '1',
             'group_field_id'    => '3',
             'field_name'        => 'geo_location',
-            'field_label'       => 'Lokasi Geo',
-            'field_comment'     => 'Lokasi Geografis',
+            'field_label'       => 'Geo Location',
+            'field_comment'     => 'Your Geo Location',
             'possible_values'   => null,
             'text_select_value' => null,
             'is_mandatory'      => '0',
@@ -719,9 +762,9 @@ class BeyondAuthSeeder extends Seeder
             'field_type_id'     => '4',
             'group_field_id'    => '1',
             'field_name'        => 'gender',
-            'field_label'       => 'Jenis Kelamin',
-            'field_comment'     => 'Jenis Kelamin',
-            'possible_values'   => 'laki-laki;perempuan',
+            'field_label'       => 'Gender',
+            'field_comment'     => 'Gender',
+            'possible_values'   => 'male;female',
             'text_select_value' => null,
             'is_mandatory'      => '0',
             'field_order'       => '5',
@@ -738,7 +781,7 @@ class BeyondAuthSeeder extends Seeder
         $users_fields_6 = DB::table($prefix . $tbl_users_fields)->insertGetId([
             'field_type_id'     => '1',
             'group_field_id'    => '1',
-            'field_name'        => 'phone_number'
+            'field_name'        => 'phone_number',
             'field_label'       => 'Mobile Phone Number',
             'field_comment'     => 'Your phone number',
             'possible_values'   => null,
@@ -758,9 +801,9 @@ class BeyondAuthSeeder extends Seeder
         $users_fields_7 = DB::table($prefix . $tbl_users_fields)->insertGetId([
             'field_type_id'     => '1',
             'group_field_id'    => '1',
-            'field_name'        => 'company'
-            'field_label'       => 'Nama Perusahaan',
-            'field_comment'     => 'Nama Perusahaan Anda...',
+            'field_name'        => 'company',
+            'field_label'       => 'Company Name',
+            'field_comment'     => 'Your company name',
             'possible_values'   => null,
             'text_select_value' => null,
             'is_mandatory'      => '0',
@@ -865,7 +908,7 @@ class BeyondAuthSeeder extends Seeder
         $users_groups_5 = DB::table($prefix . $tbl_users_groups)->insertGetId([
             'named'             => 'Banned',
             'coded'             => 'banned',
-            'named_description' => 'Group user yang telah dibanned',
+            'named_description' => 'All Banned User',
             'is_active'         => '0',
             'is_purchaseable'   => '0',
             'price'             => '00',

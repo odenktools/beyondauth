@@ -6,14 +6,12 @@ use Closure;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Hash;
 use InvalidArgumentException;
-use Pribumi\BeyondAuth\Contracts\User as UserRepository;
-use Pribumi\BeyondAuth\Models\User;
+use Pribumi\BeyondAuth\Contracts\CompanyRepository;
+use Pribumi\BeyondAuth\Models\Company;
 use Pribumi\BeyondAuth\Models\UserActivation;
-use Pribumi\BeyondAuth\Models\UserField;
-use Pribumi\BeyondAuth\Models\UserFieldValue;
 
 /**
- * Class EloquentUserFieldRepository
+ * Class EloquentCompanyRepository
  *
  * Ini Class Encapsulasi agar model dapat dipanggil dari luar package
  * Note : Tambahkan fungsi disini...
@@ -30,32 +28,23 @@ use Pribumi\BeyondAuth\Models\UserFieldValue;
  * @copyright  (c) 2015 - 2016, Pribumi Technology
  * @link       http://pribumitech.com
  */
-class EloquentUserRepository extends AbstractEloquentRepository implements UserRepository
+class EloquentCompanyRepository extends AbstractEloquentRepository implements CompanyRepository
 {
     protected $model;
 
-    protected $userField;
-
     protected $userActivation;
-
-    protected $userFieldValue;
 
     /**
      * @param \Illuminate\Contracts\Foundation\Application $app
-     * @param \Pribumi\BeyondAuth\Models\User $model
-     * @param \Pribumi\BeyondAuth\Models\UserField $userField
+     * @param \Pribumi\BeyondAuth\Models\Company $model
      * @param \Pribumi\BeyondAuth\Models\UserActivation $userActivation
-     * @param \Pribumi\BeyondAuth\Models\UserFieldValue $userFieldValue
      */
-    public function __construct(Application $app, User $model, UserField $userField,
-        UserActivation $userActivation,
-        UserFieldValue $userFieldValue) {
+    public function __construct(Application $app, Company $model, UserActivation $userActivation)
+    {
 
-        parent::__construct($app, $model, $userField, $userActivation);
+        parent::__construct($app, $model, $userActivation);
         $this->model          = $model;
-        $this->userField      = $userField;
         $this->userActivation = $userActivation;
-        $this->userFieldValue = $userFieldValue;
     }
 
     /**
@@ -94,31 +83,21 @@ class EloquentUserRepository extends AbstractEloquentRepository implements UserR
         return $this->model->getEmail();
     }
 
-    public function getDefaultRoleName()
-    {
-        return $this->model->getDefaultRoleName();
-    }
-
     /**
-     * Register new user as member
+     * Register new company as member
      */
-    public function registerUser($data, $profileField = array(), $callback)
+    public function registerCompany($data, $callback)
     {
 
         if ($callback !== null && !$callback instanceof Closure && !is_bool($callback)) {
             throw new InvalidArgumentException('You must provide a closure or a boolean.');
         }
 
-        if (empty($profileField)) {
-            throw new InvalidArgumentException('Profile Field must not empty.');
-        }
-
-        $member             = $this->model;
-        $member->username   = $data['name'];
-        $member->email      = $data['email'];
-        $_passwd            = Hash::make($data['password'], ['cost' => 10]);
-        $member->password   = $_passwd;
-        $member->is_builtin = 0;
+        $member           = $this->model;
+        $member->name     = $data['name'];
+        $member->email    = $data['email'];
+        $_passwd          = Hash::make($data['password'], ['cost' => 10]);
+        $member->password = $_passwd;
 
         if ($callback === false) {
             $member->verified  = 0;
@@ -134,29 +113,6 @@ class EloquentUserRepository extends AbstractEloquentRepository implements UserR
 
         // ==== Dapatkan id dari member yang ter-registrasi
         $lastMember = $member->{$id};
-
-        if (!empty($profileField)) {
-            // ==== Dapatkan data custom field dan simpan ke database
-            foreach ($profileField as $id => $row) {
-                foreach (array_keys($row) as $fieldname) {
-                    $idFields = UserField::where('field_name', $fieldname)->first();
-                    if ($idFields !== null) {
-                        $customField                   = new UserFieldValue;
-                        $customField->user_id          = $lastMember;
-                        $customField->custom_fields_id = $idFields->id_custom_fields;
-                        $customField->field_value      = $row[$fieldname];
-                        $customField->save();
-                    }
-                }
-            }
-        } else {
-            throw new InvalidArgumentException('Profile Field must not empty.');
-        }
-
-        $getRolename = $this->getDefaultRoleName();
-
-        // ==== Attach member to default role
-        $member->attachRole($getRolename);
 
         if ($callback === false) {
             $act                     = $this->userActivation;

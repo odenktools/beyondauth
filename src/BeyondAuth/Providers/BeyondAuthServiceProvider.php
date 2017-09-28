@@ -8,6 +8,7 @@ use Pribumi\BeyondAuth\AuthManager;
 use Pribumi\BeyondAuth\BeyondAuth;
 use Pribumi\BeyondAuth\BeyondGuard;
 use Pribumi\BeyondAuth\Models\ApiKeyUsers;
+use Pribumi\BeyondAuth\Models\Company;
 use Pribumi\BeyondAuth\Models\FieldTypes;
 use Pribumi\BeyondAuth\Models\Periode;
 use Pribumi\BeyondAuth\Models\User;
@@ -19,6 +20,7 @@ use Pribumi\BeyondAuth\Models\UserGroup;
 use Pribumi\BeyondAuth\Models\UserMenus;
 use Pribumi\BeyondAuth\Models\UserPermission;
 use Pribumi\BeyondAuth\Repositories\EloquentApiKeyUsersRepository;
+use Pribumi\BeyondAuth\Repositories\EloquentCompanyRepository;
 use Pribumi\BeyondAuth\Repositories\EloquentFieldTypesRepository;
 use Pribumi\BeyondAuth\Repositories\EloquentPeriodeRepository;
 use Pribumi\BeyondAuth\Repositories\EloquentUserActivationRepository;
@@ -62,6 +64,7 @@ class BeyondAuthServiceProvider extends ServiceProvider
         $this->publishConfig();
         $this->publishMigrations();
         $this->publishSeeder();
+        $this->registerBlade();
     }
 
     /**
@@ -93,6 +96,7 @@ class BeyondAuthServiceProvider extends ServiceProvider
             'beyondauth.usersfields_value',
             'beyondauth.usersactivations',
             'beyondauth.apikeyuser',
+            'beyondauth.company',
         ];
     }
 
@@ -222,11 +226,32 @@ class BeyondAuthServiceProvider extends ServiceProvider
             return new EloquentUserRepository($app, new User(), new UserField(), new UserActivation(), new UserFieldValue());
         });
 
+        $this->app->singleton('beyondauth.company', function ($app) {
+            return new EloquentCompanyRepository($app, new Company(), new UserActivation());
+        });
+
         $this->registerFacades();
 
         $this->registerGuard();
     }
-    
+
+    /**
+     * Register the blade directives
+     *
+     * @return void
+     */
+    private function registerBlade()
+    {
+        if (!class_exists('\Blade')) {
+            return;
+        }
+
+        // Call BeyondAuth::getCustomUserFields
+        \Blade::directive('renderProfile', function ($expression) {
+            return "<?php (\\BeyondAuth::getCustomUserFields({$expression})); ?>";
+        });
+    }
+
     /**
      * Determine whether we can register a dependent validator.
      *
@@ -262,7 +287,8 @@ class BeyondAuthServiceProvider extends ServiceProvider
                 $app['beyondauth.fieldtypes'],
                 $app['beyondauth.usersfields_value'],
                 $app['beyondauth.usersactivations'],
-                $app['beyondauth.apikeyuser']);
+                $app['beyondauth.apikeyuser'],
+                $app['beyondauth.company']);
         });
     }
 

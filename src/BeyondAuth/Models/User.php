@@ -85,7 +85,14 @@ class User extends Authenticatable
      *
      * @var string
      */
-    protected static $userFields = 'Pribumi\BeyondAuth\Models\UserFieldValue';
+    protected static $userFields = 'Pribumi\BeyondAuth\Models\UserField';
+
+    /**
+     * The Eloquent role model.
+     *
+     * @var string
+     */
+    protected static $userValueModels = 'Pribumi\BeyondAuth\Models\UserFieldValue';
 
     /**
      * The Eloquent role model.
@@ -123,7 +130,7 @@ class User extends Authenticatable
     protected static $userActivationPivot = 'users_activation_many';
 
     /**
-     * The user role pivot table name.
+     * The user fields pivot table name.
      *
      * @var string
      */
@@ -186,18 +193,49 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(static::$userGroup, static::$userGroupPivot, 'user_id', 'group_id')->withTimestamps();
     }
-
-    public function uservalues()
+    
+    /**
+     * <code>
+     * $uservalues = \Pribumi\BeyondAuth\Models\User::find(1)->userfields()->get();
+     * echo json_encode($uservalues);
+     * </code>
+     *
+     * @see \Pribumi\BeyondAuth\Models\UserGroup::users
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */ 
+    public function userfields()
     {
         return $this->belongsToMany(static::$userFields, static::$userFieldsPivot, 'user_id', 'custom_fields_id')->withTimestamps();
     }
 
+
     /**
-     * @todo
+     * <code>
+     * $uservalues = \Pribumi\BeyondAuth\Models\User::find(1)->uservalues()->get();
+     * echo json_encode($uservalues);
+     * </code>
+     *
+     * @see \Pribumi\BeyondAuth\Models\UserGroup::users
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */ 
+    public function uservalues()
+    {
+        return $this->hasOne(static::$userValueModels, 'user_id', 'id_users');
+    }
+
+    /**
+     * Get User Activations
      *
      * <code>
      * $activations = \Pribumi\BeyondAuth\Models\User::find(1)->activations;
      * echo json_encode($activations);
+     * </code>
+     *
+     * <code>
+     * $userfields = \BeyondAuth::users()->find(1)->activations()->get();
+     * echo json_encode($userfields);
      * </code>
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -205,22 +243,6 @@ class User extends Authenticatable
     public function activations()
     {
         return $this->belongsToMany(static::$userActivation, static::$userActivationPivot, 'user_id', 'activation_id')
-            ->withTimestamps();
-    }
-
-    /**
-     * @todo
-     *
-     * <code>
-     * $apikeys = \Pribumi\BeyondAuth\Models\User::find(1)->apikeys;
-     * echo json_encode($apikeys);
-     * </code>
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function apikeys()
-    {
-        return $this->belongsToMany(static::$apiKeyUsers, static::$apiKeyUsersManyPivot, 'user_id', 'user_api_key')
             ->withTimestamps();
     }
 
@@ -331,7 +353,7 @@ class User extends Authenticatable
             switch ($periode->code_periode) {
 
                 //By Seconds
-                case "SC":
+                case "SS":
                     $diff = $now->addSeconds($row->time_left);
                     break;
 

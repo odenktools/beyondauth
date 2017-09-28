@@ -34,7 +34,7 @@ class ApiKeyUsers extends BaseModels
      *
      * @var string
      */
-    protected static $usersModel = 'Pribumi\BeyondAuth\Models\User';
+    protected static $companyModel = 'Pribumi\BeyondAuth\Models\Company';
 
     /**
      * Pivot table `users_fields_domains_many`.
@@ -49,7 +49,8 @@ class ApiKeyUsers extends BaseModels
      * @var array
      */
     protected $fillable = [
-        'key_code',
+        'apikey',
+        'secretkey',
     ];
 
     /**
@@ -64,23 +65,23 @@ class ApiKeyUsers extends BaseModels
     }
 
     /**
-     * @todo
+     * Relasi table `Company`.
      *
      * <code>
-     * $users = \Pribumi\BeyondAuth\Models\ApiKeyUsers::find(1)->users;
-     * echo json_encode($users);
+     * $api = new \Pribumi\BeyondAuth\Models\ApiKeyUsers();
+     * $findBy = $api->find(1);
+     * echo json_encode($findBy->companies);
      *
-     * or
-     *
-     * $users = \Pribumi\BeyondAuth\Models\ApiKeyUsers::findByActivation("98988889")->users;
-     * echo json_encode($users);
+     * atau
+     * $api = new \Pribumi\BeyondAuth\Models\ApiKeyUsers();
+     * $findBy = $api->with('companies')->get();
+     * echo json_encode($findBy);
      * </code>
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function users()
+    public function companies()
     {
-        return $this->belongsToMany(static::$usersModel, static::$apiKeyUsersManyPivot, 'user_api_key', 'user_id');
+        return $this->hasOne(static::$companyModel, 'id_company', 'company_id');
     }
 
     /**
@@ -104,25 +105,6 @@ class ApiKeyUsers extends BaseModels
         }
 
         return $data;
-    }
-
-    /**
-     * Find a member by its activation_code.
-     *
-     * @param string $keyCode
-     *
-     * @return ApiKeyUsers
-     *
-     * @throws ApiKeyUsersDoesNotExist
-     */
-    public static function findByActivation($keyCode)
-    {
-        $role = static::findByFields('key_code', $keyCode)->first();
-
-        if (!$role) {
-            throw new ApiKeyUsersDoesNotExist();
-        }
-        return $role;
     }
 
     public function findByWhere($field, $value)

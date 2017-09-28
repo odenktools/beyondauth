@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use InvalidArgumentException;
 use Pribumi\BeyondAuth\Contracts\ApiKeyUsersRepository;
+use Pribumi\BeyondAuth\Contracts\CompanyRepository;
 use Pribumi\BeyondAuth\Contracts\DomainRepository;
 use Pribumi\BeyondAuth\Contracts\FieldTypesRepository;
 use Pribumi\BeyondAuth\Contracts\PeriodeRepository;
@@ -132,6 +133,13 @@ class BeyondAuth
     public $userActivationRepository;
 
     /**
+     * CompanyRepository Repository
+     *
+     * @var \Pribumi\BeyondAuth\Contracts\CompanyRepository
+     */
+    public $companyRepository;
+
+    /**
      * BeyondAuth constructor.
      *
      * Dependency Injection(DI), Harus Selalu pergunakan interface (dari \Pribumi\BeyondAuth\Contracts)
@@ -156,7 +164,8 @@ class BeyondAuth
         FieldTypesRepository $fieldTypesRepository,
         UserFieldValueRepository $userFieldValueRepository,
         UserActivationRepository $userActivationRepository,
-        ApiKeyUsersRepository $apiKeyUsersRepository
+        ApiKeyUsersRepository $apiKeyUsersRepository,
+        CompanyRepository $companyRepository
     ) {
         $this->app                      = $app;
         $this->userRepository           = $userRepository;
@@ -170,6 +179,8 @@ class BeyondAuth
         $this->userFieldValueRepository = $userFieldValueRepository;
         $this->apiKeyUsersRepository    = $apiKeyUsersRepository;
         $this->userActivationRepository = $userActivationRepository;
+        $this->companyRepository        = $companyRepository;
+
     }
 
     /**
@@ -373,7 +384,7 @@ class BeyondAuth
     public function getRolePermission()
     {
         $usergroup = $this->getUserRole('web_admins');
-        
+
         if ($usergroup) {
             $value = $usergroup->permissions()->get();
             return $value;
@@ -444,6 +455,22 @@ class BeyondAuth
     }
 
     /**
+     * Calling `Company Repository` From This Class
+     *
+     * <code>
+     * $data = BeyondAuth::company()->get();
+     * echo json_encode($data);
+     * </code>
+     *
+     * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
+     * @return \Pribumi\BeyondAuth\Repositories\EloquentCompanyRepository
+     */
+    public function company()
+    {
+        return $this->app['beyondauth.company'];
+    }
+
+    /**
      * Calling `ApiKeys Repository` From This Class
      *
      * <code>
@@ -464,6 +491,17 @@ class BeyondAuth
      *
      * BeyondAuth::users()->findByEmail('xxxxx@gmail.com');
      *
+     * <code>
+     * $uservalues = \BeyondAuth::users()->find(1)->uservalues()->get();
+     * echo json_encode($uservalues);
+     * </code>
+     *
+     * <code>
+     * $roles = \BeyondAuth::users()->find(1)->roles()->get();
+     * echo json_encode($roles);
+     * </code>     
+     * 
+     * 
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserRepository
      */
@@ -679,14 +717,14 @@ class BeyondAuth
      * @throws MethodNotExist
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserRepository
      */
-    public function registerUser($data, $callback)
+    public function registerUser($data, $profileField = array(), $callback)
     {
         if ($callback !== null && !$callback instanceof Closure && !is_bool($callback)) {
             throw new InvalidArgumentException('You must provide a closure or a boolean.');
         }
 
         if (!is_null($this->users())) {
-            return $this->users()->registerUser($data, $callback);
+            return $this->users()->registerUser($data, $profileField, $callback);
         } else {
             return new MethodNotExist();
         }
@@ -914,7 +952,7 @@ class BeyondAuth
      * Dapatkan Custom Fields dari database
      *
      * <code>
-     * $fields = \BeyondAuth::getCustomUserFields('owner', 'odenktools.com');
+     * $fields = \BeyondAuth::getCustomUserFields('member', 0, 1, 1, 0);
      * echo json_encode($fields);
      * </code>
      *
@@ -926,8 +964,9 @@ class BeyondAuth
      * @param int $admin_use_only perlihat fields yang untuk admin saja?
      * @return array
      */
-    public function getCustomUserFields($roleName = '', $group_field_id = 1, $show_in_signup = 1,
-        $is_active = 1, $admin_use_only = 0) {
+    public function getCustomUserFields($roleName = '', $group_field_id = 0,
+        $show_in_signup = 1, $is_active = 1,
+        $admin_use_only = 0) {
         if (!is_null($this->usersfields())) {
             return $this->usersfields()->getCustomFields($roleName,
                 $group_field_id, $show_in_signup,

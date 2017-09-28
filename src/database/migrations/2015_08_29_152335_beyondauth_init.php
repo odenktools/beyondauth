@@ -14,12 +14,14 @@ use Illuminate\Database\Migrations\Migration;
  */
 class BeyondAuthInit extends Migration
 {
+    public $prefix                    = null;
     public $periode                   = array('key' => '', 'table' => '');
     public $field_types               = array('key' => '', 'table' => '');
     public $domains                   = array('key' => '', 'table' => '');
     public $users_menus               = array('key' => '', 'table' => '');
     public $users_permissions         = array('key' => '', 'table' => '');
     public $users                     = array('key' => '', 'table' => '');
+    public $company                   = array('key' => '', 'table' => '');
     public $users_fields_groups       = array('key' => '', 'table' => '');
     public $users_fields              = array('key' => '', 'table' => '');
     public $users_fields_domains_many = array('key' => '', 'table' => '');
@@ -32,8 +34,8 @@ class BeyondAuthInit extends Migration
     public $users_menus_many          = array('key' => '', 'table' => '');
     public $activation_users          = array('key' => '', 'table' => '');
     public $users_activation_many     = array('key' => '', 'table' => '');
+    public $company_activation_many   = array('key' => '', 'table' => '');
     public $api_key_users             = array('key' => '', 'table' => '');
-    public $api_key_users_many        = array('key' => '', 'table' => '');
 
     /**
      *
@@ -53,12 +55,12 @@ class BeyondAuthInit extends Migration
         $this->users_activation_many['table'] = Config::get('beyondauth.tables.pivot.users_activation_many', '');
         $this->users_activation_many['key']   = Config::get('beyondauth.tables.keys.pivot.users_activation_many', '');
 
+        $this->company_activation_many['table'] = Config::get('beyondauth.tables.pivot.company_activation_many', '');
+        $this->company_activation_many['key']   = Config::get('beyondauth.tables.keys.pivot.company_activation_many', '');
+
         //Master Table
         $this->api_key_users['table'] = Config::get('beyondauth.tables.masters.api_key_users', '');
         $this->api_key_users['key']   = Config::get('beyondauth.tables.keys.masters.api_key_users', '');
-
-        $this->api_key_users_many['table'] = Config::get('beyondauth.tables.pivot.api_key_users_many', '');
-        $this->api_key_users_many['key']   = Config::get('beyondauth.tables.keys.pivot.api_key_users_many', '');
 
         //Master
         $this->field_types['table'] = Config::get('beyondauth.tables.masters.field_types', '');
@@ -79,6 +81,10 @@ class BeyondAuthInit extends Migration
         //Master Table
         $this->users['table'] = Config::get('beyondauth.tables.masters.users', '');
         $this->users['key']   = Config::get('beyondauth.tables.keys.masters.users', '');
+
+        //Master Table
+        $this->company['table'] = Config::get('beyondauth.tables.masters.company', '');
+        $this->company['key']   = Config::get('beyondauth.tables.keys.masters.company', '');
 
         //Master Table
         $this->users_fields_groups['table'] = Config::get('beyondauth.tables.masters.users_fields_groups', '');
@@ -151,14 +157,6 @@ class BeyondAuthInit extends Migration
         });
 
         //Master Table
-        Schema::create($prefix . $this->api_key_users['table'], function ($table) {
-            $table->engine = 'InnoDB';
-            $table->increments($this->api_key_users['key']);
-            $table->string('key_code', 100)->index();
-            $table->timestamps();
-        });
-
-        //Master Table
         Schema::create($prefix . $this->field_types['table'], function ($table) {
             $table->engine = 'InnoDB';
             $table->increments($this->field_types['key']);
@@ -226,6 +224,34 @@ class BeyondAuthInit extends Migration
         });
 
         //Master Table
+        Schema::create($prefix . $this->company['table'], function ($table) {
+            $table->engine = 'InnoDB';
+            $table->increments($this->company['key']);
+            $table->string('name', 128)->unique();
+            $table->string('email', 128)->unique();
+            $table->string('password', 128);
+            $table->string('salt', 50);
+            $table->integer('is_active')->default(0);
+            $table->integer('verified')->default(0);
+            $table->timestamp('last_login')->nullable();
+            $table->rememberToken();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        //Master Table
+        Schema::create($prefix . $this->api_key_users['table'], function ($table) use ($prefix) {
+            $table->engine = 'InnoDB';
+            $table->increments($this->api_key_users['key']);
+            $table->integer('company_id')->unsigned();
+            $table->string('apikey', 128)->index()->unique();
+            $table->string('secretkey', 128)->index()->unique();
+            $table->foreign('company_id')->references($this->company['key'])->on($this->prefix . $this->company['table']);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        //Master Table
         Schema::create($prefix . $this->users_fields_groups['table'], function ($table) {
             $table->engine = 'InnoDB';
             $table->increments($this->users_fields_groups['key']);
@@ -237,7 +263,6 @@ class BeyondAuthInit extends Migration
             $table->tinyInteger('is_builtin')->default(0);
             $table->timestamps();
             $table->softDeletes();
-
         });
 
         //Master Table
@@ -375,16 +400,15 @@ class BeyondAuthInit extends Migration
         });
 
         //Pivot Table
-        Schema::create($prefix . $this->api_key_users_many['table'], function ($table) use ($prefix) {
+        Schema::create($prefix . $this->company_activation_many['table'], function ($table) use ($prefix) {
             $table->engine = 'InnoDB';
-            $table->increments($this->api_key_users_many['key']);
-            $table->integer('user_id')->unsigned();
-            $table->integer('user_api_key')->unsigned();
+            $table->increments($this->company_activation_many['key']);
+            $table->integer('company_id')->unsigned();
+            $table->integer('activation_id')->unsigned();
 
-            $table->foreign('user_id')->references($this->users['key'])->on($prefix . $this->users['table']);
-            $table->foreign('user_api_key')->references($this->api_key_users['key'])->on($prefix . $this->api_key_users['table']);
+            $table->foreign('company_id')->references($this->company['key'])->on($prefix . $this->company['table']);
+            $table->foreign('activation_id')->references($this->activation_users['key'])->on($prefix . $this->activation_users['table']);
             $table->timestamps();
-
         });
 
         //Pivot Table
@@ -412,7 +436,17 @@ class BeyondAuthInit extends Migration
         $prefix = $this->prefix;
 
         //-- DETAIL --//
-
+        Schema::drop($prefix . $this->company_activation_many['table']);
+        Schema::drop($prefix . $this->users_groups_many['table']);
+        Schema::drop($prefix . $this->users_domains_many['table']);
+        Schema::drop($prefix . $this->users_fields_many['table']);
+        Schema::drop($prefix . $this->users_fields_value['table']);
+        Schema::drop($prefix . $this->users_permissions_many['table']);
+        Schema::drop($prefix . $this->users_menus_many['table']);
+        Schema::drop($prefix . $this->users_fields_domains_many['table']);
+        Schema::drop($prefix . $this->users_activation_many['table']);
+        Schema::drop($prefix . $this->company_activation_many['table']);
+        
         //-- MASTER --//
         Schema::drop($prefix . $this->periode['table']);
         Schema::drop($prefix . $this->field_types['table']);
@@ -421,6 +455,10 @@ class BeyondAuthInit extends Migration
         Schema::drop($prefix . $this->users['table']);
         Schema::drop($prefix . $this->users_fields_groups['table']);
         Schema::drop($prefix . $this->users_fields['table']);
+        Schema::drop($prefix . $this->company['table']);
+        Schema::drop($prefix . $this->users_menus['table']);
+        Schema::drop($prefix . $this->users_menus['table']);
+        
     }
 
 }

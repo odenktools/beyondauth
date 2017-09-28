@@ -12,6 +12,10 @@ return [
 
     'usermodel'         => 'Pribumi\BeyondAuth\Models\User',
 
+    'companymodel'      => 'Pribumi\BeyondAuth\Models\Company',
+
+    'customermodel'      => 'Pribumi\BeyondAuth\Models\Customer',
+
     'models'            => [
         'usergroup' => 'Pribumi\Stoplite\Models\UserGroup',
     ],
@@ -37,6 +41,7 @@ return [
                 'field_types'         => 'id_field_type',
                 'domains'             => 'id_domain',
                 'users_permissions'   => 'id_perm',
+                'company'             => 'id_company',
                 'users'               => 'id_users',
                 'users_activations'   => 'id_activation',
                 'api_key_users'       => 'id_key',
@@ -45,8 +50,6 @@ return [
                 'users_groups'        => 'id',
                 'users_fields_value'  => 'id_custom_fields',
                 'users_menus'         => 'id_menu',
-                'users_order'         => 'id_order',
-                'payment'             => 'id_payment',
             ],
 
             'pivot'   => [
@@ -56,6 +59,7 @@ return [
                 'users_permissions_many'    => 'id_user_perm',
                 'users_domains_many'        => 'id_user_domain',
                 'users_activation_many'     => 'id_users_activation',
+                'company_activation_many'   => 'id_activation',
                 'api_key_users_many'        => 'id_user_key',
                 'users_menus_many'          => 'id_user_menu', //end
             ],
@@ -64,6 +68,7 @@ return [
         'masters' => [
             'periode'             => 'periode',
             'field_types'         => 'field_types',
+            'company'             => 'company',
             'domains'             => 'domains',
             'users_permissions'   => 'users_permissions',
             'users'               => 'users',
@@ -74,8 +79,6 @@ return [
             'users_groups'        => 'users_groups',
             'users_fields_value'  => 'users_fields_value',
             'users_menus'         => 'users_menus',
-            'users_order'         => 'users_order',
-            'payment'             => 'payment',
         ],
 
         'pivot'   => [
@@ -86,7 +89,7 @@ return [
             'users_domains_many'        => 'users_domains_many',
             'users_menus_many'          => 'users_menus_many',
             'users_activation_many'     => 'users_activation_many',
-            'api_key_users_many'        => 'api_key_users_many',
+            'company_activation_many'   => 'company_activation_many',
             'userandrole'               => 'users_roles_many', //selalu disimpan dibawah
         ],
 
