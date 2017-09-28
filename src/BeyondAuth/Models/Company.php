@@ -11,7 +11,7 @@ use Pribumi\BeyondAuth\Exceptions\CompanyNotExist;
 /**
  * [MASTER]
  *
- * Class User
+ * Class Company
  *
  * @package Pribumi\BeyondAuth\Models
  * @version    1.0.0

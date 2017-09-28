@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Hash;
 use InvalidArgumentException;
-use Pribumi\BeyondAuth\Contracts\User as UserRepository;
+use Pribumi\BeyondAuth\Contracts\UserInterface as UserRepository;
 use Pribumi\BeyondAuth\Models\User;
 use Pribumi\BeyondAuth\Models\UserActivation;
 use Pribumi\BeyondAuth\Models\UserField;

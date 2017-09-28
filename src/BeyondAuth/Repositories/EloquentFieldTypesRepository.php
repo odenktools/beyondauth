@@ -3,7 +3,7 @@
 namespace Pribumi\BeyondAuth\Repositories;
 
 use Illuminate\Contracts\Foundation\Application;
-use Pribumi\BeyondAuth\Contracts\FieldTypesRepository;
+use Pribumi\BeyondAuth\Contracts\FieldTypesInterface as FieldTypesRepository;
 use Pribumi\BeyondAuth\Models\FieldTypes;
 
 /**

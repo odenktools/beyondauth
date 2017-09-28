@@ -3,7 +3,7 @@
 namespace Pribumi\BeyondAuth\Repositories;
 
 use Illuminate\Contracts\Foundation\Application;
-use Pribumi\BeyondAuth\Contracts\PeriodeRepository;
+use Pribumi\BeyondAuth\Contracts\PeriodeInterface as PeriodeRepository;
 use Pribumi\BeyondAuth\Models\Periode;
 
 /**

@@ -3,7 +3,7 @@
 namespace Pribumi\BeyondAuth\Repositories;
 
 use Illuminate\Contracts\Foundation\Application;
-use Pribumi\BeyondAuth\Contracts\UserMenuRepository;
+use Pribumi\BeyondAuth\Contracts\UserMenuInterface as UserMenuRepository;
 use Pribumi\BeyondAuth\Models\UserMenus;
 
 /**

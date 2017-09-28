@@ -19,6 +19,7 @@ use Pribumi\BeyondAuth\Models\UserFieldValue;
 use Pribumi\BeyondAuth\Models\UserGroup;
 use Pribumi\BeyondAuth\Models\UserMenus;
 use Pribumi\BeyondAuth\Models\UserPermission;
+
 use Pribumi\BeyondAuth\Repositories\EloquentApiKeyUsersRepository;
 use Pribumi\BeyondAuth\Repositories\EloquentCompanyRepository;
 use Pribumi\BeyondAuth\Repositories\EloquentFieldTypesRepository;

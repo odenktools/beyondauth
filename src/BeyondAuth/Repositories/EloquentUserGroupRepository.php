@@ -3,7 +3,7 @@
 namespace Pribumi\BeyondAuth\Repositories;
 
 use Illuminate\Contracts\Foundation\Application;
-use Pribumi\BeyondAuth\Contracts\UserGroupRepository;
+use Pribumi\BeyondAuth\Contracts\UserGroupInterface as UserGroupRepository;
 use Pribumi\BeyondAuth\Models\UserGroup;
 
 /**

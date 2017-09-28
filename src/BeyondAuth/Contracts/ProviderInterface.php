@@ -2,7 +2,7 @@
 
 namespace Pribumi\BeyondAuth\Contracts;
 
-interface Provider
+interface ProviderInterface
 {
     /**
      * Redirect the user to the authentication page for the provider.
@@ -14,19 +14,19 @@ interface Provider
     /**
      * Get the User instance for the authenticated user.
      *
-     * @return \Pribumi\BeyondAuth\Contracts\User
+     * @return \Pribumi\BeyondAuth\Contracts\UserInterface
      */
     public function user();
 
     /**
-     * Get the User instance for the authenticated user.
+     * Get the UserInterface instance for the authenticated user.
      *
      * @return \Pribumi\BeyondAuth\Contracts\Member
      */
     public function member();
 
     /**
-     * Get the User instance for the authenticated user.
+     * Get the UserInterface instance for the authenticated user.
      *
      * @return \Pribumi\BeyondAuth\Contracts\Customer
      */

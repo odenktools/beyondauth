@@ -5,7 +5,7 @@ namespace Pribumi\BeyondAuth\Contracts;
 /**
  * Langkah Ke-1 :
  *
- * Interface UserGroupRepository
+ * Interface UserGroupInterface
  *
  * Langkah Ke-2 :
  * @see Pribumi\BeyondAuth\Repositories\AbstractEloquentRepository
@@ -17,6 +17,6 @@ namespace Pribumi\BeyondAuth\Contracts;
  * @copyright  (c) 2015 - 2016, Pribumi Technology
  * @link       http://pribumitech.com
  */
-interface UserGroupRepository
+interface UserGroupInterface
 {
 }

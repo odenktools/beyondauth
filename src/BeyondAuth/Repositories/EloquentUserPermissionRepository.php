@@ -3,7 +3,7 @@
 namespace Pribumi\BeyondAuth\Repositories;
 
 use Illuminate\Contracts\Foundation\Application;
-use Pribumi\BeyondAuth\Contracts\UserPermissionRepository;
+use Pribumi\BeyondAuth\Contracts\UserPermissionInterface as UserPermissionRepository;
 use Pribumi\BeyondAuth\Models\UserPermission;
 
 /**

@@ -2,13 +2,13 @@
 
 namespace Pribumi\BeyondAuth\Contracts;
 
-interface Factory
+interface FactoryInterface
 {
     /**
-     * Get an OAuth provider implementation.
+     * Get an provider implementation.
      *
      * @param  string  $driver
-     * @return \Pribumi\BeyondAuth\Contracts\Provider
+     * @return \Pribumi\BeyondAuth\Contracts\ProviderInterface
      */
     public function driver($driver = null);
 }

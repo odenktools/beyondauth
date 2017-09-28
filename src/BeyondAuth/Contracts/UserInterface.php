@@ -2,7 +2,7 @@
 
 namespace Pribumi\BeyondAuth\Contracts;
 
-interface User
+interface UserInterface
 {
     /**
      * Get the unique identifier for the user.

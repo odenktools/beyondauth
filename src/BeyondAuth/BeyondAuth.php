@@ -8,17 +8,16 @@ use Illuminate\Support\Facades\Cache;
 use InvalidArgumentException;
 use Pribumi\BeyondAuth\Contracts\ApiKeyUsersInterface;
 use Pribumi\BeyondAuth\Contracts\CompanyInterface;
-use Pribumi\BeyondAuth\Contracts\DomainRepository;
-use Pribumi\BeyondAuth\Contracts\FieldTypesRepository;
-use Pribumi\BeyondAuth\Contracts\PeriodeRepository;
-use Pribumi\BeyondAuth\Contracts\UserActivationRepository;
-use Pribumi\BeyondAuth\Contracts\User as UserRepository;
-use Pribumi\BeyondAuth\Contracts\UserFieldGroupRepository;
-use Pribumi\BeyondAuth\Contracts\UserFieldRepository;
-use Pribumi\BeyondAuth\Contracts\UserFieldValueRepository;
-use Pribumi\BeyondAuth\Contracts\UserGroupRepository;
-use Pribumi\BeyondAuth\Contracts\UserMenuRepository;
-use Pribumi\BeyondAuth\Contracts\UserPermissionRepository;
+use Pribumi\BeyondAuth\Contracts\FieldTypesInterface;
+use Pribumi\BeyondAuth\Contracts\PeriodeInterface;
+use Pribumi\BeyondAuth\Contracts\UserActivationInterface;
+use Pribumi\BeyondAuth\Contracts\UserFieldGroupInterface;
+use Pribumi\BeyondAuth\Contracts\UserFieldInterface;
+use Pribumi\BeyondAuth\Contracts\UserFieldValueInterface;
+use Pribumi\BeyondAuth\Contracts\UserGroupInterface;
+use Pribumi\BeyondAuth\Contracts\UserInterface as UserRepository;
+use Pribumi\BeyondAuth\Contracts\UserMenuInterface;
+use Pribumi\BeyondAuth\Contracts\UserPermissionInterface;
 use Pribumi\BeyondAuth\Exceptions\MethodNotExist;
 
 /**
@@ -49,9 +48,9 @@ class BeyondAuth
     public $app;
 
     /**
-     * User Repository
+     * UserInterface
      *
-     * @var \Pribumi\BeyondAuth\Contracts\User
+     * @var \Pribumi\BeyondAuth\Contracts\UserInterface
      */
     public $userRepository;
 
@@ -65,7 +64,7 @@ class BeyondAuth
     /**
      * UserRole Repository
      *
-     * @var \Pribumi\BeyondAuth\Contracts\UserGroupRepository
+     * @var \Pribumi\BeyondAuth\Contracts\UserGroupInterface
      */
     public $userGroupRepository;
 
@@ -86,7 +85,7 @@ class BeyondAuth
     /**
      * UserField Repository
      *
-     * @var \Pribumi\BeyondAuth\Contracts\UserFieldRepository
+     * @var \Pribumi\BeyondAuth\Contracts\UserFieldInterface
      */
     public $userFieldRepository;
 
@@ -100,21 +99,21 @@ class BeyondAuth
     /**
      * UserMenus Repository
      *
-     * @var \Pribumi\BeyondAuth\Contracts\UserPermissionRepository
+     * @var \Pribumi\BeyondAuth\Contracts\UserPermissionInterface
      */
     public $userPermissionRepository;
 
     /**
      * FieldTypes Repository
      *
-     * @var \Pribumi\BeyondAuth\Contracts\FieldTypesRepository
+     * @var \Pribumi\BeyondAuth\Contracts\FieldTypesInterface
      */
     public $fieldTypesRepository;
 
     /**
-     * UserFieldValueRepository Repository
+     * UserFieldValueInterface Repository
      *
-     * @var \Pribumi\BeyondAuth\Contracts\UserFieldValueRepository
+     * @var \Pribumi\BeyondAuth\Contracts\UserFieldValueInterface
      */
     public $userFieldValueRepository;
 
@@ -145,24 +144,30 @@ class BeyondAuth
      * Dependency Injection(DI), Harus Selalu pergunakan interface (dari \Pribumi\BeyondAuth\Contracts)
      *
      * @param $app Laravel application
-     * @param DomainRepository $domainRepository Domain repository
-     * @param UserGroupRepository $userGroupRepository UserGroup repository
-     * @param PeriodeRepository $periodeRepository Periode repository
-     * @param UserFieldGroupRepository $userFieldGroupRepository UserFieldGroup repository
-     * @param UserFieldRepository $userFieldRepository UserField repository
-     * @param UserMenuRepository $userMenuRepository UserMenus repository
+     * @param UserRepository $userRepository UserGroup repository
+     * @param UserGroupInterface $userGroupInterface UserGroup repository
+     * @param PeriodeInterface $periodeInterface UserGroup repository
+     * @param UserFieldGroupInterface $userFieldGroupInterface UserGroup repository
+     * @param UserFieldInterface $userFieldInterface UserGroup repository
+     * @param UserMenuInterface $userMenuInterface UserGroup repository
+     * @param UserPermissionInterface $userPermissionRepository UserGroup repository
+     * @param FieldTypesInterface $fieldTypesRepository UserGroup repository
+     * @param UserFieldValueInterface $userFieldValueRepository Periode repository
+     * @param UserActivationInterface $userActivationRepository UserFieldGroup repository
+     * @param ApiKeyUsersInterface $apiKeyUsersRepository UserField repository
+     * @param CompanyInterface $companyRepository UserMenus repository
      */
     public function __construct(
         $app,
         UserRepository $userRepository,
-        UserGroupRepository $userGroupRepository,
-        PeriodeRepository $periodeRepository,
+        UserGroupInterface $userGroupRepository,
+        PeriodeInterface $periodeRepository,
         UserFieldGroupInterface $userFieldGroupRepository,
-        UserFieldRepository $userFieldRepository,
-        UserMenuRepository $userMenuRepository,
-        UserPermissionRepository $userPermissionRepository,
-        FieldTypesRepository $fieldTypesRepository,
-        UserFieldValueRepository $userFieldValueRepository,
+        UserFieldInterface $userFieldRepository,
+        UserMenuInterface $userMenuRepository,
+        UserPermissionInterface $userPermissionRepository,
+        FieldTypesInterface $fieldTypesRepository,
+        UserFieldValueInterface $userFieldValueRepository,
         UserActivationInterface $userActivationRepository,
         ApiKeyUsersInterface $apiKeyUsersRepository,
         CompanyInterface $companyRepository
@@ -180,7 +185,6 @@ class BeyondAuth
         $this->apiKeyUsersRepository    = $apiKeyUsersRepository;
         $this->userActivationRepository = $userActivationRepository;
         $this->companyRepository        = $companyRepository;
-
     }
 
     /**
@@ -499,9 +503,9 @@ class BeyondAuth
      * <code>
      * $roles = \BeyondAuth::users()->find(1)->roles()->get();
      * echo json_encode($roles);
-     * </code>     
-     * 
-     * 
+     * </code>
+     *
+     *
      * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
      * @return \Pribumi\BeyondAuth\Repositories\EloquentUserRepository
      */
@@ -645,22 +649,6 @@ class BeyondAuth
     public function usersfieldsValue()
     {
         return $this->app['beyondauth.usersfields_value'];
-    }
-
-    /**
-     * Calling `Domain Repository` From This Class
-     *
-     * <code>
-     * $data = BeyondAuth::getDomain()->get();
-     * echo json_encode($data);
-     * </code>
-     *
-     * @see \Pribumi\BeyondAuth\Providers\BeyondAuthServiceProvider::registerCustomUser()
-     * @return \Pribumi\BeyondAuth\Contracts\DomainRepository
-     */
-    public function getDomain()
-    {
-        return $this->domainRepository;
     }
 
     /**
