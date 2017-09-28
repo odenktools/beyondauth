@@ -35,7 +35,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'   => null,
         ]);
 
-        $periode_2 = DB::table($prefix . $tbl_periode)->insertGetId([
+        DB::table($prefix . $tbl_periode)->insertGetId([
             'code_periode' => 'W',
             'nama_periode' => 'Weeks',
             'created_at'   => date('Y-m-d H:i:s'),
@@ -51,7 +51,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'   => null,
         ]);
 
-        $periode_4 = DB::table($prefix . $tbl_periode)->insertGetId([
+        DB::table($prefix . $tbl_periode)->insertGetId([
             'code_periode' => 'Y',
             'nama_periode' => 'Years',
             'created_at'   => date('Y-m-d H:i:s'),
@@ -59,7 +59,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'   => null,
         ]);
 
-        $periode_5 = DB::table($prefix . $tbl_periode)->insertGetId([
+        DB::table($prefix . $tbl_periode)->insertGetId([
             'code_periode' => 'SS',
             'nama_periode' => 'Seconds',
             'created_at'   => date('Y-m-d H:i:s'),
@@ -67,7 +67,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'   => null,
         ]);
 
-        $periode_6 = DB::table($prefix . $tbl_periode)->insertGetId([
+        DB::table($prefix . $tbl_periode)->insertGetId([
             'code_periode' => 'MN',
             'nama_periode' => 'Minutes',
             'created_at'   => date('Y-m-d H:i:s'),
@@ -75,7 +75,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'   => null,
         ]);
 
-        $field_types_1 = DB::table($prefix . $tbl_field_types)->insertGetId([
+        DB::table($prefix . $tbl_field_types)->insertGetId([
             'field_name'        => 'String',
             'code_field_types'  => 'string',
             'field_description' => 'String Value(Max length is 32 chars)',
@@ -85,7 +85,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'        => null,
         ]);
 
-        $field_types_2 = DB::table($prefix . $tbl_field_types)->insertGetId([
+        DB::table($prefix . $tbl_field_types)->insertGetId([
             'field_name'        => 'Text',
             'code_field_types'  => 'text',
             'field_description' => 'Long String Value(Max length is 2048 chars)',
@@ -95,7 +95,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'        => null,
         ]);
 
-        $field_types_3 = DB::table($prefix . $tbl_field_types)->insertGetId([
+        DB::table($prefix . $tbl_field_types)->insertGetId([
             'field_name'        => 'Number',
             'code_field_types'  => 'number',
             'field_description' => 'Free style number',
@@ -105,7 +105,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'        => null,
         ]);
 
-        $field_types_4 = DB::table($prefix . $tbl_field_types)->insertGetId([
+        DB::table($prefix . $tbl_field_types)->insertGetId([
             'field_name'        => 'SingleSelectList',
             'code_field_types'  => 'singleselectlist',
             'field_description' => 'Single select from list of values',
@@ -115,7 +115,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'        => null,
         ]);
 
-        $field_types_5 = DB::table($prefix . $tbl_field_types)->insertGetId([
+        DB::table($prefix . $tbl_field_types)->insertGetId([
             'field_name'        => 'MultiSelectList',
             'code_field_types'  => 'multiselectlist',
             'field_description' => 'Multiple select from list of values',
@@ -125,7 +125,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'        => null,
         ]);
 
-        $field_types_6 = DB::table($prefix . $tbl_field_types)->insertGetId([
+        DB::table($prefix . $tbl_field_types)->insertGetId([
             'field_name'        => 'Checkbox',
             'code_field_types'  => 'checkbox',
             'field_description' => '',
@@ -135,7 +135,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'        => null,
         ]);
 
-        $field_types_7 = DB::table($prefix . $tbl_field_types)->insertGetId([
+        DB::table($prefix . $tbl_field_types)->insertGetId([
             'field_name'        => 'RadioBoxGroup',
             'code_field_types'  => 'radioboxgroup',
             'field_description' => '',
@@ -145,7 +145,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'        => null,
         ]);
 
-        $field_types_8 = DB::table($prefix . $tbl_field_types)->insertGetId([
+        DB::table($prefix . $tbl_field_types)->insertGetId([
             'field_name'        => 'Date',
             'code_field_types'  => 'date',
             'field_description' => 'Date',
@@ -155,7 +155,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'        => null,
         ]);
 
-        $field_types_9 = DB::table($prefix . $tbl_field_types)->insertGetId([
+        DB::table($prefix . $tbl_field_types)->insertGetId([
             'field_name'        => 'Time',
             'code_field_types'  => 'time',
             'field_description' => 'Time',
@@ -165,7 +165,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'        => null,
         ]);
 
-        $field_types_10 = DB::table($prefix . $tbl_field_types)->insertGetId([
+        DB::table($prefix . $tbl_field_types)->insertGetId([
             'field_name'        => 'DateTime',
             'code_field_types'  => 'datetime',
             'field_description' => 'DateTime',
@@ -184,7 +184,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'       => null,
         ]);
 
-        $domains_2 = DB::table($prefix . $tbl_domains)->insertGetId([
+        DB::table($prefix . $tbl_domains)->insertGetId([
             'domain_name'      => 'http://ngakost.net',
             'code_domain_name' => 'ngakost.net',
             'is_active'        => '1',
@@ -193,7 +193,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'       => null,
         ]);
 
-        $domains_3 = DB::table($prefix . $tbl_domains)->insertGetId([
+        DB::table($prefix . $tbl_domains)->insertGetId([
             'domain_name'      => 'http://solusisehat.com',
             'code_domain_name' => 'solusisehat.com',
             'is_active'        => '0',
@@ -202,7 +202,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'       => null,
         ]);
 
-        $domains_4 = DB::table($prefix . $tbl_domains)->insertGetId([
+        DB::table($prefix . $tbl_domains)->insertGetId([
             'domain_name'      => 'http://teknikmesinindo.com',
             'code_domain_name' => 'teknikmesinindo.com',
             'is_active'        => '0',
@@ -586,7 +586,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'     => null,
         ]);
 
-        $user_4 = DB::table($prefix . $tbl_user)->insertGetId([
+        DB::table($prefix . $tbl_user)->insertGetId([
             'username'       => 'support',
             'email'          => 'support@pribumitech.com',
             'password'       => $_passwd,
@@ -634,7 +634,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'     => null,
         ]);
 
-        $api_key_users_1 = DB::table($prefix . $tbl_api_key_users)->insertGetId([
+        DB::table($prefix . $tbl_api_key_users)->insertGetId([
             'company_id' => $company_1,
             'apikey'     => '3544a3410c2b88ac4d0e',
             'secretkey'  => 'a02d6be4cacb55388f8e3758db3a06fabd3a460287b08b3e816ab4195d1568a2',
@@ -642,7 +642,7 @@ class BeyondAuthSeeder extends Seeder
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
-        $users_fields_groups_1 = DB::table($prefix . $tbl_users_fields_groups)->insertGetId([
+        DB::table($prefix . $tbl_users_fields_groups)->insertGetId([
             'group_name'        => 'Personal',
             'group_description' => 'Personal group',
             'group_order'       => '1',
@@ -654,7 +654,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'        => null,
         ]);
 
-        $users_fields_groups_2 = DB::table($prefix . $tbl_users_fields_groups)->insertGetId([
+        DB::table($prefix . $tbl_users_fields_groups)->insertGetId([
             'group_name'        => 'Payment',
             'group_description' => 'Payment',
             'group_order'       => '2',
@@ -666,7 +666,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'        => null,
         ]);
 
-        $users_fields_groups_3 = DB::table($prefix . $tbl_users_fields_groups)->insertGetId([
+        DB::table($prefix . $tbl_users_fields_groups)->insertGetId([
             'group_name'        => 'Geo Information',
             'group_description' => 'Geo Information',
             'group_order'       => '3',
@@ -718,7 +718,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'        => null,
         ]);
 
-        $users_fields_3 = DB::table($prefix . $tbl_users_fields)->insertGetId([
+        DB::table($prefix . $tbl_users_fields)->insertGetId([
             'field_type_id'     => '1',
             'group_field_id'    => '1',
             'field_name'        => 'first_name',
@@ -738,7 +738,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'        => null,
         ]);
 
-        $users_fields_4 = DB::table($prefix . $tbl_users_fields)->insertGetId([
+        DB::table($prefix . $tbl_users_fields)->insertGetId([
             'field_type_id'     => '1',
             'group_field_id'    => '3',
             'field_name'        => 'geo_location',
@@ -758,7 +758,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'        => null,
         ]);
 
-        $users_fields_5 = DB::table($prefix . $tbl_users_fields)->insertGetId([
+        DB::table($prefix . $tbl_users_fields)->insertGetId([
             'field_type_id'     => '4',
             'group_field_id'    => '1',
             'field_name'        => 'gender',
@@ -778,7 +778,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'        => null,
         ]);
 
-        $users_fields_6 = DB::table($prefix . $tbl_users_fields)->insertGetId([
+        DB::table($prefix . $tbl_users_fields)->insertGetId([
             'field_type_id'     => '1',
             'group_field_id'    => '1',
             'field_name'        => 'phone_number',
@@ -798,7 +798,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'        => null,
         ]);
 
-        $users_fields_7 = DB::table($prefix . $tbl_users_fields)->insertGetId([
+        DB::table($prefix . $tbl_users_fields)->insertGetId([
             'field_type_id'     => '1',
             'group_field_id'    => '1',
             'field_name'        => 'company',
@@ -818,7 +818,7 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'        => null,
         ]);
 
-        $users_fields_value_1 = DB::table($prefix . $tbl_users_fields_value)->insertGetId([
+        DB::table($prefix . $tbl_users_fields_value)->insertGetId([
             'user_id'          => $user_1,
             'custom_fields_id' => $users_fields_1,
             'field_value'      => 'B0214345',
@@ -826,7 +826,7 @@ class BeyondAuthSeeder extends Seeder
             'updated_at'       => date('Y-m-d H:i:s'),
         ]);
 
-        $users_fields_domains_many_1 = DB::table($prefix . $tbl_users_fields_domains_many)->insertGetId([
+        DB::table($prefix . $tbl_users_fields_domains_many)->insertGetId([
             'domain_id'    => $domains_1,
             'userfield_id' => $users_fields_1,
             'created_at'   => date('Y-m-d H:i:s'),
@@ -923,56 +923,56 @@ class BeyondAuthSeeder extends Seeder
             'deleted_at'        => null,
         ]);
 
-        $users_groups_many_1 = DB::table($prefix . $tbl_users_groups_many)->insertGetId([
+        DB::table($prefix . $tbl_users_groups_many)->insertGetId([
             'user_id'    => $user_1,
             'group_id'   => $users_groups_1,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
-        $users_groups_many_2 = DB::table($prefix . $tbl_users_groups_many)->insertGetId([
+        DB::table($prefix . $tbl_users_groups_many)->insertGetId([
             'user_id'    => $user_2,
             'group_id'   => $users_groups_4,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
-        $users_groups_many_3 = DB::table($prefix . $tbl_users_groups_many)->insertGetId([
+        DB::table($prefix . $tbl_users_groups_many)->insertGetId([
             'user_id'    => $user_3,
             'group_id'   => $users_groups_3,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
-        $users_groups_many_4 = DB::table($prefix . $tbl_users_groups_many)->insertGetId([
+        DB::table($prefix . $tbl_users_groups_many)->insertGetId([
             'user_id'    => $user_5,
             'group_id'   => $users_groups_5,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
-        $users_domains_many_1 = DB::table($prefix . $tbl_users_domains_many)->insertGetId([
+        DB::table($prefix . $tbl_users_domains_many)->insertGetId([
             'user_id'    => $user_1,
             'domain_id'  => $domains_5,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
-        $users_domains_many_2 = DB::table($prefix . $tbl_users_domains_many)->insertGetId([
+        DB::table($prefix . $tbl_users_domains_many)->insertGetId([
             'user_id'    => $user_2,
             'domain_id'  => $domains_5,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
-        $users_fields_many_1 = DB::table($prefix . $tbl_users_fields_many)->insertGetId([
+        DB::table($prefix . $tbl_users_fields_many)->insertGetId([
             'role_id'      => $users_groups_1,
             'userfield_id' => $users_fields_1,
             'created_at'   => date('Y-m-d H:i:s'),
             'updated_at'   => date('Y-m-d H:i:s'),
         ]);
 
-        $users_fields_many_2 = DB::table($prefix . $tbl_users_fields_many)->insertGetId([
+        DB::table($prefix . $tbl_users_fields_many)->insertGetId([
             'role_id'      => $users_groups_2,
             'userfield_id' => $users_fields_2,
             'created_at'   => date('Y-m-d H:i:s'),
@@ -981,107 +981,112 @@ class BeyondAuthSeeder extends Seeder
 
         // ------ TABLE `users_menus_many` 1 ------ //
 
-        $users_permissions_many_1 = DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
+        DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
             'role_id'    => $users_groups_1,
             'perm_id'    => $user_perm_1,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
-        $users_permissions_many_2 = DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
+        DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
             'role_id'    => $users_groups_1,
             'perm_id'    => $user_perm_2,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
-        $users_permissions_many_3 = DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
+        DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
             'role_id'    => $users_groups_1,
             'perm_id'    => $user_perm_3,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
-        $users_permissions_many_4 = DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
+
+        DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
             'role_id'    => $users_groups_1,
             'perm_id'    => $user_perm_4,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
-        $users_permissions_many_5 = DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
+
+        DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
             'role_id'    => $users_groups_1,
             'perm_id'    => $user_perm_5,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
-        $users_permissions_many_6 = DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
+
+        DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
             'role_id'    => $users_groups_1,
             'perm_id'    => $user_perm_6,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
-        $users_permissions_many_7 = DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
+
+        DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
             'role_id'    => $users_groups_1,
             'perm_id'    => $user_perm_7,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
-        $users_permissions_many_8 = DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
+        DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
             'role_id'    => $users_groups_1,
             'perm_id'    => $user_perm_8,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
-        $users_permissions_many_9 = DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
+
+        DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
             'role_id'    => $users_groups_1,
             'perm_id'    => $user_perm_9,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
-        $users_permissions_many_10 = DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
+        DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
             'role_id'    => $users_groups_1,
             'perm_id'    => $user_perm_10,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
-        $users_permissions_many_11 = DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
+        DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
             'role_id'    => $users_groups_1,
             'perm_id'    => $user_perm_11,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
-        $users_permissions_many_12 = DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
+        DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
             'role_id'    => $users_groups_1,
             'perm_id'    => $user_perm_12,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
-        $users_permissions_many_13 = DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
+        DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
             'role_id'    => $users_groups_1,
             'perm_id'    => $user_perm_13,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
-        $users_permissions_many_14 = DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
+        DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
             'role_id'    => $users_groups_1,
             'perm_id'    => $user_perm_14,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
-        $users_permissions_many_15 = DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
+        DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
             'role_id'    => $users_groups_1,
             'perm_id'    => $user_perm_15,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
-        $users_permissions_many_16 = DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
+        DB::table($prefix . $tbl_users_permissions_many)->insertGetId([
             'role_id'    => $users_groups_1,
             'perm_id'    => $user_perm_16,
             'created_at' => date('Y-m-d H:i:s'),

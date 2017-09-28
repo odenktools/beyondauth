@@ -240,7 +240,7 @@ class BeyondAuthInit extends Migration
         });
 
         //Master Table
-        Schema::create($prefix . $this->api_key_users['table'], function ($table) use ($prefix) {
+        Schema::create($prefix . $this->api_key_users['table'], function ($table) {
             $table->engine = 'InnoDB';
             $table->increments($this->api_key_users['key']);
             $table->integer('company_id')->unsigned();
