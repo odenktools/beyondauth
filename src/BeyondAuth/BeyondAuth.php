@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use InvalidArgumentException;
 use Pribumi\BeyondAuth\Contracts\ApiKeyUsersInterface;
-use Pribumi\BeyondAuth\Contracts\CompanyRepository;
+use Pribumi\BeyondAuth\Contracts\CompanyInterface;
 use Pribumi\BeyondAuth\Contracts\DomainRepository;
 use Pribumi\BeyondAuth\Contracts\FieldTypesRepository;
 use Pribumi\BeyondAuth\Contracts\PeriodeRepository;
@@ -79,7 +79,7 @@ class BeyondAuth
     /**
      * UserFieldGroup Repository
      *
-     * @var \Pribumi\BeyondAuth\Contracts\UserFieldGroupRepository
+     * @var \Pribumi\BeyondAuth\Contracts\UserFieldGroupInterface
      */
     public $userFieldGroupRepository;
 
@@ -126,16 +126,16 @@ class BeyondAuth
     public $apiKeyUsersRepository;
 
     /**
-     * UserActivationRepository Repository
+     * UserActivationInterface Repository
      *
-     * @var \Pribumi\BeyondAuth\Contracts\UserActivationRepository
+     * @var \Pribumi\BeyondAuth\Contracts\UserActivationInterface
      */
     public $userActivationRepository;
 
     /**
      * CompanyRepository Repository
      *
-     * @var \Pribumi\BeyondAuth\Contracts\CompanyRepository
+     * @var \Pribumi\BeyondAuth\Contracts\CompanyInterface
      */
     public $companyRepository;
 
@@ -157,15 +157,15 @@ class BeyondAuth
         UserRepository $userRepository,
         UserGroupRepository $userGroupRepository,
         PeriodeRepository $periodeRepository,
-        UserFieldGroupRepository $userFieldGroupRepository,
+        UserFieldGroupInterface $userFieldGroupRepository,
         UserFieldRepository $userFieldRepository,
         UserMenuRepository $userMenuRepository,
         UserPermissionRepository $userPermissionRepository,
         FieldTypesRepository $fieldTypesRepository,
         UserFieldValueRepository $userFieldValueRepository,
-        UserActivationRepository $userActivationRepository,
+        UserActivationInterface $userActivationRepository,
         ApiKeyUsersInterface $apiKeyUsersRepository,
-        CompanyRepository $companyRepository
+        CompanyInterface $companyRepository
     ) {
         $this->app                      = $app;
         $this->userRepository           = $userRepository;

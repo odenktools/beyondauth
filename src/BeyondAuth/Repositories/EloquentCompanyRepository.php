@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Hash;
 use InvalidArgumentException;
-use Pribumi\BeyondAuth\Contracts\CompanyRepository;
+use Pribumi\BeyondAuth\Contracts\CompanyInterface as CompanyRepository;
 use Pribumi\BeyondAuth\Models\Company;
 use Pribumi\BeyondAuth\Models\UserActivation;
 

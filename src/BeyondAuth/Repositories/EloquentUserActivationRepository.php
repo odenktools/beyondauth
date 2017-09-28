@@ -3,7 +3,7 @@
 namespace Pribumi\BeyondAuth\Repositories;
 
 use Illuminate\Contracts\Foundation\Application;
-use Pribumi\BeyondAuth\Contracts\UserActivationRepository;
+use Pribumi\BeyondAuth\Contracts\UserActivationInterface as UserActivationRepository;
 use Pribumi\BeyondAuth\Models\UserActivation;
 
 /**
