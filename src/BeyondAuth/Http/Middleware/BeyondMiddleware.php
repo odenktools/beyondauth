@@ -51,13 +51,6 @@ class BeyondMiddleware
                     ],
                 ], 401);
             }
-
-            return Response::json([
-                    'auth' => [
-                        'status' => ['code' => 401, 'message' => 'Please make sure your request has an Authorization header'],
-                        'data' => null,
-                    ],
-                ], 401);
         }
 
         return $next($request);
